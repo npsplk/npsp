@@ -156,6 +156,42 @@ public class CoordinateResourceIntTest {
 
     @Test
     @Transactional
+    public void checkLongitudeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = coordinateRepository.findAll().size();
+        // set the field null
+        coordinate.setLongitude(null);
+
+        // Create the Coordinate, which fails.
+
+        restCoordinateMockMvc.perform(post("/api/coordinates")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(coordinate)))
+            .andExpect(status().isBadRequest());
+
+        List<Coordinate> coordinateList = coordinateRepository.findAll();
+        assertThat(coordinateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkLatitudeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = coordinateRepository.findAll().size();
+        // set the field null
+        coordinate.setLatitude(null);
+
+        // Create the Coordinate, which fails.
+
+        restCoordinateMockMvc.perform(post("/api/coordinates")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(coordinate)))
+            .andExpect(status().isBadRequest());
+
+        List<Coordinate> coordinateList = coordinateRepository.findAll();
+        assertThat(coordinateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCoordinates() throws Exception {
         // Initialize the database
         coordinateRepository.saveAndFlush(coordinate);

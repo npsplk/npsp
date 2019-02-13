@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -48,7 +49,7 @@ public class RouteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/routes")
-    public ResponseEntity<Route> createRoute(@RequestBody Route route) throws URISyntaxException {
+    public ResponseEntity<Route> createRoute(@Valid @RequestBody Route route) throws URISyntaxException {
         log.debug("REST request to save Route : {}", route);
         if (route.getId() != null) {
             throw new BadRequestAlertException("A new route cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class RouteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/routes")
-    public ResponseEntity<Route> updateRoute(@RequestBody Route route) throws URISyntaxException {
+    public ResponseEntity<Route> updateRoute(@Valid @RequestBody Route route) throws URISyntaxException {
         log.debug("REST request to update Route : {}", route);
         if (route.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

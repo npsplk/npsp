@@ -3,7 +3,10 @@
     "fields": [
         {
             "fieldName": "routeName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [

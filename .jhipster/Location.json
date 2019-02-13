@@ -3,7 +3,10 @@
     "fields": [
         {
             "fieldName": "locationName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "relationships": [

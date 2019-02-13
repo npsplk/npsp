@@ -1,14 +1,14 @@
 entity Route {
-	routeName String    
+	routeName String required
 }
 
 entity Location {
-	locationName String       
+	locationName String required
 }
 
-entity Coordinate {	
-	longitude Long
-    latitude Long
+entity Coordinate {
+	longitude Long required
+    latitude Long required
 }
 
 relationship OneToOne{
@@ -21,6 +21,3 @@ relationship OneToOne{
 relationship OneToMany{
 	Route{coordinates} to Coordinate
 }
-
-
-

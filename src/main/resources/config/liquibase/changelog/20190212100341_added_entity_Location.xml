@@ -23,7 +23,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="location_name" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="coordinate_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_location_coordinate_id" />

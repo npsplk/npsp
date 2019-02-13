@@ -151,6 +151,24 @@ public class LocationResourceIntTest {
 
     @Test
     @Transactional
+    public void checkLocationNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = locationRepository.findAll().size();
+        // set the field null
+        location.setLocationName(null);
+
+        // Create the Location, which fails.
+
+        restLocationMockMvc.perform(post("/api/locations")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(location)))
+            .andExpect(status().isBadRequest());
+
+        List<Location> locationList = locationRepository.findAll();
+        assertThat(locationList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllLocations() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);

@@ -151,6 +151,24 @@ public class RouteResourceIntTest {
 
     @Test
     @Transactional
+    public void checkRouteNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = routeRepository.findAll().size();
+        // set the field null
+        route.setRouteName(null);
+
+        // Create the Route, which fails.
+
+        restRouteMockMvc.perform(post("/api/routes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(route)))
+            .andExpect(status().isBadRequest());
+
+        List<Route> routeList = routeRepository.findAll();
+        assertThat(routeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllRoutes() throws Exception {
         // Initialize the database
         routeRepository.saveAndFlush(route);

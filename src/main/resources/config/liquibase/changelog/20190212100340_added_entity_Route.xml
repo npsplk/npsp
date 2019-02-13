@@ -23,7 +23,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="route_name" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="start_location_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_route_start_location_id" />
