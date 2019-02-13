@@ -44,11 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = NpspApp.class)
 public class CoordinateResourceIntTest {
 
-    private static final Long DEFAULT_LONGITUDE = 1L;
-    private static final Long UPDATED_LONGITUDE = 2L;
+    private static final Double DEFAULT_LONGITUDE = 1D;
+    private static final Double UPDATED_LONGITUDE = 2D;
 
-    private static final Long DEFAULT_LATITUDE = 1L;
-    private static final Long UPDATED_LATITUDE = 2L;
+    private static final Double DEFAULT_LATITUDE = 1D;
+    private static final Double UPDATED_LATITUDE = 2D;
 
     @Autowired
     private CoordinateRepository coordinateRepository;
@@ -156,42 +156,6 @@ public class CoordinateResourceIntTest {
 
     @Test
     @Transactional
-    public void checkLongitudeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = coordinateRepository.findAll().size();
-        // set the field null
-        coordinate.setLongitude(null);
-
-        // Create the Coordinate, which fails.
-
-        restCoordinateMockMvc.perform(post("/api/coordinates")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(coordinate)))
-            .andExpect(status().isBadRequest());
-
-        List<Coordinate> coordinateList = coordinateRepository.findAll();
-        assertThat(coordinateList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkLatitudeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = coordinateRepository.findAll().size();
-        // set the field null
-        coordinate.setLatitude(null);
-
-        // Create the Coordinate, which fails.
-
-        restCoordinateMockMvc.perform(post("/api/coordinates")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(coordinate)))
-            .andExpect(status().isBadRequest());
-
-        List<Coordinate> coordinateList = coordinateRepository.findAll();
-        assertThat(coordinateList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllCoordinates() throws Exception {
         // Initialize the database
         coordinateRepository.saveAndFlush(coordinate);
@@ -201,8 +165,8 @@ public class CoordinateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(coordinate.getId().intValue())))
-            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.intValue())))
-            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.intValue())));
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())));
     }
     
     @Test
@@ -216,8 +180,8 @@ public class CoordinateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(coordinate.getId().intValue()))
-            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.intValue()))
-            .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.intValue()));
+            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
+            .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()));
     }
 
     @Test
@@ -314,8 +278,8 @@ public class CoordinateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(coordinate.getId().intValue())))
-            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.intValue())))
-            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.intValue())));
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())));
     }
 
     @Test

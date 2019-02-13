@@ -2,11 +2,11 @@ package lk.npsp.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
@@ -29,21 +29,20 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "route_name", nullable = false)
+    @Column(name = "route_name")
     private String routeName;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Location startLocation;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Location endLocation;
 
     @OneToMany(mappedBy = "route")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Coordinate> coordinates = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties("routes")
+    private Location startLocation;
+
+    @ManyToOne
+    @JsonIgnoreProperties("routes")
+    private Location endLocation;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -64,6 +63,31 @@ public class Route implements Serializable {
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
+    }
+
+    public Set<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public Route coordinates(Set<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+        return this;
+    }
+
+    public Route addCoordinates(Coordinate coordinate) {
+        this.coordinates.add(coordinate);
+        coordinate.setRoute(this);
+        return this;
+    }
+
+    public Route removeCoordinates(Coordinate coordinate) {
+        this.coordinates.remove(coordinate);
+        coordinate.setRoute(null);
+        return this;
+    }
+
+    public void setCoordinates(Set<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
 
     public Location getStartLocation() {
@@ -90,31 +114,6 @@ public class Route implements Serializable {
 
     public void setEndLocation(Location location) {
         this.endLocation = location;
-    }
-
-    public Set<Coordinate> getCoordinates() {
-        return coordinates;
-    }
-
-    public Route coordinates(Set<Coordinate> coordinates) {
-        this.coordinates = coordinates;
-        return this;
-    }
-
-    public Route addCoordinates(Coordinate coordinate) {
-        this.coordinates.add(coordinate);
-        coordinate.setRoute(this);
-        return this;
-    }
-
-    public Route removeCoordinates(Coordinate coordinate) {
-        this.coordinates.remove(coordinate);
-        coordinate.setRoute(null);
-        return this;
-    }
-
-    public void setCoordinates(Set<Coordinate> coordinates) {
-        this.coordinates = coordinates;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

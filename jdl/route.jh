@@ -1,21 +1,23 @@
 entity Route {
-	routeName String required
+	routeName String
 }
 
 entity Location {
-	locationName String required
+	locationName String
 }
 
 entity Coordinate {
-	longitude Long required
-    latitude Long required
+	longitude Double
+    latitude Double
 }
 
 relationship OneToOne{
+    Location{coordinate} to Coordinate
+}
+
+relationship ManyToOne{
 	Route{startLocation} to Location
     Route{endLocation} to Location
-    Location{coordinate} to Coordinate
-    Coordinate{location} to Location
 }
 
 relationship OneToMany{

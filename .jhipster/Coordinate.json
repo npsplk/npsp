@@ -3,17 +3,11 @@
     "fields": [
         {
             "fieldName": "longitude",
-            "fieldType": "Long",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Double"
         },
         {
             "fieldName": "latitude",
-            "fieldType": "Long",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Double"
         }
     ],
     "relationships": [
@@ -22,14 +16,6 @@
             "otherEntityName": "route",
             "relationshipType": "many-to-one",
             "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "one-to-one",
-            "relationshipName": "location",
-            "otherEntityName": "location",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "coordinate"
         }
     ],
     "changelogDate": "20190212100342",

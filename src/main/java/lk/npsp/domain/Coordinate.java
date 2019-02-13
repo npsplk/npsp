@@ -6,7 +6,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
@@ -27,21 +26,15 @@ public class Coordinate implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "longitude", nullable = false)
-    private Long longitude;
+    @Column(name = "longitude")
+    private Double longitude;
 
-    @NotNull
-    @Column(name = "latitude", nullable = false)
-    private Long latitude;
+    @Column(name = "latitude")
+    private Double latitude;
 
     @ManyToOne
     @JsonIgnoreProperties("coordinates")
     private Route route;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Location location;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -52,29 +45,29 @@ public class Coordinate implements Serializable {
         this.id = id;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public Coordinate longitude(Long longitude) {
+    public Coordinate longitude(Double longitude) {
         this.longitude = longitude;
         return this;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public Coordinate latitude(Long latitude) {
+    public Coordinate latitude(Double latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -89,19 +82,6 @@ public class Coordinate implements Serializable {
 
     public void setRoute(Route route) {
         this.route = route;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public Coordinate location(Location location) {
-        this.location = location;
-        return this;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
