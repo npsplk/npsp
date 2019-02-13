@@ -33,6 +33,10 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
+            cm.createCache(lk.npsp.domain.Route.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Route.class.getName() + ".coordinates", jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Location.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Coordinate.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

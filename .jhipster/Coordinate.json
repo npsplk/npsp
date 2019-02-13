@@ -1,0 +1,38 @@
+{
+    "name": "Coordinate",
+    "fields": [
+        {
+            "fieldName": "longitude",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Long"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "coordinate"
+        }
+    ],
+    "changelogDate": "20190212100342",
+    "entityTableName": "coordinate",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
