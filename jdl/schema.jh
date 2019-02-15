@@ -4,15 +4,8 @@ entity Route {
 
 entity Location {
 	locationName String
-}
-
-entity Coordinate {
 	longitude Double
     latitude Double
-}
-
-relationship OneToOne{
-    Location{coordinate} to Coordinate
 }
 
 relationship ManyToOne{
@@ -20,6 +13,6 @@ relationship ManyToOne{
     Route{endLocation} to Location
 }
 
-relationship OneToMany{
-	Route{coordinates} to Coordinate
+relationship ManyToMany{
+	Route{locations} to Location{routes}
 }

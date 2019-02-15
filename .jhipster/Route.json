@@ -9,8 +9,8 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "coordinates",
-            "otherEntityName": "coordinate",
+            "relationshipName": "locations",
+            "otherEntityName": "location",
             "otherEntityRelationshipName": "route"
         },
         {

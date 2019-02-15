@@ -4,16 +4,22 @@
         {
             "fieldName": "locationName",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "coordinate",
-            "otherEntityName": "coordinate",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "location"
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190212100341",
