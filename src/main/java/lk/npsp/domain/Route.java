@@ -34,7 +34,7 @@ public class Route implements Serializable {
 
     @OneToMany(mappedBy = "route")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Coordinate> coordinates = new HashSet<>();
+    private Set<Location> locations = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("routes")
     private Location startLocation;
@@ -65,29 +65,29 @@ public class Route implements Serializable {
         this.routeName = routeName;
     }
 
-    public Set<Coordinate> getCoordinates() {
-        return coordinates;
+    public Set<Location> getLocations() {
+        return locations;
     }
 
-    public Route coordinates(Set<Coordinate> coordinates) {
-        this.coordinates = coordinates;
+    public Route locations(Set<Location> locations) {
+        this.locations = locations;
         return this;
     }
 
-    public Route addCoordinates(Coordinate coordinate) {
-        this.coordinates.add(coordinate);
-        coordinate.setRoute(this);
+    public Route addLocations(Location location) {
+        this.locations.add(location);
+        location.setRoute(this);
         return this;
     }
 
-    public Route removeCoordinates(Coordinate coordinate) {
-        this.coordinates.remove(coordinate);
-        coordinate.setRoute(null);
+    public Route removeLocations(Location location) {
+        this.locations.remove(location);
+        location.setRoute(null);
         return this;
     }
 
-    public void setCoordinates(Set<Coordinate> coordinates) {
-        this.coordinates = coordinates;
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
     }
 
     public Location getStartLocation() {

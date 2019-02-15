@@ -47,6 +47,12 @@ public class LocationResourceIntTest {
     private static final String DEFAULT_LOCATION_NAME = "AAAAAAAAAA";
     private static final String UPDATED_LOCATION_NAME = "BBBBBBBBBB";
 
+    private static final Double DEFAULT_LONGITUDE = 1D;
+    private static final Double UPDATED_LONGITUDE = 2D;
+
+    private static final Double DEFAULT_LATITUDE = 1D;
+    private static final Double UPDATED_LATITUDE = 2D;
+
     @Autowired
     private LocationRepository locationRepository;
 
@@ -97,7 +103,9 @@ public class LocationResourceIntTest {
      */
     public static Location createEntity(EntityManager em) {
         Location location = new Location()
-            .locationName(DEFAULT_LOCATION_NAME);
+            .locationName(DEFAULT_LOCATION_NAME)
+            .longitude(DEFAULT_LONGITUDE)
+            .latitude(DEFAULT_LATITUDE);
         return location;
     }
 
@@ -122,6 +130,8 @@ public class LocationResourceIntTest {
         assertThat(locationList).hasSize(databaseSizeBeforeCreate + 1);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getLocationName()).isEqualTo(DEFAULT_LOCATION_NAME);
+        assertThat(testLocation.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
+        assertThat(testLocation.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
 
         // Validate the Location in Elasticsearch
         verify(mockLocationSearchRepository, times(1)).save(testLocation);
@@ -160,7 +170,9 @@ public class LocationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
-            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME.toString())));
+            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME.toString())))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())));
     }
     
     @Test
@@ -174,7 +186,9 @@ public class LocationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(location.getId().intValue()))
-            .andExpect(jsonPath("$.locationName").value(DEFAULT_LOCATION_NAME.toString()));
+            .andExpect(jsonPath("$.locationName").value(DEFAULT_LOCATION_NAME.toString()))
+            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
+            .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()));
     }
 
     @Test
@@ -198,7 +212,9 @@ public class LocationResourceIntTest {
         // Disconnect from session so that the updates on updatedLocation are not directly saved in db
         em.detach(updatedLocation);
         updatedLocation
-            .locationName(UPDATED_LOCATION_NAME);
+            .locationName(UPDATED_LOCATION_NAME)
+            .longitude(UPDATED_LONGITUDE)
+            .latitude(UPDATED_LATITUDE);
 
         restLocationMockMvc.perform(put("/api/locations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -210,6 +226,8 @@ public class LocationResourceIntTest {
         assertThat(locationList).hasSize(databaseSizeBeforeUpdate);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getLocationName()).isEqualTo(UPDATED_LOCATION_NAME);
+        assertThat(testLocation.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
+        assertThat(testLocation.getLatitude()).isEqualTo(UPDATED_LATITUDE);
 
         // Validate the Location in Elasticsearch
         verify(mockLocationSearchRepository, times(1)).save(testLocation);
@@ -269,7 +287,9 @@ public class LocationResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
-            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME)));
+            .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME)))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())));
     }
 
     @Test

@@ -37,6 +37,7 @@ public class CacheConfiguration {
             cm.createCache(lk.npsp.domain.Route.class.getName() + ".coordinates", jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Location.class.getName(), jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Coordinate.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Route.class.getName() + ".locations", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

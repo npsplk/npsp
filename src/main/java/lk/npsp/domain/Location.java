@@ -1,6 +1,7 @@
 package lk.npsp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -28,9 +29,15 @@ public class Location implements Serializable {
     @Column(name = "location_name")
     private String locationName;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Coordinate coordinate;
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @ManyToOne
+    @JsonIgnoreProperties("locations")
+    private Route route;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -54,17 +61,43 @@ public class Location implements Serializable {
         this.locationName = locationName;
     }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public Location coordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+    public Location longitude(Double longitude) {
+        this.longitude = longitude;
         return this;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Location latitude(Double latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public Location route(Route route) {
+        this.route = route;
+        return this;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -93,6 +126,8 @@ public class Location implements Serializable {
         return "Location{" +
             "id=" + getId() +
             ", locationName='" + getLocationName() + "'" +
+            ", longitude=" + getLongitude() +
+            ", latitude=" + getLatitude() +
             "}";
     }
 }
