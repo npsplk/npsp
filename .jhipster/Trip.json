@@ -12,6 +12,10 @@
         {
             "fieldName": "endTime",
             "fieldType": "Instant"
+        },
+        {
+            "fieldName": "specialNotes",
+            "fieldType": "String"
         }
     ],
     "relationships": [

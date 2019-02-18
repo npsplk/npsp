@@ -53,6 +53,7 @@ entity Trip{
 	startDate LocalDate
 	startTime Instant
     endTime Instant
+    specialNotes String
 }
 
 entity Weekday{

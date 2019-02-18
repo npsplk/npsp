@@ -1,0 +1,74 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="umayanga (generated)" id="1550482632234-1">
+        <addColumn tableName="trip">
+            <column name="special_notes" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-2">
+        <addForeignKeyConstraint baseColumnNames="start_location_id" baseTableName="route" constraintName="FK1588pd1a340gdn1rig61li8ox" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-3">
+        <addForeignKeyConstraint baseColumnNames="schedule_id" baseTableName="schedule_vehicle_facility" constraintName="FK2p92u39if40cnb93did1g75dk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="schedule"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-4">
+        <addForeignKeyConstraint baseColumnNames="weekday_id" baseTableName="schedule_weekday" constraintName="FK2pf7jx2gqbjaf7eh6g0w8vivn" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="weekday"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-5">
+        <addForeignKeyConstraint baseColumnNames="route_id" baseTableName="route_location" constraintName="FK3ah0cmivmxb2ayuvb48si01xw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="route"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-6">
+        <addForeignKeyConstraint baseColumnNames="location_id" baseTableName="route_location" constraintName="FK3tcq1ms0bhd13xj5xpp47i00s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-7">
+        <addForeignKeyConstraint baseColumnNames="location_type_id" baseTableName="location" constraintName="FK47pk9c008u23eol1yijbo817" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location_type"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-8">
+        <addForeignKeyConstraint baseColumnNames="schedule_id" baseTableName="schedule_weekday" constraintName="FK47qvviq1s3ahmg6l0osc1qs7t" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="schedule"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-9">
+        <addForeignKeyConstraint baseColumnNames="schedule_id" baseTableName="trip" constraintName="FK7miyoext6mxl6q72hl495csot" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="schedule"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-10">
+        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id" baseTableName="schedule_vehicle_facility" constraintName="FK9l22ch4bu263r1mf0atkkpuvd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle_facility"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-11">
+        <addForeignKeyConstraint baseColumnNames="parking_slot_id" baseTableName="trip" constraintName="FKcd4cwpx3tvm710kfiyybpm5k1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="parking_slot"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-12">
+        <addForeignKeyConstraint baseColumnNames="end_location_id" baseTableName="schedule" constraintName="FKecug4i4dgm3lchk2gofqils9k" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-13">
+        <addForeignKeyConstraint baseColumnNames="start_location_id" baseTableName="schedule" constraintName="FKgod7f1igry2jxevh9a8idxpoj" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-14">
+        <addForeignKeyConstraint baseColumnNames="end_location_id" baseTableName="route" constraintName="FKh6d2i21bxoqy8b6cbukiaak10" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-15">
+        <addForeignKeyConstraint baseColumnNames="transport_type_id" baseTableName="vehicle" constraintName="FKht80qia9ria9j4jg5wp4co25b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transport_type"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-16">
+        <addForeignKeyConstraint baseColumnNames="vehicle_id" baseTableName="vehicle_vehicle_facility" constraintName="FKirihl8196ft5u5d794n79ubvd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-17">
+        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id" baseTableName="vehicle_vehicle_facility" constraintName="FKkmrmtsqry5srfv7434vokb8fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle_facility"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-18">
+        <addForeignKeyConstraint baseColumnNames="route_id" baseTableName="schedule" constraintName="FKnijrqlnbae9vvpgj6pnaqrl0q" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="route"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-19">
+        <addForeignKeyConstraint baseColumnNames="parking_area_id" baseTableName="parking_slot" constraintName="FKnq3rfobvkaldtemtr67x8l8p2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="parking_area"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-20">
+        <addForeignKeyConstraint baseColumnNames="location_id" baseTableName="parking_area" constraintName="FKpwkbg2oed0623ai9x6aj0j6hk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-21">
+        <addForeignKeyConstraint baseColumnNames="vehicle_id" baseTableName="trip" constraintName="FKrji8htecrp06ao6s7nfubswnr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-22">
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="vehicle" constraintName="FKtkpo82qb28xf0wvk5xj7fmle2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle_owner"/>
+    </changeSet>
+    <changeSet author="umayanga (generated)" id="1550482632234-23">
+        <dropTable tableName="coordinate"/>
+    </changeSet>
+</databaseChangeLog>

@@ -37,6 +37,9 @@ public class Trip implements Serializable {
     @Column(name = "end_time")
     private Instant endTime;
 
+    @Column(name = "special_notes")
+    private String specialNotes;
+
     @ManyToOne
     @JsonIgnoreProperties("trips")
     private Vehicle vehicle;
@@ -95,6 +98,19 @@ public class Trip implements Serializable {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public String getSpecialNotes() {
+        return specialNotes;
+    }
+
+    public Trip specialNotes(String specialNotes) {
+        this.specialNotes = specialNotes;
+        return this;
+    }
+
+    public void setSpecialNotes(String specialNotes) {
+        this.specialNotes = specialNotes;
     }
 
     public Vehicle getVehicle() {
@@ -164,6 +180,7 @@ public class Trip implements Serializable {
             ", startDate='" + getStartDate() + "'" +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", specialNotes='" + getSpecialNotes() + "'" +
             "}";
     }
 }

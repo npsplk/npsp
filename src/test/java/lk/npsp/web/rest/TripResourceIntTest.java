@@ -59,6 +59,9 @@ public class TripResourceIntTest {
     private static final Instant DEFAULT_END_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_END_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_SPECIAL_NOTES = "AAAAAAAAAA";
+    private static final String UPDATED_SPECIAL_NOTES = "BBBBBBBBBB";
+
     @Autowired
     private TripRepository tripRepository;
 
@@ -111,7 +114,8 @@ public class TripResourceIntTest {
         Trip trip = new Trip()
             .startDate(DEFAULT_START_DATE)
             .startTime(DEFAULT_START_TIME)
-            .endTime(DEFAULT_END_TIME);
+            .endTime(DEFAULT_END_TIME)
+            .specialNotes(DEFAULT_SPECIAL_NOTES);
         return trip;
     }
 
@@ -138,6 +142,7 @@ public class TripResourceIntTest {
         assertThat(testTrip.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testTrip.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testTrip.getEndTime()).isEqualTo(DEFAULT_END_TIME);
+        assertThat(testTrip.getSpecialNotes()).isEqualTo(DEFAULT_SPECIAL_NOTES);
 
         // Validate the Trip in Elasticsearch
         verify(mockTripSearchRepository, times(1)).save(testTrip);
@@ -178,7 +183,8 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(trip.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
-            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())));
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
+            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())));
     }
     
     @Test
@@ -194,7 +200,8 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.id").value(trip.getId().intValue()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.toString()))
-            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()));
+            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()))
+            .andExpect(jsonPath("$.specialNotes").value(DEFAULT_SPECIAL_NOTES.toString()));
     }
 
     @Test
@@ -220,7 +227,8 @@ public class TripResourceIntTest {
         updatedTrip
             .startDate(UPDATED_START_DATE)
             .startTime(UPDATED_START_TIME)
-            .endTime(UPDATED_END_TIME);
+            .endTime(UPDATED_END_TIME)
+            .specialNotes(UPDATED_SPECIAL_NOTES);
 
         restTripMockMvc.perform(put("/api/trips")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -234,6 +242,7 @@ public class TripResourceIntTest {
         assertThat(testTrip.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testTrip.getStartTime()).isEqualTo(UPDATED_START_TIME);
         assertThat(testTrip.getEndTime()).isEqualTo(UPDATED_END_TIME);
+        assertThat(testTrip.getSpecialNotes()).isEqualTo(UPDATED_SPECIAL_NOTES);
 
         // Validate the Trip in Elasticsearch
         verify(mockTripSearchRepository, times(1)).save(testTrip);
@@ -295,7 +304,8 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(trip.getId().intValue())))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
-            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())));
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
+            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES)));
     }
 
     @Test
