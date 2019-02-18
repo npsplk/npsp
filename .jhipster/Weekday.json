@@ -1,0 +1,37 @@
+{
+    "name": "Weekday",
+    "fields": [
+        {
+            "fieldName": "weekdayName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "weekdayMeta",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "schedule",
+            "otherEntityName": "schedule",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "weekday"
+        }
+    ],
+    "changelogDate": "20190218063143",
+    "entityTableName": "weekday",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -37,6 +37,17 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
+        <createTable tableName="route_location">
+            <column name="location_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="route_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="route_id, location_id" tableName="route_location"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

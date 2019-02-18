@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Schedule.
+    -->
+    <changeSet id="20190218063141-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="schedule"
+                                 constraintName="fk_schedule_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+        <addForeignKeyConstraint baseColumnNames="start_location_id"
+                                 baseTableName="schedule"
+                                 constraintName="fk_schedule_start_location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="end_location_id"
+                                 baseTableName="schedule"
+                                 constraintName="fk_schedule_end_location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="schedule_id"
+                                 baseTableName="schedule_weekday"
+                                 constraintName="fk_schedule_weekday_schedule_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedule"/>
+        <addForeignKeyConstraint baseColumnNames="weekday_id"
+                                 baseTableName="schedule_weekday"
+                                 constraintName="fk_schedule_weekday_weekday_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="weekday"/>
+        
+        <addForeignKeyConstraint baseColumnNames="schedule_id"
+                                 baseTableName="schedule_vehicle_facility"
+                                 constraintName="fk_schedule_vehicle_facility_schedule_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedule"/>
+        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id"
+                                 baseTableName="schedule_vehicle_facility"
+                                 constraintName="fk_schedule_vehicle_facility_vehicle_facility_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vehicle_facility"/>
+        
+    </changeSet>
+</databaseChangeLog>

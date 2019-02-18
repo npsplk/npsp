@@ -1,0 +1,27 @@
+{
+    "name": "ParkingSlot",
+    "fields": [
+        {
+            "fieldName": "slotNumber",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "parkingArea",
+            "otherEntityName": "parkingArea",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "parkingSlot"
+        }
+    ],
+    "changelogDate": "20190218063135",
+    "entityTableName": "parking_slot",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

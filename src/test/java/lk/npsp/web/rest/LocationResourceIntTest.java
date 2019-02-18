@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -280,8 +282,8 @@ public class LocationResourceIntTest {
     public void searchLocation() throws Exception {
         // Initialize the database
         locationRepository.saveAndFlush(location);
-        when(mockLocationSearchRepository.search(queryStringQuery("id:" + location.getId())))
-            .thenReturn(Collections.singletonList(location));
+        when(mockLocationSearchRepository.search(queryStringQuery("id:" + location.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(location), PageRequest.of(0, 1), 1));
         // Search the location
         restLocationMockMvc.perform(get("/api/_search/locations?query=id:" + location.getId()))
             .andExpect(status().isOk())

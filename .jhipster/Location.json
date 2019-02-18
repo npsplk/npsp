@@ -16,16 +16,30 @@
     ],
     "relationships": [
         {
+            "relationshipType": "many-to-one",
+            "relationshipName": "locationType",
+            "otherEntityName": "locationType",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "location"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "parkingArea",
+            "otherEntityName": "parkingArea",
+            "otherEntityRelationshipName": "location"
+        },
+        {
+            "relationshipType": "many-to-many",
             "relationshipName": "route",
             "otherEntityName": "route",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
+            "ownerSide": false,
+            "otherEntityRelationshipName": "location"
         }
     ],
     "changelogDate": "20190212100341",
     "entityTableName": "location",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

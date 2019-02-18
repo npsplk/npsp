@@ -8,12 +8,6 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "locations",
-            "otherEntityName": "location",
-            "otherEntityRelationshipName": "route"
-        },
-        {
             "relationshipType": "many-to-one",
             "relationshipName": "startLocation",
             "otherEntityName": "location",
@@ -26,12 +20,20 @@
             "otherEntityName": "location",
             "otherEntityField": "id",
             "otherEntityRelationshipName": "route"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "route",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "changelogDate": "20190212100340",
     "entityTableName": "route",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,

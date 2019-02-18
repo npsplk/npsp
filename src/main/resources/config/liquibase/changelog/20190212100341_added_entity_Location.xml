@@ -34,7 +34,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="route_id" type="bigint">
+            <column name="location_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

@@ -1,0 +1,36 @@
+{
+    "name": "ParkingArea",
+    "fields": [
+        {
+            "fieldName": "areaName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "parkingArea"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "parkingSlot",
+            "otherEntityName": "parkingSlot",
+            "otherEntityRelationshipName": "parkingArea"
+        }
+    ],
+    "changelogDate": "20190218063134",
+    "entityTableName": "parking_area",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
