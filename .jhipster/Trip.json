@@ -1,0 +1,49 @@
+{
+    "name": "Trip",
+    "fields": [
+        {
+            "fieldName": "startDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "startTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "vehicle",
+            "otherEntityName": "vehicle",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "trip"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "schedule",
+            "otherEntityName": "schedule",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "trip"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "parkingSlot",
+            "otherEntityName": "parkingSlot",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "trip"
+        }
+    ],
+    "changelogDate": "20190218063142",
+    "entityTableName": "trip",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

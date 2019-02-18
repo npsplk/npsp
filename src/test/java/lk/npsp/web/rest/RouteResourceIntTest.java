@@ -10,9 +10,12 @@ import lk.npsp.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,6 +53,9 @@ public class RouteResourceIntTest {
 
     @Autowired
     private RouteRepository routeRepository;
+
+    @Mock
+    private RouteRepository routeRepositoryMock;
 
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
@@ -163,6 +170,39 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllRoutesWithEagerRelationshipsIsEnabled() throws Exception {
+        RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
+        when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restRouteMockMvc = MockMvcBuilders.standaloneSetup(routeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restRouteMockMvc.perform(get("/api/routes?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(routeRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllRoutesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
+            when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restRouteMockMvc = MockMvcBuilders.standaloneSetup(routeResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restRouteMockMvc.perform(get("/api/routes?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(routeRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getRoute() throws Exception {
@@ -262,8 +302,8 @@ public class RouteResourceIntTest {
     public void searchRoute() throws Exception {
         // Initialize the database
         routeRepository.saveAndFlush(route);
-        when(mockRouteSearchRepository.search(queryStringQuery("id:" + route.getId())))
-            .thenReturn(Collections.singletonList(route));
+        when(mockRouteSearchRepository.search(queryStringQuery("id:" + route.getId()), PageRequest.of(0, 20)))
+            .thenReturn(new PageImpl<>(Collections.singletonList(route), PageRequest.of(0, 1), 1));
         // Search the route
         restRouteMockMvc.perform(get("/api/_search/routes?query=id:" + route.getId()))
             .andExpect(status().isOk())

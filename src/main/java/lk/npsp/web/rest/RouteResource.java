@@ -4,9 +4,14 @@ import lk.npsp.repository.RouteRepository;
 import lk.npsp.repository.search.RouteSearchRepository;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
 import lk.npsp.web.rest.util.HeaderUtil;
+import lk.npsp.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,12 +90,21 @@ public class RouteResource {
     /**
      * GET  /routes : get all the routes.
      *
+     * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of routes in body
      */
     @GetMapping("/routes")
-    public List<Route> getAllRoutes() {
-        log.debug("REST request to get all Routes");
-        return routeRepository.findAll();
+    public ResponseEntity<List<Route>> getAllRoutes(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get a page of Routes");
+        Page<Route> page;
+        if (eagerload) {
+            page = routeRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = routeRepository.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/routes?eagerload=%b", eagerload));
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
@@ -102,7 +116,7 @@ public class RouteResource {
     @GetMapping("/routes/{id}")
     public ResponseEntity<Route> getRoute(@PathVariable Long id) {
         log.debug("REST request to get Route : {}", id);
-        Optional<Route> route = routeRepository.findById(id);
+        Optional<Route> route = routeRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(route);
     }
 
@@ -125,14 +139,15 @@ public class RouteResource {
      * to the query.
      *
      * @param query the query of the route search
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/routes")
-    public List<Route> searchRoutes(@RequestParam String query) {
-        log.debug("REST request to search Routes for query {}", query);
-        return StreamSupport
-            .stream(routeSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    public ResponseEntity<List<Route>> searchRoutes(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Routes for query {}", query);
+        Page<Route> page = routeSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/routes");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }
