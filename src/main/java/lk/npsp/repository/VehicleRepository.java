@@ -17,14 +17,14 @@ import java.util.Optional;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
-    @Query(value = "select distinct vehicle from Vehicle vehicle left join fetch vehicle.facilities",
+    @Query(value = "select distinct vehicle from Vehicle vehicle left join fetch vehicle.vehicleFacilities",
         countQuery = "select count(distinct vehicle) from Vehicle vehicle")
     Page<Vehicle> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query(value = "select distinct vehicle from Vehicle vehicle left join fetch vehicle.facilities")
+    @Query(value = "select distinct vehicle from Vehicle vehicle left join fetch vehicle.vehicleFacilities")
     List<Vehicle> findAllWithEagerRelationships();
 
-    @Query("select vehicle from Vehicle vehicle left join fetch vehicle.facilities where vehicle.id =:id")
+    @Query("select vehicle from Vehicle vehicle left join fetch vehicle.vehicleFacilities where vehicle.id =:id")
     Optional<Vehicle> findOneWithEagerRelationships(@Param("id") Long id);
 
 }

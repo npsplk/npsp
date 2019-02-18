@@ -48,10 +48,10 @@ public class Vehicle implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "vehicle_facility",
+    @JoinTable(name = "vehicle_vehicle_facility",
                joinColumns = @JoinColumn(name = "vehicle_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "facility_id", referencedColumnName = "id"))
-    private Set<VehicleFacility> facilities = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name = "vehicle_facility_id", referencedColumnName = "id"))
+    private Set<VehicleFacility> vehicleFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "vehicle")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -117,29 +117,29 @@ public class Vehicle implements Serializable {
         this.transportType = transportType;
     }
 
-    public Set<VehicleFacility> getFacilities() {
-        return facilities;
+    public Set<VehicleFacility> getVehicleFacilities() {
+        return vehicleFacilities;
     }
 
-    public Vehicle facilities(Set<VehicleFacility> vehicleFacilities) {
-        this.facilities = vehicleFacilities;
+    public Vehicle vehicleFacilities(Set<VehicleFacility> vehicleFacilities) {
+        this.vehicleFacilities = vehicleFacilities;
         return this;
     }
 
-    public Vehicle addFacility(VehicleFacility vehicleFacility) {
-        this.facilities.add(vehicleFacility);
+    public Vehicle addVehicleFacility(VehicleFacility vehicleFacility) {
+        this.vehicleFacilities.add(vehicleFacility);
         vehicleFacility.getVehicles().add(this);
         return this;
     }
 
-    public Vehicle removeFacility(VehicleFacility vehicleFacility) {
-        this.facilities.remove(vehicleFacility);
+    public Vehicle removeVehicleFacility(VehicleFacility vehicleFacility) {
+        this.vehicleFacilities.remove(vehicleFacility);
         vehicleFacility.getVehicles().remove(this);
         return this;
     }
 
-    public void setFacilities(Set<VehicleFacility> vehicleFacilities) {
-        this.facilities = vehicleFacilities;
+    public void setVehicleFacilities(Set<VehicleFacility> vehicleFacilities) {
+        this.vehicleFacilities = vehicleFacilities;
     }
 
     public Set<Trip> getTrips() {

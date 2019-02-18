@@ -49,8 +49,8 @@ public class VehicleFacilityResourceIntTest {
     private static final String DEFAULT_FACILITY_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FACILITY_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_FACILITYMETA = "AAAAAAAAAA";
-    private static final String UPDATED_FACILITYMETA = "BBBBBBBBBB";
+    private static final String DEFAULT_FACILITY_META = "AAAAAAAAAA";
+    private static final String UPDATED_FACILITY_META = "BBBBBBBBBB";
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -106,7 +106,7 @@ public class VehicleFacilityResourceIntTest {
     public static VehicleFacility createEntity(EntityManager em) {
         VehicleFacility vehicleFacility = new VehicleFacility()
             .facilityName(DEFAULT_FACILITY_NAME)
-            .facilitymeta(DEFAULT_FACILITYMETA)
+            .facilityMeta(DEFAULT_FACILITY_META)
             .description(DEFAULT_DESCRIPTION);
         return vehicleFacility;
     }
@@ -132,7 +132,7 @@ public class VehicleFacilityResourceIntTest {
         assertThat(vehicleFacilityList).hasSize(databaseSizeBeforeCreate + 1);
         VehicleFacility testVehicleFacility = vehicleFacilityList.get(vehicleFacilityList.size() - 1);
         assertThat(testVehicleFacility.getFacilityName()).isEqualTo(DEFAULT_FACILITY_NAME);
-        assertThat(testVehicleFacility.getFacilitymeta()).isEqualTo(DEFAULT_FACILITYMETA);
+        assertThat(testVehicleFacility.getFacilityMeta()).isEqualTo(DEFAULT_FACILITY_META);
         assertThat(testVehicleFacility.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
 
         // Validate the VehicleFacility in Elasticsearch
@@ -181,10 +181,10 @@ public class VehicleFacilityResourceIntTest {
 
     @Test
     @Transactional
-    public void checkFacilitymetaIsRequired() throws Exception {
+    public void checkFacilityMetaIsRequired() throws Exception {
         int databaseSizeBeforeTest = vehicleFacilityRepository.findAll().size();
         // set the field null
-        vehicleFacility.setFacilitymeta(null);
+        vehicleFacility.setFacilityMeta(null);
 
         // Create the VehicleFacility, which fails.
 
@@ -209,7 +209,7 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicleFacility.getId().intValue())))
             .andExpect(jsonPath("$.[*].facilityName").value(hasItem(DEFAULT_FACILITY_NAME.toString())))
-            .andExpect(jsonPath("$.[*].facilitymeta").value(hasItem(DEFAULT_FACILITYMETA.toString())))
+            .andExpect(jsonPath("$.[*].facilityMeta").value(hasItem(DEFAULT_FACILITY_META.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
     
@@ -225,7 +225,7 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(vehicleFacility.getId().intValue()))
             .andExpect(jsonPath("$.facilityName").value(DEFAULT_FACILITY_NAME.toString()))
-            .andExpect(jsonPath("$.facilitymeta").value(DEFAULT_FACILITYMETA.toString()))
+            .andExpect(jsonPath("$.facilityMeta").value(DEFAULT_FACILITY_META.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
 
@@ -251,7 +251,7 @@ public class VehicleFacilityResourceIntTest {
         em.detach(updatedVehicleFacility);
         updatedVehicleFacility
             .facilityName(UPDATED_FACILITY_NAME)
-            .facilitymeta(UPDATED_FACILITYMETA)
+            .facilityMeta(UPDATED_FACILITY_META)
             .description(UPDATED_DESCRIPTION);
 
         restVehicleFacilityMockMvc.perform(put("/api/vehicle-facilities")
@@ -264,7 +264,7 @@ public class VehicleFacilityResourceIntTest {
         assertThat(vehicleFacilityList).hasSize(databaseSizeBeforeUpdate);
         VehicleFacility testVehicleFacility = vehicleFacilityList.get(vehicleFacilityList.size() - 1);
         assertThat(testVehicleFacility.getFacilityName()).isEqualTo(UPDATED_FACILITY_NAME);
-        assertThat(testVehicleFacility.getFacilitymeta()).isEqualTo(UPDATED_FACILITYMETA);
+        assertThat(testVehicleFacility.getFacilityMeta()).isEqualTo(UPDATED_FACILITY_META);
         assertThat(testVehicleFacility.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
 
         // Validate the VehicleFacility in Elasticsearch
@@ -326,7 +326,7 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicleFacility.getId().intValue())))
             .andExpect(jsonPath("$.[*].facilityName").value(hasItem(DEFAULT_FACILITY_NAME)))
-            .andExpect(jsonPath("$.[*].facilitymeta").value(hasItem(DEFAULT_FACILITYMETA)))
+            .andExpect(jsonPath("$.[*].facilityMeta").value(hasItem(DEFAULT_FACILITY_META)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 

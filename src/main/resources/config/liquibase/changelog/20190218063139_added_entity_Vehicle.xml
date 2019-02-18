@@ -41,8 +41,8 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
-        <createTable tableName="vehicle_facility">
-            <column name="facility_id" type="bigint">
+        <createTable tableName="vehicle_vehicle_facility">
+            <column name="vehicle_facility_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="vehicle_id" type="bigint">
@@ -50,7 +50,7 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="vehicle_id, facility_id" tableName="vehicle_facility"/>
+        <addPrimaryKey columnNames="vehicle_id, vehicle_facility_id" tableName="vehicle_vehicle_facility"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

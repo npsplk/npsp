@@ -34,7 +34,7 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "vehicle",
-            "relationshipName": "facility",
+            "relationshipName": "vehicleFacility",
             "otherEntityName": "vehicleFacility",
             "otherEntityField": "id",
             "ownerSide": true

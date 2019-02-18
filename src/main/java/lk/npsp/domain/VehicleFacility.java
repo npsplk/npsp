@@ -34,13 +34,13 @@ public class VehicleFacility implements Serializable {
     private String facilityName;
 
     @NotNull
-    @Column(name = "facilitymeta", nullable = false)
-    private String facilitymeta;
+    @Column(name = "facility_meta", nullable = false)
+    private String facilityMeta;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "facilities")
+    @ManyToMany(mappedBy = "vehicleFacilities")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
     private Set<Vehicle> vehicles = new HashSet<>();
@@ -72,17 +72,17 @@ public class VehicleFacility implements Serializable {
         this.facilityName = facilityName;
     }
 
-    public String getFacilitymeta() {
-        return facilitymeta;
+    public String getFacilityMeta() {
+        return facilityMeta;
     }
 
-    public VehicleFacility facilitymeta(String facilitymeta) {
-        this.facilitymeta = facilitymeta;
+    public VehicleFacility facilityMeta(String facilityMeta) {
+        this.facilityMeta = facilityMeta;
         return this;
     }
 
-    public void setFacilitymeta(String facilitymeta) {
-        this.facilitymeta = facilitymeta;
+    public void setFacilityMeta(String facilityMeta) {
+        this.facilityMeta = facilityMeta;
     }
 
     public String getDescription() {
@@ -109,13 +109,13 @@ public class VehicleFacility implements Serializable {
 
     public VehicleFacility addVehicle(Vehicle vehicle) {
         this.vehicles.add(vehicle);
-        vehicle.getFacilities().add(this);
+        vehicle.getVehicleFacilities().add(this);
         return this;
     }
 
     public VehicleFacility removeVehicle(Vehicle vehicle) {
         this.vehicles.remove(vehicle);
-        vehicle.getFacilities().remove(this);
+        vehicle.getVehicleFacilities().remove(this);
         return this;
     }
 
@@ -174,7 +174,7 @@ public class VehicleFacility implements Serializable {
         return "VehicleFacility{" +
             "id=" + getId() +
             ", facilityName='" + getFacilityName() + "'" +
-            ", facilitymeta='" + getFacilitymeta() + "'" +
+            ", facilityMeta='" + getFacilityMeta() + "'" +
             ", description='" + getDescription() + "'" +
             "}";
     }

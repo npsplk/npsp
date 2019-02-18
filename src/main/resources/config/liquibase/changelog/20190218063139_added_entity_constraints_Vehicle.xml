@@ -21,13 +21,13 @@
                                  referencedTableName="transport_type"/>
 
         <addForeignKeyConstraint baseColumnNames="vehicle_id"
-                                 baseTableName="vehicle_facility"
-                                 constraintName="fk_vehicle_facility_vehicle_id"
+                                 baseTableName="vehicle_vehicle_facility"
+                                 constraintName="fk_vehicle_vehicle_facility_vehicle_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vehicle"/>
-        <addForeignKeyConstraint baseColumnNames="facility_id"
-                                 baseTableName="vehicle_facility"
-                                 constraintName="fk_vehicle_facility_facility_id"
+        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id"
+                                 baseTableName="vehicle_vehicle_facility"
+                                 constraintName="fk_vehicle_vehicle_facility_vehicle_facility_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vehicle_facility"/>
         

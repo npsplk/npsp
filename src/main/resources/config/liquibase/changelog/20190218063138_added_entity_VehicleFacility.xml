@@ -26,7 +26,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="facilitymeta" type="varchar(255)">
+            <column name="facility_meta" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
 

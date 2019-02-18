@@ -29,7 +29,7 @@ entity TransportType {
 
 entity VehicleFacility{
 	facilityName String required
-    facilitymeta String required
+    facilityMeta String required
     description String
 }
 
@@ -79,7 +79,7 @@ relationship ManyToOne{
 relationship ManyToMany{
 	Route{location} to Location{route}
     Schedule{weekday} to Weekday{schedule}
-    Vehicle{facility} to VehicleFacility{vehicle}
+    Vehicle{vehicleFacility} to VehicleFacility{vehicle}
     Schedule{vehicleFacility} to VehicleFacility{schedule}
 }
 

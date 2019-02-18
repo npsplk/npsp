@@ -9,7 +9,7 @@
             ]
         },
         {
-            "fieldName": "facilitymeta",
+            "fieldName": "facilityMeta",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
@@ -26,7 +26,7 @@
             "relationshipName": "vehicle",
             "otherEntityName": "vehicle",
             "ownerSide": false,
-            "otherEntityRelationshipName": "facility"
+            "otherEntityRelationshipName": "vehicleFacility"
         },
         {
             "relationshipType": "many-to-many",

@@ -34,9 +34,7 @@ public class CacheConfiguration {
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
             cm.createCache(lk.npsp.domain.Route.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Route.class.getName() + ".coordinates", jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Location.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Coordinate.class.getName(), jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Route.class.getName() + ".locations", jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Location.class.getName() + ".parkingAreas", jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Location.class.getName() + ".routes", jcacheConfiguration);
@@ -60,6 +58,7 @@ public class CacheConfiguration {
             cm.createCache(lk.npsp.domain.Trip.class.getName(), jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Weekday.class.getName(), jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Weekday.class.getName() + ".schedules", jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Vehicle.class.getName() + ".vehicleFacilities", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
