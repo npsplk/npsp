@@ -2,6 +2,10 @@ entity Route {
 	routeName String
 }
 
+entity RouteLocation{
+	sequenceNumber Long
+}
+
 entity Location {
 	locationName String
 	longitude Double
@@ -70,10 +74,13 @@ Friday,
 Saturday
 }
 
+relationship OneToMany{
+	Route{routeLocation} to RouteLocation{route}
+}
+
 relationship ManyToOne{
-	Route{startLocation} to Location
-    Route{endLocation} to Location
     Location{locationType} to LocationType
+    RouteLocation{location} to Location
     Schedule{route} to Route
     Schedule{startLocation} to Location
     Schedule{endLocation} to Location
@@ -87,7 +94,6 @@ relationship ManyToOne{
 }
 
 relationship ManyToMany{
-	Route{location} to Location{route}
     Schedule{weekdays} to Weekday
     Vehicle{vehicleFacility} to VehicleFacility{vehicle}
     Schedule{vehicleFacility} to VehicleFacility{schedule}

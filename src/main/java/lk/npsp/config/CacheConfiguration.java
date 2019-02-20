@@ -62,6 +62,8 @@ public class CacheConfiguration {
             cm.createCache(lk.npsp.domain.Schedule.class.getName() + ".trips", jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Trip.class.getName(), jcacheConfiguration);
             cm.createCache(lk.npsp.domain.Weekday.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Route.class.getName() + ".routeLocations", jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.RouteLocation.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

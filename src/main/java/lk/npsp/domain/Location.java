@@ -45,11 +45,6 @@ public class Location implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ParkingArea> parkingAreas = new HashSet<>();
 
-    @ManyToMany(mappedBy = "locations")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Route> routes = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -134,31 +129,6 @@ public class Location implements Serializable {
 
     public void setParkingAreas(Set<ParkingArea> parkingAreas) {
         this.parkingAreas = parkingAreas;
-    }
-
-    public Set<Route> getRoutes() {
-        return routes;
-    }
-
-    public Location routes(Set<Route> routes) {
-        this.routes = routes;
-        return this;
-    }
-
-    public Location addRoute(Route route) {
-        this.routes.add(route);
-        route.getLocations().add(this);
-        return this;
-    }
-
-    public Location removeRoute(Route route) {
-        this.routes.remove(route);
-        route.getLocations().remove(this);
-        return this;
-    }
-
-    public void setRoutes(Set<Route> routes) {
-        this.routes = routes;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

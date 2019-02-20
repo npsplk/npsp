@@ -1,6 +1,6 @@
 package lk.npsp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,20 +30,9 @@ public class Route implements Serializable {
     @Column(name = "route_name")
     private String routeName;
 
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private Location startLocation;
-
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private Location endLocation;
-
-    @ManyToMany
+    @OneToMany(mappedBy = "route")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "route_location",
-               joinColumns = @JoinColumn(name = "routes_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "locations_id", referencedColumnName = "id"))
-    private Set<Location> locations = new HashSet<>();
+    private Set<RouteLocation> routeLocations = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -67,55 +56,29 @@ public class Route implements Serializable {
         this.routeName = routeName;
     }
 
-    public Location getStartLocation() {
-        return startLocation;
+    public Set<RouteLocation> getRouteLocations() {
+        return routeLocations;
     }
 
-    public Route startLocation(Location location) {
-        this.startLocation = location;
+    public Route routeLocations(Set<RouteLocation> routeLocations) {
+        this.routeLocations = routeLocations;
         return this;
     }
 
-    public void setStartLocation(Location location) {
-        this.startLocation = location;
-    }
-
-    public Location getEndLocation() {
-        return endLocation;
-    }
-
-    public Route endLocation(Location location) {
-        this.endLocation = location;
+    public Route addRouteLocation(RouteLocation routeLocation) {
+        this.routeLocations.add(routeLocation);
+        routeLocation.setRoute(this);
         return this;
     }
 
-    public void setEndLocation(Location location) {
-        this.endLocation = location;
-    }
-
-    public Set<Location> getLocations() {
-        return locations;
-    }
-
-    public Route locations(Set<Location> locations) {
-        this.locations = locations;
+    public Route removeRouteLocation(RouteLocation routeLocation) {
+        this.routeLocations.remove(routeLocation);
+        routeLocation.setRoute(null);
         return this;
     }
 
-    public Route addLocation(Location location) {
-        this.locations.add(location);
-        location.getRoutes().add(this);
-        return this;
-    }
-
-    public Route removeLocation(Location location) {
-        this.locations.remove(location);
-        location.getRoutes().remove(this);
-        return this;
-    }
-
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
+    public void setRouteLocations(Set<RouteLocation> routeLocations) {
+        this.routeLocations = routeLocations;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

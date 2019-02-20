@@ -10,7 +10,6 @@ import lk.npsp.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,8 +50,7 @@ public class RouteResourceIntTest {
 
     @Autowired
     private RouteRepository routeRepository;
-    @Mock
-    private RouteRepository routeRepositoryMock;
+
 
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
@@ -164,36 +161,6 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())));
     }
     
-    public void getAllRoutesWithEagerRelationshipsIsEnabled() throws Exception {
-        RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
-        when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        MockMvc restRouteMockMvc = MockMvcBuilders.standaloneSetup(routeResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restRouteMockMvc.perform(get("/api/routes?eagerload=true"))
-        .andExpect(status().isOk());
-
-        verify(routeRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    public void getAllRoutesWithEagerRelationshipsIsNotEnabled() throws Exception {
-        RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
-            when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-            MockMvc restRouteMockMvc = MockMvcBuilders.standaloneSetup(routeResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
-
-        restRouteMockMvc.perform(get("/api/routes?eagerload=true"))
-        .andExpect(status().isOk());
-
-            verify(routeRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
 
     @Test
     @Transactional

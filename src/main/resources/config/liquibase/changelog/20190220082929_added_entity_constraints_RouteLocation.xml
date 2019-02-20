@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity RouteLocation.
+    -->
+    <changeSet id="20190220082929-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="route_location"
+                                 constraintName="fk_route_location_location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="route_location"
+                                 constraintName="fk_route_location_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+    </changeSet>
+</databaseChangeLog>
