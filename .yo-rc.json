@@ -32,6 +32,6 @@
       "en"
     ],
     "skipClient": true,
-    "skipUserManagement": true
+    "skipUserManagement": false
   }
 }

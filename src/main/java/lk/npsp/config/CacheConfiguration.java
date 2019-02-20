@@ -33,32 +33,11 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            cm.createCache(lk.npsp.domain.Route.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Location.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Route.class.getName() + ".locations", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Location.class.getName() + ".parkingAreas", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Location.class.getName() + ".routes", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ParkingArea.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ParkingArea.class.getName() + ".parkingSlots", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ParkingSlot.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.LocationType.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.TransportType.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleFacility.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleFacility.class.getName() + ".vehicles", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleFacility.class.getName() + ".schedules", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName() + ".facilities", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName() + ".trips", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleOwner.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleOwner.class.getName() + ".vehicles", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Schedule.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Schedule.class.getName() + ".weekdays", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Schedule.class.getName() + ".vehicleFacilities", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Schedule.class.getName() + ".trips", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Trip.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Weekday.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Weekday.class.getName() + ".schedules", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName() + ".vehicleFacilities", jcacheConfiguration);
+            cm.createCache(lk.npsp.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
+            cm.createCache(lk.npsp.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.User.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.Authority.class.getName(), jcacheConfiguration);
+            cm.createCache(lk.npsp.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -5,27 +5,6 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190212100340_added_entity_Route.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190212100341_added_entity_Location.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190212100342_added_entity_Coordinate.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063134_added_entity_ParkingArea.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063135_added_entity_ParkingSlot.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063136_added_entity_LocationType.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063137_added_entity_TransportType.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063138_added_entity_VehicleFacility.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063139_added_entity_Vehicle.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063140_added_entity_VehicleOwner.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063141_added_entity_Schedule.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063142_added_entity_Trip.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063143_added_entity_Weekday.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20190212100340_added_entity_constraints_Route.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190212100341_added_entity_constraints_Location.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190212100342_added_entity_constraints_Coordinate.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063134_added_entity_constraints_ParkingArea.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063135_added_entity_constraints_ParkingSlot.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063139_added_entity_constraints_Vehicle.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063141_added_entity_constraints_Schedule.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20190218063142_added_entity_constraints_Trip.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
