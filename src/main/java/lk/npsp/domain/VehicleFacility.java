@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -24,7 +23,7 @@ import java.util.Objects;
 public class VehicleFacility implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,13 +40,13 @@ public class VehicleFacility implements Serializable {
     private String description;
 
     @ManyToMany(mappedBy = "vehicleFacilities")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Vehicle> vehicles = new HashSet<>();
 
     @ManyToMany(mappedBy = "vehicleFacilities")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Schedule> schedules = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

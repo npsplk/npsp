@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -58,6 +57,7 @@ public class TransportTypeResourceIntTest {
     @Autowired
     private TransportTypeRepository transportTypeRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -78,9 +78,6 @@ public class TransportTypeResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restTransportTypeMockMvc;
 
     private TransportType transportType;
@@ -93,8 +90,7 @@ public class TransportTypeResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -213,6 +209,7 @@ public class TransportTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
     
+
     @Test
     @Transactional
     public void getTransportType() throws Exception {
@@ -228,7 +225,6 @@ public class TransportTypeResourceIntTest {
             .andExpect(jsonPath("$.metaCode").value(DEFAULT_META_CODE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingTransportType() throws Exception {
@@ -278,7 +274,7 @@ public class TransportTypeResourceIntTest {
 
         // Create the TransportType
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restTransportTypeMockMvc.perform(put("/api/transport-types")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(transportType)))
@@ -300,7 +296,7 @@ public class TransportTypeResourceIntTest {
 
         int databaseSizeBeforeDelete = transportTypeRepository.findAll().size();
 
-        // Delete the transportType
+        // Get the transportType
         restTransportTypeMockMvc.perform(delete("/api/transport-types/{id}", transportType.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -325,9 +321,9 @@ public class TransportTypeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(transportType.getId().intValue())))
-            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME)))
-            .andExpect(jsonPath("$.[*].metaCode").value(hasItem(DEFAULT_META_CODE)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].metaCode").value(hasItem(DEFAULT_META_CODE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test
