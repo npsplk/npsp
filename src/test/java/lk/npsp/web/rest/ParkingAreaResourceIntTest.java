@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -52,6 +51,7 @@ public class ParkingAreaResourceIntTest {
     @Autowired
     private ParkingAreaRepository parkingAreaRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -72,9 +72,6 @@ public class ParkingAreaResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restParkingAreaMockMvc;
 
     private ParkingArea parkingArea;
@@ -87,8 +84,7 @@ public class ParkingAreaResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -183,6 +179,7 @@ public class ParkingAreaResourceIntTest {
             .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME.toString())));
     }
     
+
     @Test
     @Transactional
     public void getParkingArea() throws Exception {
@@ -196,7 +193,6 @@ public class ParkingAreaResourceIntTest {
             .andExpect(jsonPath("$.id").value(parkingArea.getId().intValue()))
             .andExpect(jsonPath("$.areaName").value(DEFAULT_AREA_NAME.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingParkingArea() throws Exception {
@@ -242,7 +238,7 @@ public class ParkingAreaResourceIntTest {
 
         // Create the ParkingArea
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restParkingAreaMockMvc.perform(put("/api/parking-areas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(parkingArea)))
@@ -264,7 +260,7 @@ public class ParkingAreaResourceIntTest {
 
         int databaseSizeBeforeDelete = parkingAreaRepository.findAll().size();
 
-        // Delete the parkingArea
+        // Get the parkingArea
         restParkingAreaMockMvc.perform(delete("/api/parking-areas/{id}", parkingArea.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -289,7 +285,7 @@ public class ParkingAreaResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(parkingArea.getId().intValue())))
-            .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME)));
+            .andExpect(jsonPath("$.[*].areaName").value(hasItem(DEFAULT_AREA_NAME.toString())));
     }
 
     @Test

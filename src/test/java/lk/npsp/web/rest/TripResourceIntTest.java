@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -65,6 +65,7 @@ public class TripResourceIntTest {
     @Autowired
     private TripRepository tripRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -85,9 +86,6 @@ public class TripResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restTripMockMvc;
 
     private Trip trip;
@@ -100,8 +98,7 @@ public class TripResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -187,6 +184,7 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())));
     }
     
+
     @Test
     @Transactional
     public void getTrip() throws Exception {
@@ -203,7 +201,6 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()))
             .andExpect(jsonPath("$.specialNotes").value(DEFAULT_SPECIAL_NOTES.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingTrip() throws Exception {
@@ -255,7 +252,7 @@ public class TripResourceIntTest {
 
         // Create the Trip
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restTripMockMvc.perform(put("/api/trips")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(trip)))
@@ -277,7 +274,7 @@ public class TripResourceIntTest {
 
         int databaseSizeBeforeDelete = tripRepository.findAll().size();
 
-        // Delete the trip
+        // Get the trip
         restTripMockMvc.perform(delete("/api/trips/{id}", trip.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -305,7 +302,7 @@ public class TripResourceIntTest {
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
-            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES)));
+            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())));
     }
 
     @Test

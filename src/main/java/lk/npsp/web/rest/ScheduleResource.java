@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Schedule;
 import lk.npsp.repository.ScheduleRepository;
 import lk.npsp.repository.search.ScheduleSearchRepository;
@@ -54,6 +56,7 @@ public class ScheduleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/schedules")
+    @Timed
     public ResponseEntity<Schedule> createSchedule(@Valid @RequestBody Schedule schedule) throws URISyntaxException {
         log.debug("REST request to save Schedule : {}", schedule);
         if (schedule.getId() != null) {
@@ -76,6 +79,7 @@ public class ScheduleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/schedules")
+    @Timed
     public ResponseEntity<Schedule> updateSchedule(@Valid @RequestBody Schedule schedule) throws URISyntaxException {
         log.debug("REST request to update Schedule : {}", schedule);
         if (schedule.getId() == null) {
@@ -96,6 +100,7 @@ public class ScheduleResource {
      * @return the ResponseEntity with status 200 (OK) and the list of schedules in body
      */
     @GetMapping("/schedules")
+    @Timed
     public ResponseEntity<List<Schedule>> getAllSchedules(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Schedules");
         Page<Schedule> page;
@@ -105,7 +110,7 @@ public class ScheduleResource {
             page = scheduleRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/schedules?eagerload=%b", eagerload));
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -115,6 +120,7 @@ public class ScheduleResource {
      * @return the ResponseEntity with status 200 (OK) and with body the schedule, or with status 404 (Not Found)
      */
     @GetMapping("/schedules/{id}")
+    @Timed
     public ResponseEntity<Schedule> getSchedule(@PathVariable Long id) {
         log.debug("REST request to get Schedule : {}", id);
         Optional<Schedule> schedule = scheduleRepository.findOneWithEagerRelationships(id);
@@ -128,8 +134,10 @@ public class ScheduleResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/schedules/{id}")
+    @Timed
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
         log.debug("REST request to delete Schedule : {}", id);
+
         scheduleRepository.deleteById(id);
         scheduleSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -144,11 +152,12 @@ public class ScheduleResource {
      * @return the result of the search
      */
     @GetMapping("/_search/schedules")
+    @Timed
     public ResponseEntity<List<Schedule>> searchSchedules(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Schedules for query {}", query);
         Page<Schedule> page = scheduleSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/schedules");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

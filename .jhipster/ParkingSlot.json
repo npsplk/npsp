@@ -11,8 +11,7 @@
             "relationshipType": "many-to-one",
             "relationshipName": "parkingArea",
             "otherEntityName": "parkingArea",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "parkingSlot"
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190218063135",

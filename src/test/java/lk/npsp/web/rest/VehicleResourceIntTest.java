@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -56,7 +55,6 @@ public class VehicleResourceIntTest {
 
     @Autowired
     private VehicleRepository vehicleRepository;
-
     @Mock
     private VehicleRepository vehicleRepositoryMock;
 
@@ -80,9 +78,6 @@ public class VehicleResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restVehicleMockMvc;
 
     private Vehicle vehicle;
@@ -95,8 +90,7 @@ public class VehicleResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -212,7 +206,6 @@ public class VehicleResourceIntTest {
             .andExpect(jsonPath("$.[*].numberOfSeats").value(hasItem(DEFAULT_NUMBER_OF_SEATS)));
     }
     
-    @SuppressWarnings({"unchecked"})
     public void getAllVehiclesWithEagerRelationshipsIsEnabled() throws Exception {
         VehicleResource vehicleResource = new VehicleResource(vehicleRepositoryMock, mockVehicleSearchRepository);
         when(vehicleRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -229,7 +222,6 @@ public class VehicleResourceIntTest {
         verify(vehicleRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({"unchecked"})
     public void getAllVehiclesWithEagerRelationshipsIsNotEnabled() throws Exception {
         VehicleResource vehicleResource = new VehicleResource(vehicleRepositoryMock, mockVehicleSearchRepository);
             when(vehicleRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -259,7 +251,6 @@ public class VehicleResourceIntTest {
             .andExpect(jsonPath("$.numberPlate").value(DEFAULT_NUMBER_PLATE.toString()))
             .andExpect(jsonPath("$.numberOfSeats").value(DEFAULT_NUMBER_OF_SEATS));
     }
-
     @Test
     @Transactional
     public void getNonExistingVehicle() throws Exception {
@@ -307,7 +298,7 @@ public class VehicleResourceIntTest {
 
         // Create the Vehicle
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restVehicleMockMvc.perform(put("/api/vehicles")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(vehicle)))
@@ -329,7 +320,7 @@ public class VehicleResourceIntTest {
 
         int databaseSizeBeforeDelete = vehicleRepository.findAll().size();
 
-        // Delete the vehicle
+        // Get the vehicle
         restVehicleMockMvc.perform(delete("/api/vehicles/{id}", vehicle.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -354,7 +345,7 @@ public class VehicleResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicle.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numberPlate").value(hasItem(DEFAULT_NUMBER_PLATE)))
+            .andExpect(jsonPath("$.[*].numberPlate").value(hasItem(DEFAULT_NUMBER_PLATE.toString())))
             .andExpect(jsonPath("$.[*].numberOfSeats").value(hasItem(DEFAULT_NUMBER_OF_SEATS)));
     }
 

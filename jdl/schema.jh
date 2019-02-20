@@ -53,12 +53,21 @@ entity Trip{
 	startDate LocalDate
 	startTime Instant
     endTime Instant
-    specialNotes String
+    specialNotes TextBlob
 }
 
 entity Weekday{
-	weekdayName String required
-    weekdayMeta String required
+	weekday Weekdays required
+}
+
+enum Weekdays{
+Sunday,
+Monday,
+Tuesday,
+Wednesday,
+Thursday,
+Friday,
+Saturday
 }
 
 relationship ManyToOne{
@@ -79,7 +88,7 @@ relationship ManyToOne{
 
 relationship ManyToMany{
 	Route{location} to Location{route}
-    Schedule{weekday} to Weekday{schedule}
+    Schedule{weekdays} to Weekday
     Vehicle{vehicleFacility} to VehicleFacility{vehicle}
     Schedule{vehicleFacility} to VehicleFacility{schedule}
 }

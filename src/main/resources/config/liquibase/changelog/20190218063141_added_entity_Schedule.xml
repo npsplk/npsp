@@ -7,7 +7,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <property name="now" value="now()" dbms="h2"/>
-    
+
     <property name="now" value="now()" dbms="mysql"/>
     <property name="autoIncrement" value="true"/>
 
@@ -47,27 +47,27 @@
         <dropDefaultValue tableName="schedule" columnName="start_time" columnDataType="datetime"/>
         <dropDefaultValue tableName="schedule" columnName="end_time" columnDataType="datetime"/>
         
-        <createTable tableName="schedule_weekday">
-            <column name="weekday_id" type="bigint">
+        <createTable tableName="schedule_weekdays">
+            <column name="weekdays_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="schedule_id" type="bigint">
+            <column name="schedules_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="schedule_id, weekday_id" tableName="schedule_weekday"/>
+        <addPrimaryKey columnNames="schedules_id, weekdays_id" tableName="schedule_weekdays"/>
         
         <createTable tableName="schedule_vehicle_facility">
-            <column name="vehicle_facility_id" type="bigint">
+            <column name="vehicle_facilities_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="schedule_id" type="bigint">
+            <column name="schedules_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="schedule_id, vehicle_facility_id" tableName="schedule_vehicle_facility"/>
+        <addPrimaryKey columnNames="schedules_id, vehicle_facilities_id" tableName="schedule_vehicle_facility"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

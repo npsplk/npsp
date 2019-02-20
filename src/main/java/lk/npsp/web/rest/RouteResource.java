@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Route;
 import lk.npsp.repository.RouteRepository;
 import lk.npsp.repository.search.RouteSearchRepository;
@@ -53,6 +55,7 @@ public class RouteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/routes")
+    @Timed
     public ResponseEntity<Route> createRoute(@RequestBody Route route) throws URISyntaxException {
         log.debug("REST request to save Route : {}", route);
         if (route.getId() != null) {
@@ -75,6 +78,7 @@ public class RouteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/routes")
+    @Timed
     public ResponseEntity<Route> updateRoute(@RequestBody Route route) throws URISyntaxException {
         log.debug("REST request to update Route : {}", route);
         if (route.getId() == null) {
@@ -95,6 +99,7 @@ public class RouteResource {
      * @return the ResponseEntity with status 200 (OK) and the list of routes in body
      */
     @GetMapping("/routes")
+    @Timed
     public ResponseEntity<List<Route>> getAllRoutes(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Routes");
         Page<Route> page;
@@ -104,7 +109,7 @@ public class RouteResource {
             page = routeRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/routes?eagerload=%b", eagerload));
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -114,6 +119,7 @@ public class RouteResource {
      * @return the ResponseEntity with status 200 (OK) and with body the route, or with status 404 (Not Found)
      */
     @GetMapping("/routes/{id}")
+    @Timed
     public ResponseEntity<Route> getRoute(@PathVariable Long id) {
         log.debug("REST request to get Route : {}", id);
         Optional<Route> route = routeRepository.findOneWithEagerRelationships(id);
@@ -127,8 +133,10 @@ public class RouteResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/routes/{id}")
+    @Timed
     public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
         log.debug("REST request to delete Route : {}", id);
+
         routeRepository.deleteById(id);
         routeSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -143,11 +151,12 @@ public class RouteResource {
      * @return the result of the search
      */
     @GetMapping("/_search/routes")
+    @Timed
     public ResponseEntity<List<Route>> searchRoutes(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Routes for query {}", query);
         Page<Route> page = routeSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/routes");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

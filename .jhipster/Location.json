@@ -19,8 +19,7 @@
             "relationshipType": "many-to-one",
             "relationshipName": "locationType",
             "otherEntityName": "locationType",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "location"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "one-to-many",

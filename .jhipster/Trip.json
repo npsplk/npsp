@@ -15,7 +15,8 @@
         },
         {
             "fieldName": "specialNotes",
-            "fieldType": "String"
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
         }
     ],
     "relationships": [
@@ -23,22 +24,19 @@
             "relationshipType": "many-to-one",
             "relationshipName": "vehicle",
             "otherEntityName": "vehicle",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "trip"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "schedule",
             "otherEntityName": "schedule",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "trip"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "parkingSlot",
             "otherEntityName": "parkingSlot",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "trip"
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190218063142",

@@ -21,15 +21,13 @@
             "relationshipType": "many-to-one",
             "relationshipName": "owner",
             "otherEntityName": "vehicleOwner",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "vehicle"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "transportType",
             "otherEntityName": "transportType",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "vehicle"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",

@@ -11,15 +11,13 @@
             "relationshipType": "many-to-one",
             "relationshipName": "startLocation",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "route"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "endLocation",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "route"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",

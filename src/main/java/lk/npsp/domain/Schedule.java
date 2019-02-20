@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
@@ -26,7 +25,7 @@ import java.util.Objects;
 public class Schedule implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,34 +39,35 @@ public class Schedule implements Serializable {
     private Instant endTime;
 
     @ManyToOne
-    @JsonIgnoreProperties("schedules")
+    @JsonIgnoreProperties("")
     private Route route;
 
     @ManyToOne
-    @JsonIgnoreProperties("schedules")
+    @JsonIgnoreProperties("")
     private Location startLocation;
 
     @ManyToOne
-    @JsonIgnoreProperties("schedules")
+    @JsonIgnoreProperties("")
     private Location endLocation;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "schedule_weekday",
-               joinColumns = @JoinColumn(name = "schedule_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "weekday_id", referencedColumnName = "id"))
+    @JoinTable(name = "schedule_weekdays",
+               joinColumns = @JoinColumn(name = "schedules_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "weekdays_id", referencedColumnName = "id"))
     private Set<Weekday> weekdays = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "schedule_vehicle_facility",
-               joinColumns = @JoinColumn(name = "schedule_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "vehicle_facility_id", referencedColumnName = "id"))
+               joinColumns = @JoinColumn(name = "schedules_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "vehicle_facilities_id", referencedColumnName = "id"))
     private Set<VehicleFacility> vehicleFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "schedule")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Trip> trips = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -151,15 +151,13 @@ public class Schedule implements Serializable {
         return this;
     }
 
-    public Schedule addWeekday(Weekday weekday) {
+    public Schedule addWeekdays(Weekday weekday) {
         this.weekdays.add(weekday);
-        weekday.getSchedules().add(this);
         return this;
     }
 
-    public Schedule removeWeekday(Weekday weekday) {
+    public Schedule removeWeekdays(Weekday weekday) {
         this.weekdays.remove(weekday);
-        weekday.getSchedules().remove(this);
         return this;
     }
 

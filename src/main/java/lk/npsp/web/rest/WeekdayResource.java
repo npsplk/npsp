@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Weekday;
 import lk.npsp.repository.WeekdayRepository;
 import lk.npsp.repository.search.WeekdaySearchRepository;
@@ -54,6 +56,7 @@ public class WeekdayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/weekdays")
+    @Timed
     public ResponseEntity<Weekday> createWeekday(@Valid @RequestBody Weekday weekday) throws URISyntaxException {
         log.debug("REST request to save Weekday : {}", weekday);
         if (weekday.getId() != null) {
@@ -76,6 +79,7 @@ public class WeekdayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/weekdays")
+    @Timed
     public ResponseEntity<Weekday> updateWeekday(@Valid @RequestBody Weekday weekday) throws URISyntaxException {
         log.debug("REST request to update Weekday : {}", weekday);
         if (weekday.getId() == null) {
@@ -95,11 +99,12 @@ public class WeekdayResource {
      * @return the ResponseEntity with status 200 (OK) and the list of weekdays in body
      */
     @GetMapping("/weekdays")
+    @Timed
     public ResponseEntity<List<Weekday>> getAllWeekdays(Pageable pageable) {
         log.debug("REST request to get a page of Weekdays");
         Page<Weekday> page = weekdayRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/weekdays");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -109,6 +114,7 @@ public class WeekdayResource {
      * @return the ResponseEntity with status 200 (OK) and with body the weekday, or with status 404 (Not Found)
      */
     @GetMapping("/weekdays/{id}")
+    @Timed
     public ResponseEntity<Weekday> getWeekday(@PathVariable Long id) {
         log.debug("REST request to get Weekday : {}", id);
         Optional<Weekday> weekday = weekdayRepository.findById(id);
@@ -122,8 +128,10 @@ public class WeekdayResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/weekdays/{id}")
+    @Timed
     public ResponseEntity<Void> deleteWeekday(@PathVariable Long id) {
         log.debug("REST request to delete Weekday : {}", id);
+
         weekdayRepository.deleteById(id);
         weekdaySearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -138,11 +146,12 @@ public class WeekdayResource {
      * @return the result of the search
      */
     @GetMapping("/_search/weekdays")
+    @Timed
     public ResponseEntity<List<Weekday>> searchWeekdays(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Weekdays for query {}", query);
         Page<Weekday> page = weekdaySearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/weekdays");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

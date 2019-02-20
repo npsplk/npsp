@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Trip;
 import lk.npsp.repository.TripRepository;
 import lk.npsp.repository.search.TripSearchRepository;
@@ -53,6 +55,7 @@ public class TripResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/trips")
+    @Timed
     public ResponseEntity<Trip> createTrip(@RequestBody Trip trip) throws URISyntaxException {
         log.debug("REST request to save Trip : {}", trip);
         if (trip.getId() != null) {
@@ -75,6 +78,7 @@ public class TripResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/trips")
+    @Timed
     public ResponseEntity<Trip> updateTrip(@RequestBody Trip trip) throws URISyntaxException {
         log.debug("REST request to update Trip : {}", trip);
         if (trip.getId() == null) {
@@ -94,11 +98,12 @@ public class TripResource {
      * @return the ResponseEntity with status 200 (OK) and the list of trips in body
      */
     @GetMapping("/trips")
+    @Timed
     public ResponseEntity<List<Trip>> getAllTrips(Pageable pageable) {
         log.debug("REST request to get a page of Trips");
         Page<Trip> page = tripRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/trips");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -108,6 +113,7 @@ public class TripResource {
      * @return the ResponseEntity with status 200 (OK) and with body the trip, or with status 404 (Not Found)
      */
     @GetMapping("/trips/{id}")
+    @Timed
     public ResponseEntity<Trip> getTrip(@PathVariable Long id) {
         log.debug("REST request to get Trip : {}", id);
         Optional<Trip> trip = tripRepository.findById(id);
@@ -121,8 +127,10 @@ public class TripResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/trips/{id}")
+    @Timed
     public ResponseEntity<Void> deleteTrip(@PathVariable Long id) {
         log.debug("REST request to delete Trip : {}", id);
+
         tripRepository.deleteById(id);
         tripSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -137,11 +145,12 @@ public class TripResource {
      * @return the result of the search
      */
     @GetMapping("/_search/trips")
+    @Timed
     public ResponseEntity<List<Trip>> searchTrips(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Trips for query {}", query);
         Page<Trip> page = tripSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/trips");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

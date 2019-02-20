@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.ParkingArea;
 import lk.npsp.repository.ParkingAreaRepository;
 import lk.npsp.repository.search.ParkingAreaSearchRepository;
@@ -54,6 +56,7 @@ public class ParkingAreaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/parking-areas")
+    @Timed
     public ResponseEntity<ParkingArea> createParkingArea(@Valid @RequestBody ParkingArea parkingArea) throws URISyntaxException {
         log.debug("REST request to save ParkingArea : {}", parkingArea);
         if (parkingArea.getId() != null) {
@@ -76,6 +79,7 @@ public class ParkingAreaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/parking-areas")
+    @Timed
     public ResponseEntity<ParkingArea> updateParkingArea(@Valid @RequestBody ParkingArea parkingArea) throws URISyntaxException {
         log.debug("REST request to update ParkingArea : {}", parkingArea);
         if (parkingArea.getId() == null) {
@@ -95,11 +99,12 @@ public class ParkingAreaResource {
      * @return the ResponseEntity with status 200 (OK) and the list of parkingAreas in body
      */
     @GetMapping("/parking-areas")
+    @Timed
     public ResponseEntity<List<ParkingArea>> getAllParkingAreas(Pageable pageable) {
         log.debug("REST request to get a page of ParkingAreas");
         Page<ParkingArea> page = parkingAreaRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/parking-areas");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -109,6 +114,7 @@ public class ParkingAreaResource {
      * @return the ResponseEntity with status 200 (OK) and with body the parkingArea, or with status 404 (Not Found)
      */
     @GetMapping("/parking-areas/{id}")
+    @Timed
     public ResponseEntity<ParkingArea> getParkingArea(@PathVariable Long id) {
         log.debug("REST request to get ParkingArea : {}", id);
         Optional<ParkingArea> parkingArea = parkingAreaRepository.findById(id);
@@ -122,8 +128,10 @@ public class ParkingAreaResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/parking-areas/{id}")
+    @Timed
     public ResponseEntity<Void> deleteParkingArea(@PathVariable Long id) {
         log.debug("REST request to delete ParkingArea : {}", id);
+
         parkingAreaRepository.deleteById(id);
         parkingAreaSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -138,11 +146,12 @@ public class ParkingAreaResource {
      * @return the result of the search
      */
     @GetMapping("/_search/parking-areas")
+    @Timed
     public ResponseEntity<List<ParkingArea>> searchParkingAreas(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of ParkingAreas for query {}", query);
         Page<ParkingArea> page = parkingAreaSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/parking-areas");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

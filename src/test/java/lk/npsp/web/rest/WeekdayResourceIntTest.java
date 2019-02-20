@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -37,6 +36,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import lk.npsp.domain.enumeration.Weekdays;
 /**
  * Test class for the WeekdayResource REST controller.
  *
@@ -46,14 +46,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = NpspApp.class)
 public class WeekdayResourceIntTest {
 
-    private static final String DEFAULT_WEEKDAY_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_WEEKDAY_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_WEEKDAY_META = "AAAAAAAAAA";
-    private static final String UPDATED_WEEKDAY_META = "BBBBBBBBBB";
+    private static final Weekdays DEFAULT_WEEKDAY = Weekdays.Sunday;
+    private static final Weekdays UPDATED_WEEKDAY = Weekdays.Monday;
 
     @Autowired
     private WeekdayRepository weekdayRepository;
+
 
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
@@ -75,9 +73,6 @@ public class WeekdayResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restWeekdayMockMvc;
 
     private Weekday weekday;
@@ -90,8 +85,7 @@ public class WeekdayResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -102,8 +96,7 @@ public class WeekdayResourceIntTest {
      */
     public static Weekday createEntity(EntityManager em) {
         Weekday weekday = new Weekday()
-            .weekdayName(DEFAULT_WEEKDAY_NAME)
-            .weekdayMeta(DEFAULT_WEEKDAY_META);
+            .weekday(DEFAULT_WEEKDAY);
         return weekday;
     }
 
@@ -127,8 +120,7 @@ public class WeekdayResourceIntTest {
         List<Weekday> weekdayList = weekdayRepository.findAll();
         assertThat(weekdayList).hasSize(databaseSizeBeforeCreate + 1);
         Weekday testWeekday = weekdayList.get(weekdayList.size() - 1);
-        assertThat(testWeekday.getWeekdayName()).isEqualTo(DEFAULT_WEEKDAY_NAME);
-        assertThat(testWeekday.getWeekdayMeta()).isEqualTo(DEFAULT_WEEKDAY_META);
+        assertThat(testWeekday.getWeekday()).isEqualTo(DEFAULT_WEEKDAY);
 
         // Validate the Weekday in Elasticsearch
         verify(mockWeekdaySearchRepository, times(1)).save(testWeekday);
@@ -158,28 +150,10 @@ public class WeekdayResourceIntTest {
 
     @Test
     @Transactional
-    public void checkWeekdayNameIsRequired() throws Exception {
+    public void checkWeekdayIsRequired() throws Exception {
         int databaseSizeBeforeTest = weekdayRepository.findAll().size();
         // set the field null
-        weekday.setWeekdayName(null);
-
-        // Create the Weekday, which fails.
-
-        restWeekdayMockMvc.perform(post("/api/weekdays")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(weekday)))
-            .andExpect(status().isBadRequest());
-
-        List<Weekday> weekdayList = weekdayRepository.findAll();
-        assertThat(weekdayList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkWeekdayMetaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = weekdayRepository.findAll().size();
-        // set the field null
-        weekday.setWeekdayMeta(null);
+        weekday.setWeekday(null);
 
         // Create the Weekday, which fails.
 
@@ -203,10 +177,10 @@ public class WeekdayResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(weekday.getId().intValue())))
-            .andExpect(jsonPath("$.[*].weekdayName").value(hasItem(DEFAULT_WEEKDAY_NAME.toString())))
-            .andExpect(jsonPath("$.[*].weekdayMeta").value(hasItem(DEFAULT_WEEKDAY_META.toString())));
+            .andExpect(jsonPath("$.[*].weekday").value(hasItem(DEFAULT_WEEKDAY.toString())));
     }
     
+
     @Test
     @Transactional
     public void getWeekday() throws Exception {
@@ -218,10 +192,8 @@ public class WeekdayResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(weekday.getId().intValue()))
-            .andExpect(jsonPath("$.weekdayName").value(DEFAULT_WEEKDAY_NAME.toString()))
-            .andExpect(jsonPath("$.weekdayMeta").value(DEFAULT_WEEKDAY_META.toString()));
+            .andExpect(jsonPath("$.weekday").value(DEFAULT_WEEKDAY.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingWeekday() throws Exception {
@@ -243,8 +215,7 @@ public class WeekdayResourceIntTest {
         // Disconnect from session so that the updates on updatedWeekday are not directly saved in db
         em.detach(updatedWeekday);
         updatedWeekday
-            .weekdayName(UPDATED_WEEKDAY_NAME)
-            .weekdayMeta(UPDATED_WEEKDAY_META);
+            .weekday(UPDATED_WEEKDAY);
 
         restWeekdayMockMvc.perform(put("/api/weekdays")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -255,8 +226,7 @@ public class WeekdayResourceIntTest {
         List<Weekday> weekdayList = weekdayRepository.findAll();
         assertThat(weekdayList).hasSize(databaseSizeBeforeUpdate);
         Weekday testWeekday = weekdayList.get(weekdayList.size() - 1);
-        assertThat(testWeekday.getWeekdayName()).isEqualTo(UPDATED_WEEKDAY_NAME);
-        assertThat(testWeekday.getWeekdayMeta()).isEqualTo(UPDATED_WEEKDAY_META);
+        assertThat(testWeekday.getWeekday()).isEqualTo(UPDATED_WEEKDAY);
 
         // Validate the Weekday in Elasticsearch
         verify(mockWeekdaySearchRepository, times(1)).save(testWeekday);
@@ -269,7 +239,7 @@ public class WeekdayResourceIntTest {
 
         // Create the Weekday
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restWeekdayMockMvc.perform(put("/api/weekdays")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(weekday)))
@@ -291,7 +261,7 @@ public class WeekdayResourceIntTest {
 
         int databaseSizeBeforeDelete = weekdayRepository.findAll().size();
 
-        // Delete the weekday
+        // Get the weekday
         restWeekdayMockMvc.perform(delete("/api/weekdays/{id}", weekday.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -316,8 +286,7 @@ public class WeekdayResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(weekday.getId().intValue())))
-            .andExpect(jsonPath("$.[*].weekdayName").value(hasItem(DEFAULT_WEEKDAY_NAME)))
-            .andExpect(jsonPath("$.[*].weekdayMeta").value(hasItem(DEFAULT_WEEKDAY_META)));
+            .andExpect(jsonPath("$.[*].weekday").value(hasItem(DEFAULT_WEEKDAY.toString())));
     }
 
     @Test

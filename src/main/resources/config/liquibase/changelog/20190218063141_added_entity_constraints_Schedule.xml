@@ -26,25 +26,25 @@
                                  referencedColumnNames="id"
                                  referencedTableName="location"/>
 
-        <addForeignKeyConstraint baseColumnNames="schedule_id"
-                                 baseTableName="schedule_weekday"
-                                 constraintName="fk_schedule_weekday_schedule_id"
+        <addForeignKeyConstraint baseColumnNames="schedules_id"
+                                 baseTableName="schedule_weekdays"
+                                 constraintName="fk_schedule_weekdays_schedules_id"
                                  referencedColumnNames="id"
                                  referencedTableName="schedule"/>
-        <addForeignKeyConstraint baseColumnNames="weekday_id"
-                                 baseTableName="schedule_weekday"
-                                 constraintName="fk_schedule_weekday_weekday_id"
+        <addForeignKeyConstraint baseColumnNames="weekdays_id"
+                                 baseTableName="schedule_weekdays"
+                                 constraintName="fk_schedule_weekdays_weekdays_id"
                                  referencedColumnNames="id"
                                  referencedTableName="weekday"/>
         
-        <addForeignKeyConstraint baseColumnNames="schedule_id"
+        <addForeignKeyConstraint baseColumnNames="schedules_id"
                                  baseTableName="schedule_vehicle_facility"
-                                 constraintName="fk_schedule_vehicle_facility_schedule_id"
+                                 constraintName="fk_schedule_vehicle_facility_schedules_id"
                                  referencedColumnNames="id"
                                  referencedTableName="schedule"/>
-        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id"
+        <addForeignKeyConstraint baseColumnNames="vehicle_facilities_id"
                                  baseTableName="schedule_vehicle_facility"
-                                 constraintName="fk_schedule_vehicle_facility_vehicle_facility_id"
+                                 constraintName="fk_schedule_vehicle_facility_vehicle_facilities_id"
                                  referencedColumnNames="id"
                                  referencedTableName="vehicle_facility"/>
         

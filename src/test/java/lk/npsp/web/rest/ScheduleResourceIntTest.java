@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -58,7 +57,6 @@ public class ScheduleResourceIntTest {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
-
     @Mock
     private ScheduleRepository scheduleRepositoryMock;
 
@@ -82,9 +80,6 @@ public class ScheduleResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restScheduleMockMvc;
 
     private Schedule schedule;
@@ -97,8 +92,7 @@ public class ScheduleResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -214,7 +208,6 @@ public class ScheduleResourceIntTest {
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())));
     }
     
-    @SuppressWarnings({"unchecked"})
     public void getAllSchedulesWithEagerRelationshipsIsEnabled() throws Exception {
         ScheduleResource scheduleResource = new ScheduleResource(scheduleRepositoryMock, mockScheduleSearchRepository);
         when(scheduleRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -231,7 +224,6 @@ public class ScheduleResourceIntTest {
         verify(scheduleRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({"unchecked"})
     public void getAllSchedulesWithEagerRelationshipsIsNotEnabled() throws Exception {
         ScheduleResource scheduleResource = new ScheduleResource(scheduleRepositoryMock, mockScheduleSearchRepository);
             when(scheduleRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -261,7 +253,6 @@ public class ScheduleResourceIntTest {
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.toString()))
             .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingSchedule() throws Exception {
@@ -309,7 +300,7 @@ public class ScheduleResourceIntTest {
 
         // Create the Schedule
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restScheduleMockMvc.perform(put("/api/schedules")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(schedule)))
@@ -331,7 +322,7 @@ public class ScheduleResourceIntTest {
 
         int databaseSizeBeforeDelete = scheduleRepository.findAll().size();
 
-        // Delete the schedule
+        // Get the schedule
         restScheduleMockMvc.perform(delete("/api/schedules/{id}", schedule.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());

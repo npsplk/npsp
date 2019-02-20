@@ -1,7 +1,5 @@
 package lk.npsp.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -10,9 +8,9 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+
+import lk.npsp.domain.enumeration.Weekdays;
 
 /**
  * A Weekday.
@@ -24,23 +22,15 @@ import java.util.Objects;
 public class Weekday implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Column(name = "weekday_name", nullable = false)
-    private String weekdayName;
-
-    @NotNull
-    @Column(name = "weekday_meta", nullable = false)
-    private String weekdayMeta;
-
-    @ManyToMany(mappedBy = "weekdays")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
-    private Set<Schedule> schedules = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    @Column(name = "weekday", nullable = false)
+    private Weekdays weekday;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -51,55 +41,17 @@ public class Weekday implements Serializable {
         this.id = id;
     }
 
-    public String getWeekdayName() {
-        return weekdayName;
+    public Weekdays getWeekday() {
+        return weekday;
     }
 
-    public Weekday weekdayName(String weekdayName) {
-        this.weekdayName = weekdayName;
+    public Weekday weekday(Weekdays weekday) {
+        this.weekday = weekday;
         return this;
     }
 
-    public void setWeekdayName(String weekdayName) {
-        this.weekdayName = weekdayName;
-    }
-
-    public String getWeekdayMeta() {
-        return weekdayMeta;
-    }
-
-    public Weekday weekdayMeta(String weekdayMeta) {
-        this.weekdayMeta = weekdayMeta;
-        return this;
-    }
-
-    public void setWeekdayMeta(String weekdayMeta) {
-        this.weekdayMeta = weekdayMeta;
-    }
-
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public Weekday schedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-        return this;
-    }
-
-    public Weekday addSchedule(Schedule schedule) {
-        this.schedules.add(schedule);
-        schedule.getWeekdays().add(this);
-        return this;
-    }
-
-    public Weekday removeSchedule(Schedule schedule) {
-        this.schedules.remove(schedule);
-        schedule.getWeekdays().remove(this);
-        return this;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
+    public void setWeekday(Weekdays weekday) {
+        this.weekday = weekday;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -127,8 +79,7 @@ public class Weekday implements Serializable {
     public String toString() {
         return "Weekday{" +
             "id=" + getId() +
-            ", weekdayName='" + getWeekdayName() + "'" +
-            ", weekdayMeta='" + getWeekdayMeta() + "'" +
+            ", weekday='" + getWeekday() + "'" +
             "}";
     }
 }

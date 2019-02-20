@@ -21,27 +21,24 @@
             "relationshipType": "many-to-one",
             "relationshipName": "route",
             "otherEntityName": "route",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "schedule"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "startLocation",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "schedule"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "endLocation",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "schedule"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "schedule",
-            "relationshipName": "weekday",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "weekdays",
             "otherEntityName": "weekday",
             "otherEntityField": "id",
             "ownerSide": true

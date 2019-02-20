@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Location;
 import lk.npsp.repository.LocationRepository;
 import lk.npsp.repository.search.LocationSearchRepository;
@@ -53,6 +55,7 @@ public class LocationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/locations")
+    @Timed
     public ResponseEntity<Location> createLocation(@RequestBody Location location) throws URISyntaxException {
         log.debug("REST request to save Location : {}", location);
         if (location.getId() != null) {
@@ -75,6 +78,7 @@ public class LocationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/locations")
+    @Timed
     public ResponseEntity<Location> updateLocation(@RequestBody Location location) throws URISyntaxException {
         log.debug("REST request to update Location : {}", location);
         if (location.getId() == null) {
@@ -94,11 +98,12 @@ public class LocationResource {
      * @return the ResponseEntity with status 200 (OK) and the list of locations in body
      */
     @GetMapping("/locations")
+    @Timed
     public ResponseEntity<List<Location>> getAllLocations(Pageable pageable) {
         log.debug("REST request to get a page of Locations");
         Page<Location> page = locationRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/locations");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -108,6 +113,7 @@ public class LocationResource {
      * @return the ResponseEntity with status 200 (OK) and with body the location, or with status 404 (Not Found)
      */
     @GetMapping("/locations/{id}")
+    @Timed
     public ResponseEntity<Location> getLocation(@PathVariable Long id) {
         log.debug("REST request to get Location : {}", id);
         Optional<Location> location = locationRepository.findById(id);
@@ -121,8 +127,10 @@ public class LocationResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/locations/{id}")
+    @Timed
     public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
         log.debug("REST request to delete Location : {}", id);
+
         locationRepository.deleteById(id);
         locationSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -137,11 +145,12 @@ public class LocationResource {
      * @return the result of the search
      */
     @GetMapping("/_search/locations")
+    @Timed
     public ResponseEntity<List<Location>> searchLocations(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Locations for query {}", query);
         Page<Location> page = locationSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/locations");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

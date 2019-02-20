@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.Vehicle;
 import lk.npsp.repository.VehicleRepository;
 import lk.npsp.repository.search.VehicleSearchRepository;
@@ -54,6 +56,7 @@ public class VehicleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/vehicles")
+    @Timed
     public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle) throws URISyntaxException {
         log.debug("REST request to save Vehicle : {}", vehicle);
         if (vehicle.getId() != null) {
@@ -76,6 +79,7 @@ public class VehicleResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/vehicles")
+    @Timed
     public ResponseEntity<Vehicle> updateVehicle(@Valid @RequestBody Vehicle vehicle) throws URISyntaxException {
         log.debug("REST request to update Vehicle : {}", vehicle);
         if (vehicle.getId() == null) {
@@ -96,6 +100,7 @@ public class VehicleResource {
      * @return the ResponseEntity with status 200 (OK) and the list of vehicles in body
      */
     @GetMapping("/vehicles")
+    @Timed
     public ResponseEntity<List<Vehicle>> getAllVehicles(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Vehicles");
         Page<Vehicle> page;
@@ -105,7 +110,7 @@ public class VehicleResource {
             page = vehicleRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/vehicles?eagerload=%b", eagerload));
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -115,6 +120,7 @@ public class VehicleResource {
      * @return the ResponseEntity with status 200 (OK) and with body the vehicle, or with status 404 (Not Found)
      */
     @GetMapping("/vehicles/{id}")
+    @Timed
     public ResponseEntity<Vehicle> getVehicle(@PathVariable Long id) {
         log.debug("REST request to get Vehicle : {}", id);
         Optional<Vehicle> vehicle = vehicleRepository.findOneWithEagerRelationships(id);
@@ -128,8 +134,10 @@ public class VehicleResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/vehicles/{id}")
+    @Timed
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         log.debug("REST request to delete Vehicle : {}", id);
+
         vehicleRepository.deleteById(id);
         vehicleSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -144,11 +152,12 @@ public class VehicleResource {
      * @return the result of the search
      */
     @GetMapping("/_search/vehicles")
+    @Timed
     public ResponseEntity<List<Vehicle>> searchVehicles(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Vehicles for query {}", query);
         Page<Vehicle> page = vehicleSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/vehicles");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

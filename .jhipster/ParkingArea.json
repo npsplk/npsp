@@ -14,8 +14,7 @@
             "relationshipType": "many-to-one",
             "relationshipName": "location",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "parkingArea"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "one-to-many",

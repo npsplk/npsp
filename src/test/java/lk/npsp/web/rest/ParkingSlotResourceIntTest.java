@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -52,6 +51,7 @@ public class ParkingSlotResourceIntTest {
     @Autowired
     private ParkingSlotRepository parkingSlotRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -72,9 +72,6 @@ public class ParkingSlotResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restParkingSlotMockMvc;
 
     private ParkingSlot parkingSlot;
@@ -87,8 +84,7 @@ public class ParkingSlotResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -165,6 +161,7 @@ public class ParkingSlotResourceIntTest {
             .andExpect(jsonPath("$.[*].slotNumber").value(hasItem(DEFAULT_SLOT_NUMBER.toString())));
     }
     
+
     @Test
     @Transactional
     public void getParkingSlot() throws Exception {
@@ -178,7 +175,6 @@ public class ParkingSlotResourceIntTest {
             .andExpect(jsonPath("$.id").value(parkingSlot.getId().intValue()))
             .andExpect(jsonPath("$.slotNumber").value(DEFAULT_SLOT_NUMBER.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingParkingSlot() throws Exception {
@@ -224,7 +220,7 @@ public class ParkingSlotResourceIntTest {
 
         // Create the ParkingSlot
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restParkingSlotMockMvc.perform(put("/api/parking-slots")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(parkingSlot)))
@@ -246,7 +242,7 @@ public class ParkingSlotResourceIntTest {
 
         int databaseSizeBeforeDelete = parkingSlotRepository.findAll().size();
 
-        // Delete the parkingSlot
+        // Get the parkingSlot
         restParkingSlotMockMvc.perform(delete("/api/parking-slots/{id}", parkingSlot.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -271,7 +267,7 @@ public class ParkingSlotResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(parkingSlot.getId().intValue())))
-            .andExpect(jsonPath("$.[*].slotNumber").value(hasItem(DEFAULT_SLOT_NUMBER)));
+            .andExpect(jsonPath("$.[*].slotNumber").value(hasItem(DEFAULT_SLOT_NUMBER.toString())));
     }
 
     @Test

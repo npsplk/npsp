@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
@@ -25,7 +24,7 @@ import java.util.Objects;
 public class Vehicle implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,19 +42,20 @@ public class Vehicle implements Serializable {
     private VehicleOwner owner;
 
     @ManyToOne
-    @JsonIgnoreProperties("vehicles")
+    @JsonIgnoreProperties("")
     private TransportType transportType;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "vehicle_vehicle_facility",
-               joinColumns = @JoinColumn(name = "vehicle_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "vehicle_facility_id", referencedColumnName = "id"))
+               joinColumns = @JoinColumn(name = "vehicles_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "vehicle_facilities_id", referencedColumnName = "id"))
     private Set<VehicleFacility> vehicleFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "vehicle")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Trip> trips = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

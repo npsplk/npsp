@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -23,7 +22,7 @@ import java.util.Objects;
 public class Trip implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,6 +36,7 @@ public class Trip implements Serializable {
     @Column(name = "end_time")
     private Instant endTime;
 
+    @Lob
     @Column(name = "special_notes")
     private String specialNotes;
 
@@ -49,7 +49,7 @@ public class Trip implements Serializable {
     private Schedule schedule;
 
     @ManyToOne
-    @JsonIgnoreProperties("trips")
+    @JsonIgnoreProperties("")
     private ParkingSlot parkingSlot;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

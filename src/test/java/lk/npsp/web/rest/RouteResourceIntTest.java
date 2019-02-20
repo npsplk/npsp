@@ -23,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -53,7 +52,6 @@ public class RouteResourceIntTest {
 
     @Autowired
     private RouteRepository routeRepository;
-
     @Mock
     private RouteRepository routeRepositoryMock;
 
@@ -77,9 +75,6 @@ public class RouteResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restRouteMockMvc;
 
     private Route route;
@@ -92,8 +87,7 @@ public class RouteResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -170,7 +164,6 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())));
     }
     
-    @SuppressWarnings({"unchecked"})
     public void getAllRoutesWithEagerRelationshipsIsEnabled() throws Exception {
         RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
         when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -187,7 +180,6 @@ public class RouteResourceIntTest {
         verify(routeRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({"unchecked"})
     public void getAllRoutesWithEagerRelationshipsIsNotEnabled() throws Exception {
         RouteResource routeResource = new RouteResource(routeRepositoryMock, mockRouteSearchRepository);
             when(routeRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -216,7 +208,6 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.id").value(route.getId().intValue()))
             .andExpect(jsonPath("$.routeName").value(DEFAULT_ROUTE_NAME.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingRoute() throws Exception {
@@ -262,7 +253,7 @@ public class RouteResourceIntTest {
 
         // Create the Route
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restRouteMockMvc.perform(put("/api/routes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(route)))
@@ -284,7 +275,7 @@ public class RouteResourceIntTest {
 
         int databaseSizeBeforeDelete = routeRepository.findAll().size();
 
-        // Delete the route
+        // Get the route
         restRouteMockMvc.perform(delete("/api/routes/{id}", route.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -309,7 +300,7 @@ public class RouteResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(route.getId().intValue())))
-            .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME)));
+            .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())));
     }
 
     @Test

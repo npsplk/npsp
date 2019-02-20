@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -23,7 +22,7 @@ import java.util.Objects;
 public class Route implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,18 +31,18 @@ public class Route implements Serializable {
     private String routeName;
 
     @ManyToOne
-    @JsonIgnoreProperties("routes")
+    @JsonIgnoreProperties("")
     private Location startLocation;
 
     @ManyToOne
-    @JsonIgnoreProperties("routes")
+    @JsonIgnoreProperties("")
     private Location endLocation;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "route_location",
-               joinColumns = @JoinColumn(name = "route_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "location_id", referencedColumnName = "id"))
+               joinColumns = @JoinColumn(name = "routes_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "locations_id", referencedColumnName = "id"))
     private Set<Location> locations = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
