@@ -3,18 +3,13 @@ services:
     npsp-app:
         image: npsp
         environment:
-            # - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - _JAVA_OPTIONS=-Xmx512m -Xms256m
             - SPRING_PROFILES_ACTIVE=prod,swagger
             - SPRING_DATASOURCE_URL=jdbc:mysql://npsp-mysql:3306/npsp?useUnicode=true&characterEncoding=utf8&useSSL=false
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
-            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=npsp-elasticsearch:9300
         ports:
             - 8080:8080
     npsp-mysql:
         extends:
             file: mysql.yml
             service: npsp-mysql
-    npsp-elasticsearch:
-        extends:
-            file: elasticsearch.yml
-            service: npsp-elasticsearch

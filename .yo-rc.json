@@ -1,10 +1,9 @@
 {
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "lk.npsp",
-      "nativeLanguage": "en"
+      "packageName": "lk.npsp"
     },
-    "jhipsterVersion": "5.2.1",
+    "jhipsterVersion": "5.8.1",
     "applicationType": "monolith",
     "baseName": "npsp",
     "packageName": "lk.npsp",
@@ -12,26 +11,24 @@
     "serverPort": "8080",
     "authenticationType": "jwt",
     "cacheProvider": "ehcache",
-    "enableHibernateCache": true,
+    "enableHibernateCache": false,
     "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "prodDatabaseType": "mysql",
-    "searchEngine": "elasticsearch",
+    "searchEngine": false,
     "messageBroker": false,
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "fa4d7c6d45b2fcd93fd687864b91b39efa65c111",
-    "enableTranslation": true,
+    "jwtSecretKey": "YWVhNzVmODE2NWMxYzdjNDI4ZGQ3NTJkNWRiNWU0ZDYzMDU2M2JmMzc5M2YxNWEzNzU2ZTJkNWEzZTRjM2VlNTY3YzA1ODc0ZWVkYmQxMGE4M2Y2ZTA3N2QwMjlkMGMzMmE0MmIzZjViYzMxODViYTM0ZWVjMjY0YzEzYmU5ZDc=",
     "testFrameworks": [],
     "jhiPrefix": "jhi",
-    "clientPackageManager": "yarn",
-    "nativeLanguage": "en",
-    "languages": [
-      "en"
-    ],
-    "skipClient": true,
-    "skipUserManagement": false
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "skipClient": true
   }
 }

@@ -1,16 +1,16 @@
 {
-  "name": "npsp",
-  "version": "0.0.0",
-  "description": "Description for npsp",
-  "private": true,
-  "license": "UNLICENSED",
-  "cacheDirectories": [
-    "node_modules"
-  ],
-  "devDependencies": {
-    "generator-jhipster": "5.2.1"
-  },
-  "engines": {
-    "node": ">=8.9.0"
-  }
+    "name": "npsp",
+    "version": "0.0.0",
+    "description": "Description for npsp",
+    "private": true,
+    "license": "UNLICENSED",
+    "cacheDirectories": [
+        "node_modules"
+    ],
+    "devDependencies": {
+        "generator-jhipster": "5.8.1"
+    },
+    "engines": {
+        "node": ">=8.9.0"
+    }
 }

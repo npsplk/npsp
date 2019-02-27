@@ -5,7 +5,6 @@ import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
 
-import io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory;
 import io.github.jhipster.config.JHipsterProperties;
 
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
@@ -19,7 +18,6 @@ public class CacheConfiguration {
     private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
     public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-        BeanClassLoaderAwareJCacheRegionFactory.setBeanClassLoader(this.getClass().getClassLoader());
         JHipsterProperties.Cache.Ehcache ehcache =
             jHipsterProperties.getCache().getEhcache();
 
@@ -35,24 +33,6 @@ public class CacheConfiguration {
         return cm -> {
             cm.createCache(lk.npsp.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
             cm.createCache(lk.npsp.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.User.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Authority.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Route.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Route.class.getName() + ".routeLocations", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.RouteLocation.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Location.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.VehicleFacility.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Vehicle.class.getName() + ".vehicleFacilities", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Driver.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ScheduleTemplate.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ScheduleTemplate.class.getName() + ".weekdays", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ScheduleTemplate.class.getName() + ".vehicleFacilities", jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.ScheduleInstance.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.LocationType.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.TransportType.class.getName(), jcacheConfiguration);
-            cm.createCache(lk.npsp.domain.Weekday.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
