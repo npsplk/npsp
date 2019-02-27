@@ -1,28 +1,40 @@
 {
-    "name": "VehicleFacility",
+    "name": "Driver",
     "fields": [
         {
-            "fieldName": "facilityName",
+            "fieldName": "driverName",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "facilityMeta",
+            "fieldName": "contactNumber",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "description",
+            "fieldName": "dateOfBirth",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "address",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "licenseNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "licenseExpiryDate",
+            "fieldType": "Instant"
         }
     ],
     "relationships": [],
-    "changelogDate": "20190218063138",
-    "entityTableName": "vehicle_facility",
+    "changelogDate": "20190227083909",
+    "entityTableName": "driver",
     "dto": "no",
     "pagination": "pagination",
     "service": "no",

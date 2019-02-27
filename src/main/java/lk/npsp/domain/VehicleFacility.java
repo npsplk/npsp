@@ -1,6 +1,7 @@
 package lk.npsp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,8 +10,6 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -38,16 +37,6 @@ public class VehicleFacility implements Serializable {
 
     @Column(name = "description")
     private String description;
-
-    @ManyToMany(mappedBy = "vehicleFacilities")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Vehicle> vehicles = new HashSet<>();
-
-    @ManyToMany(mappedBy = "vehicleFacilities")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Schedule> schedules = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -95,56 +84,6 @@ public class VehicleFacility implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public VehicleFacility vehicles(Set<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-        return this;
-    }
-
-    public VehicleFacility addVehicle(Vehicle vehicle) {
-        this.vehicles.add(vehicle);
-        vehicle.getVehicleFacilities().add(this);
-        return this;
-    }
-
-    public VehicleFacility removeVehicle(Vehicle vehicle) {
-        this.vehicles.remove(vehicle);
-        vehicle.getVehicleFacilities().remove(this);
-        return this;
-    }
-
-    public void setVehicles(Set<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public VehicleFacility schedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-        return this;
-    }
-
-    public VehicleFacility addSchedule(Schedule schedule) {
-        this.schedules.add(schedule);
-        schedule.getVehicleFacilities().add(this);
-        return this;
-    }
-
-    public VehicleFacility removeSchedule(Schedule schedule) {
-        this.schedules.remove(schedule);
-        schedule.getVehicleFacilities().remove(this);
-        return this;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

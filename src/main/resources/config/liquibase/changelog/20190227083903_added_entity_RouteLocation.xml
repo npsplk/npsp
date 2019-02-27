@@ -15,42 +15,27 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Vehicle.
+        Added the entity RouteLocation.
     -->
-    <changeSet id="20190218063139-1" author="jhipster">
-        <createTable tableName="vehicle">
+    <changeSet id="20190227083903-1" author="jhipster">
+        <createTable tableName="route_location">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="registration_number" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="number_of_seats" type="integer">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="transport_type_id" type="bigint">
+            <column name="sequence_number" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="driver_id" type="bigint">
+            <column name="location_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="route_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
-        <createTable tableName="vehicle_vehicle_facility">
-            <column name="vehicle_facilities_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="vehicles_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="vehicles_id, vehicle_facilities_id" tableName="vehicle_vehicle_facility"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

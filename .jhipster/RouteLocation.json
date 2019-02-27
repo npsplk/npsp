@@ -20,7 +20,7 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20190220082929",
+    "changelogDate": "20190227083903",
     "entityTableName": "route_location",
     "dto": "no",
     "pagination": "pagination",

@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,8 +8,6 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -40,10 +37,6 @@ public class Location implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("")
     private LocationType locationType;
-
-    @OneToMany(mappedBy = "location")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ParkingArea> parkingAreas = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -104,31 +97,6 @@ public class Location implements Serializable {
 
     public void setLocationType(LocationType locationType) {
         this.locationType = locationType;
-    }
-
-    public Set<ParkingArea> getParkingAreas() {
-        return parkingAreas;
-    }
-
-    public Location parkingAreas(Set<ParkingArea> parkingAreas) {
-        this.parkingAreas = parkingAreas;
-        return this;
-    }
-
-    public Location addParkingArea(ParkingArea parkingArea) {
-        this.parkingAreas.add(parkingArea);
-        parkingArea.setLocation(this);
-        return this;
-    }
-
-    public Location removeParkingArea(ParkingArea parkingArea) {
-        this.parkingAreas.remove(parkingArea);
-        parkingArea.setLocation(null);
-        return this;
-    }
-
-    public void setParkingAreas(Set<ParkingArea> parkingAreas) {
-        this.parkingAreas = parkingAreas;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

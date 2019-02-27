@@ -1,0 +1,55 @@
+{
+    "name": "ScheduleInstance",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "scheduledTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "actualScheduledTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "actualDepartureTime",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "specialNotes",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "vehicle",
+            "otherEntityName": "vehicle",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityName": "scheduleTemplate",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "driver",
+            "otherEntityName": "driver",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190227083911",
+    "entityTableName": "schedule_instance",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

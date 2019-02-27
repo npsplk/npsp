@@ -1,16 +1,16 @@
 {
-    "name": "Vehicle",
+    "name": "ScheduleTemplate",
     "fields": [
         {
-            "fieldName": "registrationNumber",
-            "fieldType": "String",
+            "fieldName": "startTime",
+            "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "numberOfSeats",
-            "fieldType": "Integer",
+            "fieldName": "endTime",
+            "fieldType": "Instant",
             "fieldValidateRules": [
                 "required"
             ]
@@ -19,15 +19,17 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "transportType",
-            "otherEntityName": "transportType",
+            "relationshipName": "route",
+            "otherEntityName": "route",
             "otherEntityField": "id"
         },
         {
-            "relationshipType": "many-to-one",
-            "relationshipName": "driver",
-            "otherEntityName": "driver",
-            "otherEntityField": "id"
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "weekdays",
+            "otherEntityName": "weekday",
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
@@ -38,8 +40,8 @@
             "ownerSide": true
         }
     ],
-    "changelogDate": "20190218063139",
-    "entityTableName": "vehicle",
+    "changelogDate": "20190227083910",
+    "entityTableName": "schedule_template",
     "dto": "no",
     "pagination": "pagination",
     "service": "no",

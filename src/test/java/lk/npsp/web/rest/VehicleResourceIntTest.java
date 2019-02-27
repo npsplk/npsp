@@ -47,8 +47,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = NpspApp.class)
 public class VehicleResourceIntTest {
 
-    private static final String DEFAULT_NUMBER_PLATE = "AAAAAAAAAA";
-    private static final String UPDATED_NUMBER_PLATE = "BBBBBBBBBB";
+    private static final String DEFAULT_REGISTRATION_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_REGISTRATION_NUMBER = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_NUMBER_OF_SEATS = 1;
     private static final Integer UPDATED_NUMBER_OF_SEATS = 2;
@@ -101,7 +101,7 @@ public class VehicleResourceIntTest {
      */
     public static Vehicle createEntity(EntityManager em) {
         Vehicle vehicle = new Vehicle()
-            .numberPlate(DEFAULT_NUMBER_PLATE)
+            .registrationNumber(DEFAULT_REGISTRATION_NUMBER)
             .numberOfSeats(DEFAULT_NUMBER_OF_SEATS);
         return vehicle;
     }
@@ -126,7 +126,7 @@ public class VehicleResourceIntTest {
         List<Vehicle> vehicleList = vehicleRepository.findAll();
         assertThat(vehicleList).hasSize(databaseSizeBeforeCreate + 1);
         Vehicle testVehicle = vehicleList.get(vehicleList.size() - 1);
-        assertThat(testVehicle.getNumberPlate()).isEqualTo(DEFAULT_NUMBER_PLATE);
+        assertThat(testVehicle.getRegistrationNumber()).isEqualTo(DEFAULT_REGISTRATION_NUMBER);
         assertThat(testVehicle.getNumberOfSeats()).isEqualTo(DEFAULT_NUMBER_OF_SEATS);
 
         // Validate the Vehicle in Elasticsearch
@@ -157,10 +157,10 @@ public class VehicleResourceIntTest {
 
     @Test
     @Transactional
-    public void checkNumberPlateIsRequired() throws Exception {
+    public void checkRegistrationNumberIsRequired() throws Exception {
         int databaseSizeBeforeTest = vehicleRepository.findAll().size();
         // set the field null
-        vehicle.setNumberPlate(null);
+        vehicle.setRegistrationNumber(null);
 
         // Create the Vehicle, which fails.
 
@@ -202,7 +202,7 @@ public class VehicleResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicle.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numberPlate").value(hasItem(DEFAULT_NUMBER_PLATE.toString())))
+            .andExpect(jsonPath("$.[*].registrationNumber").value(hasItem(DEFAULT_REGISTRATION_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].numberOfSeats").value(hasItem(DEFAULT_NUMBER_OF_SEATS)));
     }
     
@@ -248,7 +248,7 @@ public class VehicleResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(vehicle.getId().intValue()))
-            .andExpect(jsonPath("$.numberPlate").value(DEFAULT_NUMBER_PLATE.toString()))
+            .andExpect(jsonPath("$.registrationNumber").value(DEFAULT_REGISTRATION_NUMBER.toString()))
             .andExpect(jsonPath("$.numberOfSeats").value(DEFAULT_NUMBER_OF_SEATS));
     }
     @Test
@@ -272,7 +272,7 @@ public class VehicleResourceIntTest {
         // Disconnect from session so that the updates on updatedVehicle are not directly saved in db
         em.detach(updatedVehicle);
         updatedVehicle
-            .numberPlate(UPDATED_NUMBER_PLATE)
+            .registrationNumber(UPDATED_REGISTRATION_NUMBER)
             .numberOfSeats(UPDATED_NUMBER_OF_SEATS);
 
         restVehicleMockMvc.perform(put("/api/vehicles")
@@ -284,7 +284,7 @@ public class VehicleResourceIntTest {
         List<Vehicle> vehicleList = vehicleRepository.findAll();
         assertThat(vehicleList).hasSize(databaseSizeBeforeUpdate);
         Vehicle testVehicle = vehicleList.get(vehicleList.size() - 1);
-        assertThat(testVehicle.getNumberPlate()).isEqualTo(UPDATED_NUMBER_PLATE);
+        assertThat(testVehicle.getRegistrationNumber()).isEqualTo(UPDATED_REGISTRATION_NUMBER);
         assertThat(testVehicle.getNumberOfSeats()).isEqualTo(UPDATED_NUMBER_OF_SEATS);
 
         // Validate the Vehicle in Elasticsearch
@@ -345,7 +345,7 @@ public class VehicleResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicle.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numberPlate").value(hasItem(DEFAULT_NUMBER_PLATE.toString())))
+            .andExpect(jsonPath("$.[*].registrationNumber").value(hasItem(DEFAULT_REGISTRATION_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].numberOfSeats").value(hasItem(DEFAULT_NUMBER_OF_SEATS)));
     }
 
