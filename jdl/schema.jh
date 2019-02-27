@@ -2,18 +2,14 @@ entity Route {
 	routeName String
 }
 
+entity RouteLocation{
+	sequenceNumber Long
+}
+
 entity Location {
 	locationName String
 	longitude Double
     latitude Double
-}
-
-entity ParkingArea{
-	areaName String required
-}
-
-entity ParkingSlot{
-	slotNumber String
 }
 
 entity LocationType {
@@ -34,25 +30,30 @@ entity VehicleFacility{
 }
 
 entity Vehicle{
-	numberPlate String required
+	registrationNumber String required
     numberOfSeats Integer required
 }
 
-entity VehicleOwner{
-	ownerName String required
+entity Driver{
+	driverName String required
     contactNumber String required
+    dateOfBirth LocalDate
     address String
+    licenseNumber String
+    licenseExpiryDate Instant
+    dateOfBirth LocalDate
 }
 
-entity Schedule{
+entity ScheduleTemplate{
 	startTime Instant required
     endTime Instant required
 }
 
-entity Trip{
-	startDate LocalDate
-	startTime Instant
-    endTime Instant
+entity ScheduleInstance{
+	date LocalDate
+	scheduledTime Instant
+    actualScheduledTime Instant
+    actualDepartureTime Instant
     specialNotes TextBlob
 }
 
@@ -71,26 +72,21 @@ Saturday
 }
 
 relationship ManyToOne{
-	Route{startLocation} to Location
-    Route{endLocation} to Location
     Location{locationType} to LocationType
-    Schedule{route} to Route
-    Schedule{startLocation} to Location
-    Schedule{endLocation} to Location
-    Vehicle{owner} to VehicleOwner{vehicle}
+    RouteLocation{location} to Location
+    RouteLocation{route} to Route{routeLocation}
+    ScheduleTemplate{route} to Route
     Vehicle{transportType} to TransportType
-    Trip{vehicle} to Vehicle{trip}
-    Trip{schedule} to Schedule{trip}
-    ParkingArea{location} to Location{parkingArea}
-    ParkingSlot{parkingArea} to ParkingArea{parkingSlot}
-    Trip{parkingSlot} to ParkingSlot
+    ScheduleInstance{vehicle} to Vehicle
+    ScheduleInstance{scheduleTemplate} to ScheduleTemplate
+    Vehicle{driver} to Driver
+    ScheduleInstance{driver} to Driver
 }
 
 relationship ManyToMany{
-	Route{location} to Location{route}
-    Schedule{weekdays} to Weekday
-    Vehicle{vehicleFacility} to VehicleFacility{vehicle}
-    Schedule{vehicleFacility} to VehicleFacility{schedule}
+    ScheduleTemplate{weekdays} to Weekday
+    Vehicle{vehicleFacility} to VehicleFacility
+    ScheduleTemplate{vehicleFacility} to VehicleFacility
 }
 
 paginate all with pagination

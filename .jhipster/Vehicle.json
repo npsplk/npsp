@@ -2,7 +2,7 @@
     "name": "Vehicle",
     "fields": [
         {
-            "fieldName": "numberPlate",
+            "fieldName": "registrationNumber",
             "fieldType": "String",
             "fieldValidateRules": [
                 "required"
@@ -19,29 +19,23 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "owner",
-            "otherEntityName": "vehicleOwner",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
             "relationshipName": "transportType",
             "otherEntityName": "transportType",
             "otherEntityField": "id"
         },
         {
+            "relationshipType": "many-to-one",
+            "relationshipName": "driver",
+            "otherEntityName": "driver",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "vehicle",
+            "otherEntityRelationshipName": "",
             "relationshipName": "vehicleFacility",
             "otherEntityName": "vehicleFacility",
             "otherEntityField": "id",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "trip",
-            "otherEntityName": "trip",
-            "otherEntityRelationshipName": "vehicle"
         }
     ],
     "changelogDate": "20190218063139",

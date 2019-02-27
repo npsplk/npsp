@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.TransportType;
 import lk.npsp.repository.TransportTypeRepository;
 import lk.npsp.repository.search.TransportTypeSearchRepository;
@@ -54,6 +56,7 @@ public class TransportTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/transport-types")
+    @Timed
     public ResponseEntity<TransportType> createTransportType(@Valid @RequestBody TransportType transportType) throws URISyntaxException {
         log.debug("REST request to save TransportType : {}", transportType);
         if (transportType.getId() != null) {
@@ -76,6 +79,7 @@ public class TransportTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/transport-types")
+    @Timed
     public ResponseEntity<TransportType> updateTransportType(@Valid @RequestBody TransportType transportType) throws URISyntaxException {
         log.debug("REST request to update TransportType : {}", transportType);
         if (transportType.getId() == null) {
@@ -95,11 +99,12 @@ public class TransportTypeResource {
      * @return the ResponseEntity with status 200 (OK) and the list of transportTypes in body
      */
     @GetMapping("/transport-types")
+    @Timed
     public ResponseEntity<List<TransportType>> getAllTransportTypes(Pageable pageable) {
         log.debug("REST request to get a page of TransportTypes");
         Page<TransportType> page = transportTypeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/transport-types");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -109,6 +114,7 @@ public class TransportTypeResource {
      * @return the ResponseEntity with status 200 (OK) and with body the transportType, or with status 404 (Not Found)
      */
     @GetMapping("/transport-types/{id}")
+    @Timed
     public ResponseEntity<TransportType> getTransportType(@PathVariable Long id) {
         log.debug("REST request to get TransportType : {}", id);
         Optional<TransportType> transportType = transportTypeRepository.findById(id);
@@ -122,8 +128,10 @@ public class TransportTypeResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/transport-types/{id}")
+    @Timed
     public ResponseEntity<Void> deleteTransportType(@PathVariable Long id) {
         log.debug("REST request to delete TransportType : {}", id);
+
         transportTypeRepository.deleteById(id);
         transportTypeSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -138,11 +146,12 @@ public class TransportTypeResource {
      * @return the result of the search
      */
     @GetMapping("/_search/transport-types")
+    @Timed
     public ResponseEntity<List<TransportType>> searchTransportTypes(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of TransportTypes for query {}", query);
         Page<TransportType> page = transportTypeSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/transport-types");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

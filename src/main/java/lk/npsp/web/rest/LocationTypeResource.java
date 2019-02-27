@@ -1,4 +1,6 @@
 package lk.npsp.web.rest;
+
+import com.codahale.metrics.annotation.Timed;
 import lk.npsp.domain.LocationType;
 import lk.npsp.repository.LocationTypeRepository;
 import lk.npsp.repository.search.LocationTypeSearchRepository;
@@ -54,6 +56,7 @@ public class LocationTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/location-types")
+    @Timed
     public ResponseEntity<LocationType> createLocationType(@Valid @RequestBody LocationType locationType) throws URISyntaxException {
         log.debug("REST request to save LocationType : {}", locationType);
         if (locationType.getId() != null) {
@@ -76,6 +79,7 @@ public class LocationTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/location-types")
+    @Timed
     public ResponseEntity<LocationType> updateLocationType(@Valid @RequestBody LocationType locationType) throws URISyntaxException {
         log.debug("REST request to update LocationType : {}", locationType);
         if (locationType.getId() == null) {
@@ -95,11 +99,12 @@ public class LocationTypeResource {
      * @return the ResponseEntity with status 200 (OK) and the list of locationTypes in body
      */
     @GetMapping("/location-types")
+    @Timed
     public ResponseEntity<List<LocationType>> getAllLocationTypes(Pageable pageable) {
         log.debug("REST request to get a page of LocationTypes");
         Page<LocationType> page = locationTypeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/location-types");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -109,6 +114,7 @@ public class LocationTypeResource {
      * @return the ResponseEntity with status 200 (OK) and with body the locationType, or with status 404 (Not Found)
      */
     @GetMapping("/location-types/{id}")
+    @Timed
     public ResponseEntity<LocationType> getLocationType(@PathVariable Long id) {
         log.debug("REST request to get LocationType : {}", id);
         Optional<LocationType> locationType = locationTypeRepository.findById(id);
@@ -122,8 +128,10 @@ public class LocationTypeResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/location-types/{id}")
+    @Timed
     public ResponseEntity<Void> deleteLocationType(@PathVariable Long id) {
         log.debug("REST request to delete LocationType : {}", id);
+
         locationTypeRepository.deleteById(id);
         locationTypeSearchRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -138,11 +146,12 @@ public class LocationTypeResource {
      * @return the result of the search
      */
     @GetMapping("/_search/location-types")
+    @Timed
     public ResponseEntity<List<LocationType>> searchLocationTypes(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of LocationTypes for query {}", query);
         Page<LocationType> page = locationTypeSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/location-types");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

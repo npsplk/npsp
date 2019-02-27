@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity ScheduleTemplate.
+    -->
+    <changeSet id="20190227083910-1" author="jhipster">
+        <createTable tableName="schedule_template">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="end_time" type="datetime">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="route_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        <dropDefaultValue tableName="schedule_template" columnName="start_time" columnDataType="datetime"/>
+        <dropDefaultValue tableName="schedule_template" columnName="end_time" columnDataType="datetime"/>
+        
+        <createTable tableName="schedule_template_weekdays">
+            <column name="weekdays_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="schedule_templates_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="schedule_templates_id, weekdays_id" tableName="schedule_template_weekdays"/>
+        
+        <createTable tableName="schedule_template_vehicle_facility">
+            <column name="vehicle_facilities_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="schedule_templates_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="schedule_templates_id, vehicle_facilities_id" tableName="schedule_template_vehicle_facility"/>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

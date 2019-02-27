@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -55,6 +54,7 @@ public class LocationTypeResourceIntTest {
     @Autowired
     private LocationTypeRepository locationTypeRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -75,9 +75,6 @@ public class LocationTypeResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restLocationTypeMockMvc;
 
     private LocationType locationType;
@@ -90,8 +87,7 @@ public class LocationTypeResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -207,6 +203,7 @@ public class LocationTypeResourceIntTest {
             .andExpect(jsonPath("$.[*].metaCode").value(hasItem(DEFAULT_META_CODE.toString())));
     }
     
+
     @Test
     @Transactional
     public void getLocationType() throws Exception {
@@ -221,7 +218,6 @@ public class LocationTypeResourceIntTest {
             .andExpect(jsonPath("$.typeName").value(DEFAULT_TYPE_NAME.toString()))
             .andExpect(jsonPath("$.metaCode").value(DEFAULT_META_CODE.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingLocationType() throws Exception {
@@ -269,7 +265,7 @@ public class LocationTypeResourceIntTest {
 
         // Create the LocationType
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restLocationTypeMockMvc.perform(put("/api/location-types")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(locationType)))
@@ -291,7 +287,7 @@ public class LocationTypeResourceIntTest {
 
         int databaseSizeBeforeDelete = locationTypeRepository.findAll().size();
 
-        // Delete the locationType
+        // Get the locationType
         restLocationTypeMockMvc.perform(delete("/api/location-types/{id}", locationType.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -316,8 +312,8 @@ public class LocationTypeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(locationType.getId().intValue())))
-            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME)))
-            .andExpect(jsonPath("$.[*].metaCode").value(hasItem(DEFAULT_META_CODE)));
+            .andExpect(jsonPath("$.[*].typeName").value(hasItem(DEFAULT_TYPE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].metaCode").value(hasItem(DEFAULT_META_CODE.toString())));
     }
 
     @Test

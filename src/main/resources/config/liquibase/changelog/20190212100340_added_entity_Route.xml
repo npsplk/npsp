@@ -26,27 +26,8 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="start_location_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="end_location_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
-        <createTable tableName="route_location">
-            <column name="locations_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="routes_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="routes_id, locations_id" tableName="route_location"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

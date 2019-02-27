@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -58,6 +57,7 @@ public class VehicleFacilityResourceIntTest {
     @Autowired
     private VehicleFacilityRepository vehicleFacilityRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -78,9 +78,6 @@ public class VehicleFacilityResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restVehicleFacilityMockMvc;
 
     private VehicleFacility vehicleFacility;
@@ -93,8 +90,7 @@ public class VehicleFacilityResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -213,6 +209,7 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
     
+
     @Test
     @Transactional
     public void getVehicleFacility() throws Exception {
@@ -228,7 +225,6 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(jsonPath("$.facilityMeta").value(DEFAULT_FACILITY_META.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingVehicleFacility() throws Exception {
@@ -278,7 +274,7 @@ public class VehicleFacilityResourceIntTest {
 
         // Create the VehicleFacility
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restVehicleFacilityMockMvc.perform(put("/api/vehicle-facilities")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(vehicleFacility)))
@@ -300,7 +296,7 @@ public class VehicleFacilityResourceIntTest {
 
         int databaseSizeBeforeDelete = vehicleFacilityRepository.findAll().size();
 
-        // Delete the vehicleFacility
+        // Get the vehicleFacility
         restVehicleFacilityMockMvc.perform(delete("/api/vehicle-facilities/{id}", vehicleFacility.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -325,9 +321,9 @@ public class VehicleFacilityResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicleFacility.getId().intValue())))
-            .andExpect(jsonPath("$.[*].facilityName").value(hasItem(DEFAULT_FACILITY_NAME)))
-            .andExpect(jsonPath("$.[*].facilityMeta").value(hasItem(DEFAULT_FACILITY_META)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+            .andExpect(jsonPath("$.[*].facilityName").value(hasItem(DEFAULT_FACILITY_NAME.toString())))
+            .andExpect(jsonPath("$.[*].facilityMeta").value(hasItem(DEFAULT_FACILITY_META.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 
     @Test

@@ -95,20 +95,14 @@ public class RouteResource {
      * GET  /routes : get all the routes.
      *
      * @param pageable the pagination information
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of routes in body
      */
     @GetMapping("/routes")
     @Timed
-    public ResponseEntity<List<Route>> getAllRoutes(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public ResponseEntity<List<Route>> getAllRoutes(Pageable pageable) {
         log.debug("REST request to get a page of Routes");
-        Page<Route> page;
-        if (eagerload) {
-            page = routeRepository.findAllWithEagerRelationships(pageable);
-        } else {
-            page = routeRepository.findAll(pageable);
-        }
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/routes?eagerload=%b", eagerload));
+        Page<Route> page = routeRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/routes");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -122,7 +116,7 @@ public class RouteResource {
     @Timed
     public ResponseEntity<Route> getRoute(@PathVariable Long id) {
         log.debug("REST request to get Route : {}", id);
-        Optional<Route> route = routeRepository.findOneWithEagerRelationships(id);
+        Optional<Route> route = routeRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(route);
     }
 

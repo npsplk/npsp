@@ -1,6 +1,5 @@
 package lk.npsp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -30,20 +29,20 @@ public class Vehicle implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "number_plate", nullable = false)
-    private String numberPlate;
+    @Column(name = "registration_number", nullable = false)
+    private String registrationNumber;
 
     @NotNull
     @Column(name = "number_of_seats", nullable = false)
     private Integer numberOfSeats;
 
     @ManyToOne
-    @JsonIgnoreProperties("vehicles")
-    private VehicleOwner owner;
+    @JsonIgnoreProperties("")
+    private TransportType transportType;
 
     @ManyToOne
     @JsonIgnoreProperties("")
-    private TransportType transportType;
+    private Driver driver;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -51,10 +50,6 @@ public class Vehicle implements Serializable {
                joinColumns = @JoinColumn(name = "vehicles_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "vehicle_facilities_id", referencedColumnName = "id"))
     private Set<VehicleFacility> vehicleFacilities = new HashSet<>();
-
-    @OneToMany(mappedBy = "vehicle")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Trip> trips = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -65,17 +60,17 @@ public class Vehicle implements Serializable {
         this.id = id;
     }
 
-    public String getNumberPlate() {
-        return numberPlate;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public Vehicle numberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+    public Vehicle registrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
         return this;
     }
 
-    public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public Integer getNumberOfSeats() {
@@ -91,19 +86,6 @@ public class Vehicle implements Serializable {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public VehicleOwner getOwner() {
-        return owner;
-    }
-
-    public Vehicle owner(VehicleOwner vehicleOwner) {
-        this.owner = vehicleOwner;
-        return this;
-    }
-
-    public void setOwner(VehicleOwner vehicleOwner) {
-        this.owner = vehicleOwner;
-    }
-
     public TransportType getTransportType() {
         return transportType;
     }
@@ -117,6 +99,19 @@ public class Vehicle implements Serializable {
         this.transportType = transportType;
     }
 
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public Vehicle driver(Driver driver) {
+        this.driver = driver;
+        return this;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     public Set<VehicleFacility> getVehicleFacilities() {
         return vehicleFacilities;
     }
@@ -128,43 +123,16 @@ public class Vehicle implements Serializable {
 
     public Vehicle addVehicleFacility(VehicleFacility vehicleFacility) {
         this.vehicleFacilities.add(vehicleFacility);
-        vehicleFacility.getVehicles().add(this);
         return this;
     }
 
     public Vehicle removeVehicleFacility(VehicleFacility vehicleFacility) {
         this.vehicleFacilities.remove(vehicleFacility);
-        vehicleFacility.getVehicles().remove(this);
         return this;
     }
 
     public void setVehicleFacilities(Set<VehicleFacility> vehicleFacilities) {
         this.vehicleFacilities = vehicleFacilities;
-    }
-
-    public Set<Trip> getTrips() {
-        return trips;
-    }
-
-    public Vehicle trips(Set<Trip> trips) {
-        this.trips = trips;
-        return this;
-    }
-
-    public Vehicle addTrip(Trip trip) {
-        this.trips.add(trip);
-        trip.setVehicle(this);
-        return this;
-    }
-
-    public Vehicle removeTrip(Trip trip) {
-        this.trips.remove(trip);
-        trip.setVehicle(null);
-        return this;
-    }
-
-    public void setTrips(Set<Trip> trips) {
-        this.trips = trips;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -192,7 +160,7 @@ public class Vehicle implements Serializable {
     public String toString() {
         return "Vehicle{" +
             "id=" + getId() +
-            ", numberPlate='" + getNumberPlate() + "'" +
+            ", registrationNumber='" + getRegistrationNumber() + "'" +
             ", numberOfSeats=" + getNumberOfSeats() +
             "}";
     }
