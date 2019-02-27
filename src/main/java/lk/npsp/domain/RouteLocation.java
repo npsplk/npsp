@@ -36,6 +36,10 @@ public class RouteLocation implements Serializable {
     @JsonIgnoreProperties("routeLocations")
     private Route route;
 
+    @ManyToOne
+    @JsonIgnoreProperties("routeLocations")
+    private Route route;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -69,6 +73,19 @@ public class RouteLocation implements Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public RouteLocation route(Route route) {
+        this.route = route;
+        return this;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     public Route getRoute() {

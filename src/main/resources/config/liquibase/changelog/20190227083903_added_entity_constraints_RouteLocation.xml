@@ -20,5 +20,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="route"/>
 
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="route_location"
+                                 constraintName="fk_route_location_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
     </changeSet>
 </databaseChangeLog>

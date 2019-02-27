@@ -12,6 +12,12 @@
             "relationshipName": "routeLocation",
             "otherEntityName": "routeLocation",
             "otherEntityRelationshipName": "route"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "routeLocation",
+            "otherEntityName": "routeLocation",
+            "otherEntityRelationshipName": "route"
         }
     ],
     "changelogDate": "20190212100340",

@@ -18,6 +18,12 @@
             "relationshipName": "route",
             "otherEntityName": "route",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190227083903",

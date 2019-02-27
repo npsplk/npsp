@@ -34,6 +34,10 @@ public class Route implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<RouteLocation> routeLocations = new HashSet<>();
 
+    @OneToMany(mappedBy = "route")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<RouteLocation> routeLocations = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -54,6 +58,31 @@ public class Route implements Serializable {
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
+    }
+
+    public Set<RouteLocation> getRouteLocations() {
+        return routeLocations;
+    }
+
+    public Route routeLocations(Set<RouteLocation> routeLocations) {
+        this.routeLocations = routeLocations;
+        return this;
+    }
+
+    public Route addRouteLocation(RouteLocation routeLocation) {
+        this.routeLocations.add(routeLocation);
+        routeLocation.setRoute(this);
+        return this;
+    }
+
+    public Route removeRouteLocation(RouteLocation routeLocation) {
+        this.routeLocations.remove(routeLocation);
+        routeLocation.setRoute(null);
+        return this;
+    }
+
+    public void setRouteLocations(Set<RouteLocation> routeLocations) {
+        this.routeLocations = routeLocations;
     }
 
     public Set<RouteLocation> getRouteLocations() {
