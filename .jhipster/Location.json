@@ -1,0 +1,35 @@
+{
+    "name": "Location",
+    "fields": [
+        {
+            "fieldName": "locationName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "locationType",
+            "otherEntityName": "locationType",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "location"
+        }
+    ],
+    "changelogDate": "20190227124248",
+    "entityTableName": "location",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

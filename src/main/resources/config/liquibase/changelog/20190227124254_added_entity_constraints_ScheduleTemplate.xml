@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity ScheduleTemplate.
+    -->
+    <changeSet id="20190227124254-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="schedule_template"
+                                 constraintName="fk_schedule_template_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+        <addForeignKeyConstraint baseColumnNames="schedule_template_id"
+                                 baseTableName="schedule_template_weekday"
+                                 constraintName="fk_schedule_template_weekday_schedule_template_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedule_template"/>
+        <addForeignKeyConstraint baseColumnNames="weekday_id"
+                                 baseTableName="schedule_template_weekday"
+                                 constraintName="fk_schedule_template_weekday_weekday_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="weekday"/>
+        
+        <addForeignKeyConstraint baseColumnNames="schedule_template_id"
+                                 baseTableName="schedule_template_vehicle_facility"
+                                 constraintName="fk_schedule_template_vehicle_facility_schedule_template_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedule_template"/>
+        <addForeignKeyConstraint baseColumnNames="vehicle_facility_id"
+                                 baseTableName="schedule_template_vehicle_facility"
+                                 constraintName="fk_schedule_template_vehicle_facility_vehicle_facility_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vehicle_facility"/>
+        
+    </changeSet>
+</databaseChangeLog>

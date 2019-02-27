@@ -1,0 +1,52 @@
+{
+    "name": "Vehicle",
+    "fields": [
+        {
+            "fieldName": "registrationNumber",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "numberOfSeats",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "transportType",
+            "otherEntityName": "transportType",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "vehicle"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "driver",
+            "otherEntityName": "driver",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "vehicle"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "vehicleFacility",
+            "otherEntityName": "vehicleFacility",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190227124252",
+    "entityTableName": "vehicle",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

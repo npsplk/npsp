@@ -77,8 +77,6 @@ relationship OneToMany{
 
 relationship ManyToOne{
     Location{locationType} to LocationType
-    RouteLocation{location} to Location
-    RouteLocation{route} to Route{routeLocation}
     ScheduleTemplate{route} to Route
     Vehicle{transportType} to TransportType
     ScheduleInstance{vehicle} to Vehicle
@@ -88,9 +86,9 @@ relationship ManyToOne{
 }
 
 relationship ManyToMany{
-    ScheduleTemplate{weekdays} to Weekday
-    Vehicle{vehicleFacility} to VehicleFacility
-    ScheduleTemplate{vehicleFacility} to VehicleFacility
+    ScheduleTemplate{weekday} to Weekday{scheduleTemplate}
+    Vehicle{vehicleFacility} to VehicleFacility{vehicle}
+    ScheduleTemplate{vehicleFacility} to VehicleFacility{scheduleTemplate}
 }
 
 paginate all with pagination

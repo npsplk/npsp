@@ -1,0 +1,48 @@
+{
+    "name": "VehicleFacility",
+    "fields": [
+        {
+            "fieldName": "facilityName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "facilityMeta",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "vehicle",
+            "otherEntityName": "vehicle",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "vehicleFacility"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityName": "scheduleTemplate",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "vehicleFacility"
+        }
+    ],
+    "changelogDate": "20190227124251",
+    "entityTableName": "vehicle_facility",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

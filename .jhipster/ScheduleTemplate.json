@@ -1,0 +1,53 @@
+{
+    "name": "ScheduleTemplate",
+    "fields": [
+        {
+            "fieldName": "startTime",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleTemplate"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "weekday",
+            "otherEntityName": "weekday",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "vehicleFacility",
+            "otherEntityName": "vehicleFacility",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20190227124254",
+    "entityTableName": "schedule_template",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
