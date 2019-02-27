@@ -71,6 +71,10 @@ Friday,
 Saturday
 }
 
+relationship OneToMany{
+	Route{routeLocation} to RouteLocation{route}
+}
+
 relationship ManyToOne{
     Location{locationType} to LocationType
     RouteLocation{location} to Location

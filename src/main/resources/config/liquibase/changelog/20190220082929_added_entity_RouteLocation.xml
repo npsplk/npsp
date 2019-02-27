@@ -15,24 +15,27 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Weekday.
+        Added the entity RouteLocation.
     -->
-    <changeSet id="20190218063143-1" author="jhipster">
-        <createTable tableName="weekday">
+    <changeSet id="20190220082929-1" author="jhipster">
+        <createTable tableName="route_location">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="weekday" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="sequence_number" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="location_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="route_id" type="bigint">
+                <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/weekdays.csv"
-                  separator=";"
-                  tableName="weekday"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

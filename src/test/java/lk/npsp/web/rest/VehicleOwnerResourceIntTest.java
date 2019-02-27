@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
@@ -58,6 +57,7 @@ public class VehicleOwnerResourceIntTest {
     @Autowired
     private VehicleOwnerRepository vehicleOwnerRepository;
 
+
     /**
      * This repository is mocked in the lk.npsp.repository.search test package.
      *
@@ -78,9 +78,6 @@ public class VehicleOwnerResourceIntTest {
     @Autowired
     private EntityManager em;
 
-    @Autowired
-    private Validator validator;
-
     private MockMvc restVehicleOwnerMockMvc;
 
     private VehicleOwner vehicleOwner;
@@ -93,8 +90,7 @@ public class VehicleOwnerResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter)
-            .setValidator(validator).build();
+            .setMessageConverters(jacksonMessageConverter).build();
     }
 
     /**
@@ -213,6 +209,7 @@ public class VehicleOwnerResourceIntTest {
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())));
     }
     
+
     @Test
     @Transactional
     public void getVehicleOwner() throws Exception {
@@ -228,7 +225,6 @@ public class VehicleOwnerResourceIntTest {
             .andExpect(jsonPath("$.contactNumber").value(DEFAULT_CONTACT_NUMBER.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingVehicleOwner() throws Exception {
@@ -278,7 +274,7 @@ public class VehicleOwnerResourceIntTest {
 
         // Create the VehicleOwner
 
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException 
         restVehicleOwnerMockMvc.perform(put("/api/vehicle-owners")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(vehicleOwner)))
@@ -300,7 +296,7 @@ public class VehicleOwnerResourceIntTest {
 
         int databaseSizeBeforeDelete = vehicleOwnerRepository.findAll().size();
 
-        // Delete the vehicleOwner
+        // Get the vehicleOwner
         restVehicleOwnerMockMvc.perform(delete("/api/vehicle-owners/{id}", vehicleOwner.getId())
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
@@ -325,9 +321,9 @@ public class VehicleOwnerResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(vehicleOwner.getId().intValue())))
-            .andExpect(jsonPath("$.[*].ownerName").value(hasItem(DEFAULT_OWNER_NAME)))
-            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)));
+            .andExpect(jsonPath("$.[*].ownerName").value(hasItem(DEFAULT_OWNER_NAME.toString())))
+            .andExpect(jsonPath("$.[*].contactNumber").value(hasItem(DEFAULT_CONTACT_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())));
     }
 
     @Test
