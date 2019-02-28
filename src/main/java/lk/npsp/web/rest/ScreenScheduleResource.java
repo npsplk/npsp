@@ -23,7 +23,7 @@ import java.util.Optional;
  * REST controller for managing ScheduleInstance.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/screen")
 public class ScreenScheduleResource {
 
     private final Logger log = LoggerFactory.getLogger(ScreenScheduleResource.class);
@@ -37,11 +37,11 @@ public class ScreenScheduleResource {
     }
 
     /**
-     * GET  /screen-schedule : get all the scheduleInstances.
+     * GET  /schedule : get all the schedules for screen.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of scheduleInstances in body
      */
-    @GetMapping("/screen/schedule-instances")
+    @GetMapping("/schedule")
     public ResponseEntity<List<ScheduleInstance>> getSchedulesForScreen() {
         log.debug("REST request to get a Schedule for Screen");
         List<ScheduleInstance> list = scheduleInstanceRepository.findAll();
