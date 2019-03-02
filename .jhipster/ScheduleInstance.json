@@ -21,6 +21,11 @@
             "fieldName": "specialNotes",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "scheduleState",
+            "fieldType": "ScheduleState",
+            "fieldValues": "ARRIVED,PENDING,DELAYED,CANCELLED"
         }
     ],
     "relationships": [
@@ -42,6 +47,20 @@
             "relationshipType": "many-to-one",
             "relationshipName": "driver",
             "otherEntityName": "driver",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleInstance"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleInstance"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "bay",
+            "otherEntityName": "bay",
             "otherEntityField": "id",
             "otherEntityRelationshipName": "scheduleInstance"
         }

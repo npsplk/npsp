@@ -10,6 +10,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import lk.npsp.domain.enumeration.ScheduleState;
+
 /**
  * A ScheduleInstance.
  */
@@ -39,6 +41,10 @@ public class ScheduleInstance implements Serializable {
     @Column(name = "special_notes")
     private String specialNotes;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "schedule_state")
+    private ScheduleState scheduleState;
+
     @ManyToOne
     @JsonIgnoreProperties("scheduleInstances")
     private Vehicle vehicle;
@@ -50,6 +56,14 @@ public class ScheduleInstance implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("scheduleInstances")
     private Driver driver;
+
+    @ManyToOne
+    @JsonIgnoreProperties("scheduleInstances")
+    private Route route;
+
+    @ManyToOne
+    @JsonIgnoreProperties("scheduleInstances")
+    private Bay bay;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -125,6 +139,19 @@ public class ScheduleInstance implements Serializable {
         this.specialNotes = specialNotes;
     }
 
+    public ScheduleState getScheduleState() {
+        return scheduleState;
+    }
+
+    public ScheduleInstance scheduleState(ScheduleState scheduleState) {
+        this.scheduleState = scheduleState;
+        return this;
+    }
+
+    public void setScheduleState(ScheduleState scheduleState) {
+        this.scheduleState = scheduleState;
+    }
+
     public Vehicle getVehicle() {
         return vehicle;
     }
@@ -163,6 +190,32 @@ public class ScheduleInstance implements Serializable {
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public ScheduleInstance route(Route route) {
+        this.route = route;
+        return this;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public Bay getBay() {
+        return bay;
+    }
+
+    public ScheduleInstance bay(Bay bay) {
+        this.bay = bay;
+        return this;
+    }
+
+    public void setBay(Bay bay) {
+        this.bay = bay;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -194,6 +247,7 @@ public class ScheduleInstance implements Serializable {
             ", actualScheduledTime='" + getActualScheduledTime() + "'" +
             ", actualDepartureTime='" + getActualDepartureTime() + "'" +
             ", specialNotes='" + getSpecialNotes() + "'" +
+            ", scheduleState='" + getScheduleState() + "'" +
             "}";
     }
 }

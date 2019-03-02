@@ -1,0 +1,23 @@
+{
+    "name": "Bay",
+    "fields": [
+        {
+            "fieldName": "bayName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bindingAddress",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190302092238",
+    "entityTableName": "bay",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -26,6 +26,9 @@ public class Route implements Serializable {
     @Column(name = "route_name")
     private String routeName;
 
+    @Column(name = "route_number")
+    private String routeNumber;
+
     @OneToMany(mappedBy = "route")
     private Set<RouteLocation> routeLocations = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -48,6 +51,19 @@ public class Route implements Serializable {
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
+    }
+
+    public String getRouteNumber() {
+        return routeNumber;
+    }
+
+    public Route routeNumber(String routeNumber) {
+        this.routeNumber = routeNumber;
+        return this;
+    }
+
+    public void setRouteNumber(String routeNumber) {
+        this.routeNumber = routeNumber;
     }
 
     public Set<RouteLocation> getRouteLocations() {
@@ -101,6 +117,7 @@ public class Route implements Serializable {
         return "Route{" +
             "id=" + getId() +
             ", routeName='" + getRouteName() + "'" +
+            ", routeNumber='" + getRouteNumber() + "'" +
             "}";
     }
 }

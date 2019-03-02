@@ -4,6 +4,10 @@
         {
             "fieldName": "routeName",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "routeNumber",
+            "fieldType": "String"
         }
     ],
     "relationships": [

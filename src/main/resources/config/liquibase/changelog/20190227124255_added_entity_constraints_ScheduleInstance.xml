@@ -26,5 +26,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="driver"/>
 
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="schedule_instance"
+                                 constraintName="fk_schedule_instance_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+        <addForeignKeyConstraint baseColumnNames="bay_id"
+                                 baseTableName="schedule_instance"
+                                 constraintName="fk_schedule_instance_bay_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bay"/>
+
     </changeSet>
 </databaseChangeLog>

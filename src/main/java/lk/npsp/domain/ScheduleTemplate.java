@@ -35,7 +35,19 @@ public class ScheduleTemplate implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("scheduleTemplates")
+    private Vehicle vehicle;
+
+    @ManyToOne
+    @JsonIgnoreProperties("scheduleTemplates")
+    private Driver driver;
+
+    @ManyToOne
+    @JsonIgnoreProperties("scheduleTemplates")
     private Route route;
+
+    @ManyToOne
+    @JsonIgnoreProperties("scheduleTemplates")
+    private Bay bay;
 
     @ManyToMany
     @JoinTable(name = "schedule_template_weekday",
@@ -84,6 +96,32 @@ public class ScheduleTemplate implements Serializable {
         this.endTime = endTime;
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public ScheduleTemplate vehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+        return this;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public ScheduleTemplate driver(Driver driver) {
+        this.driver = driver;
+        return this;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     public Route getRoute() {
         return route;
     }
@@ -95,6 +133,19 @@ public class ScheduleTemplate implements Serializable {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public Bay getBay() {
+        return bay;
+    }
+
+    public ScheduleTemplate bay(Bay bay) {
+        this.bay = bay;
+        return this;
+    }
+
+    public void setBay(Bay bay) {
+        this.bay = bay;
     }
 
     public Set<Weekday> getWeekdays() {

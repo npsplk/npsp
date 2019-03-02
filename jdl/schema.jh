@@ -1,5 +1,6 @@
 entity Route {
 	routeName String
+    routeNumber String
 }
 
 entity RouteLocation{
@@ -41,7 +42,6 @@ entity Driver{
     address String
     licenseNumber String
     licenseExpiryDate Instant
-    dateOfBirth LocalDate
 }
 
 entity ScheduleTemplate{
@@ -55,6 +55,12 @@ entity ScheduleInstance{
     actualScheduledTime Instant
     actualDepartureTime Instant
     specialNotes TextBlob
+    scheduleState ScheduleState
+}
+
+entity Bay{
+	bayName String
+    bindingAddress String
 }
 
 entity Weekday{
@@ -71,24 +77,42 @@ Friday,
 Saturday
 }
 
+enum ScheduleState {
+    ARRIVED,
+    PENDING,
+    DELAYED,
+    CANCELLED
+}
+
 relationship OneToMany{
 	Route{routeLocation} to RouteLocation{route}
 }
 
 relationship ManyToOne{
     Location{locationType} to LocationType
+    RouteLocation{location} to Location
+
+    ScheduleTemplate{vehicle} to Vehicle
+    ScheduleTemplate{driver} to Driver
     ScheduleTemplate{route} to Route
-    Vehicle{transportType} to TransportType
+    ScheduleTemplate{bay} to Bay
+
     ScheduleInstance{vehicle} to Vehicle
     ScheduleInstance{scheduleTemplate} to ScheduleTemplate
-    Vehicle{driver} to Driver
     ScheduleInstance{driver} to Driver
+    ScheduleInstance{route} to Route
+    ScheduleInstance{bay} to Bay
+
+    Vehicle{driver} to Driver
+    Vehicle{transportType} to TransportType
+
 }
 
 relationship ManyToMany{
     ScheduleTemplate{weekday} to Weekday{scheduleTemplate}
-    Vehicle{vehicleFacility} to VehicleFacility{vehicle}
     ScheduleTemplate{vehicleFacility} to VehicleFacility{scheduleTemplate}
+
+    Vehicle{vehicleFacility} to VehicleFacility{vehicle}
 }
 
 paginate all with pagination

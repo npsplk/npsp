@@ -43,6 +43,9 @@ public class RouteResourceIntTest {
     private static final String DEFAULT_ROUTE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ROUTE_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ROUTE_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_ROUTE_NUMBER = "BBBBBBBBBB";
+
     @Autowired
     private RouteRepository routeRepository;
 
@@ -85,7 +88,8 @@ public class RouteResourceIntTest {
      */
     public static Route createEntity(EntityManager em) {
         Route route = new Route()
-            .routeName(DEFAULT_ROUTE_NAME);
+            .routeName(DEFAULT_ROUTE_NAME)
+            .routeNumber(DEFAULT_ROUTE_NUMBER);
         return route;
     }
 
@@ -110,6 +114,7 @@ public class RouteResourceIntTest {
         assertThat(routeList).hasSize(databaseSizeBeforeCreate + 1);
         Route testRoute = routeList.get(routeList.size() - 1);
         assertThat(testRoute.getRouteName()).isEqualTo(DEFAULT_ROUTE_NAME);
+        assertThat(testRoute.getRouteNumber()).isEqualTo(DEFAULT_ROUTE_NUMBER);
     }
 
     @Test
@@ -142,7 +147,8 @@ public class RouteResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(route.getId().intValue())))
-            .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())));
+            .andExpect(jsonPath("$.[*].routeName").value(hasItem(DEFAULT_ROUTE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].routeNumber").value(hasItem(DEFAULT_ROUTE_NUMBER.toString())));
     }
     
     @Test
@@ -156,7 +162,8 @@ public class RouteResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(route.getId().intValue()))
-            .andExpect(jsonPath("$.routeName").value(DEFAULT_ROUTE_NAME.toString()));
+            .andExpect(jsonPath("$.routeName").value(DEFAULT_ROUTE_NAME.toString()))
+            .andExpect(jsonPath("$.routeNumber").value(DEFAULT_ROUTE_NUMBER.toString()));
     }
 
     @Test
@@ -180,7 +187,8 @@ public class RouteResourceIntTest {
         // Disconnect from session so that the updates on updatedRoute are not directly saved in db
         em.detach(updatedRoute);
         updatedRoute
-            .routeName(UPDATED_ROUTE_NAME);
+            .routeName(UPDATED_ROUTE_NAME)
+            .routeNumber(UPDATED_ROUTE_NUMBER);
 
         restRouteMockMvc.perform(put("/api/routes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -192,6 +200,7 @@ public class RouteResourceIntTest {
         assertThat(routeList).hasSize(databaseSizeBeforeUpdate);
         Route testRoute = routeList.get(routeList.size() - 1);
         assertThat(testRoute.getRouteName()).isEqualTo(UPDATED_ROUTE_NAME);
+        assertThat(testRoute.getRouteNumber()).isEqualTo(UPDATED_ROUTE_NUMBER);
     }
 
     @Test

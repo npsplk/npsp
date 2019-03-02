@@ -9,6 +9,13 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "routeLocation"
+        },
+        {
+            "relationshipType": "many-to-one",
             "relationshipName": "route",
             "otherEntityName": "route",
             "otherEntityField": "id",
