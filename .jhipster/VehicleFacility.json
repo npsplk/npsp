@@ -23,15 +23,15 @@
     "relationships": [
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "vehicle",
-            "otherEntityName": "vehicle",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityName": "scheduleTemplate",
             "ownerSide": false,
             "otherEntityRelationshipName": "vehicleFacility"
         },
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "scheduleTemplate",
-            "otherEntityName": "scheduleTemplate",
+            "relationshipName": "vehicle",
+            "otherEntityName": "vehicle",
             "ownerSide": false,
             "otherEntityRelationshipName": "vehicleFacility"
         }

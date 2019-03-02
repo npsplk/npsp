@@ -8,11 +8,29 @@
     -->
     <changeSet id="20190227124254-2" author="jhipster">
         
+        <addForeignKeyConstraint baseColumnNames="vehicle_id"
+                                 baseTableName="schedule_template"
+                                 constraintName="fk_schedule_template_vehicle_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vehicle"/>
+
+        <addForeignKeyConstraint baseColumnNames="driver_id"
+                                 baseTableName="schedule_template"
+                                 constraintName="fk_schedule_template_driver_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="driver"/>
+
         <addForeignKeyConstraint baseColumnNames="route_id"
                                  baseTableName="schedule_template"
                                  constraintName="fk_schedule_template_route_id"
                                  referencedColumnNames="id"
                                  referencedTableName="route"/>
+
+        <addForeignKeyConstraint baseColumnNames="bay_id"
+                                 baseTableName="schedule_template"
+                                 constraintName="fk_schedule_template_bay_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bay"/>
 
         <addForeignKeyConstraint baseColumnNames="schedule_template_id"
                                  baseTableName="schedule_template_weekday"

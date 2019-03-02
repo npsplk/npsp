@@ -37,11 +37,11 @@ public class VehicleFacility implements Serializable {
 
     @ManyToMany(mappedBy = "vehicleFacilities")
     @JsonIgnore
-    private Set<Vehicle> vehicles = new HashSet<>();
+    private Set<ScheduleTemplate> scheduleTemplates = new HashSet<>();
 
     @ManyToMany(mappedBy = "vehicleFacilities")
     @JsonIgnore
-    private Set<ScheduleTemplate> scheduleTemplates = new HashSet<>();
+    private Set<Vehicle> vehicles = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -91,31 +91,6 @@ public class VehicleFacility implements Serializable {
         this.description = description;
     }
 
-    public Set<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public VehicleFacility vehicles(Set<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-        return this;
-    }
-
-    public VehicleFacility addVehicle(Vehicle vehicle) {
-        this.vehicles.add(vehicle);
-        vehicle.getVehicleFacilities().add(this);
-        return this;
-    }
-
-    public VehicleFacility removeVehicle(Vehicle vehicle) {
-        this.vehicles.remove(vehicle);
-        vehicle.getVehicleFacilities().remove(this);
-        return this;
-    }
-
-    public void setVehicles(Set<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-
     public Set<ScheduleTemplate> getScheduleTemplates() {
         return scheduleTemplates;
     }
@@ -139,6 +114,31 @@ public class VehicleFacility implements Serializable {
 
     public void setScheduleTemplates(Set<ScheduleTemplate> scheduleTemplates) {
         this.scheduleTemplates = scheduleTemplates;
+    }
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public VehicleFacility vehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+        return this;
+    }
+
+    public VehicleFacility addVehicle(Vehicle vehicle) {
+        this.vehicles.add(vehicle);
+        vehicle.getVehicleFacilities().add(this);
+        return this;
+    }
+
+    public VehicleFacility removeVehicle(Vehicle vehicle) {
+        this.vehicles.remove(vehicle);
+        vehicle.getVehicleFacilities().remove(this);
+        return this;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

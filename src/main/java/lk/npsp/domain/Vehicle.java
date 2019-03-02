@@ -34,11 +34,11 @@ public class Vehicle implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("vehicles")
-    private TransportType transportType;
+    private Driver driver;
 
     @ManyToOne
     @JsonIgnoreProperties("vehicles")
-    private Driver driver;
+    private TransportType transportType;
 
     @ManyToMany
     @JoinTable(name = "vehicle_vehicle_facility",
@@ -81,19 +81,6 @@ public class Vehicle implements Serializable {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public TransportType getTransportType() {
-        return transportType;
-    }
-
-    public Vehicle transportType(TransportType transportType) {
-        this.transportType = transportType;
-        return this;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
-    }
-
     public Driver getDriver() {
         return driver;
     }
@@ -105,6 +92,19 @@ public class Vehicle implements Serializable {
 
     public void setDriver(Driver driver) {
         this.driver = driver;
+    }
+
+    public TransportType getTransportType() {
+        return transportType;
+    }
+
+    public Vehicle transportType(TransportType transportType) {
+        this.transportType = transportType;
+        return this;
+    }
+
+    public void setTransportType(TransportType transportType) {
+        this.transportType = transportType;
     }
 
     public Set<VehicleFacility> getVehicleFacilities() {

@@ -8,17 +8,17 @@
     -->
     <changeSet id="20190227124252-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="transport_type_id"
-                                 baseTableName="vehicle"
-                                 constraintName="fk_vehicle_transport_type_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="transport_type"/>
-
         <addForeignKeyConstraint baseColumnNames="driver_id"
                                  baseTableName="vehicle"
                                  constraintName="fk_vehicle_driver_id"
                                  referencedColumnNames="id"
                                  referencedTableName="driver"/>
+
+        <addForeignKeyConstraint baseColumnNames="transport_type_id"
+                                 baseTableName="vehicle"
+                                 constraintName="fk_vehicle_transport_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="transport_type"/>
 
         <addForeignKeyConstraint baseColumnNames="vehicle_id"
                                  baseTableName="vehicle_vehicle_facility"

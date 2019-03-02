@@ -15,18 +15,18 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Route.
+        Added the entity Bay.
     -->
-    <changeSet id="20190227124246-1" author="jhipster">
-        <createTable tableName="route">
+    <changeSet id="20190302092238-1" author="jhipster">
+        <createTable tableName="bay">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="route_name" type="varchar(255)">
+            <column name="bay_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
-            <column name="route_number" type="varchar(255)">
+            <column name="binding_address" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 

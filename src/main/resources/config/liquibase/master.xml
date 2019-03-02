@@ -16,6 +16,7 @@
     <include file="config/liquibase/changelog/20190227124254_added_entity_ScheduleTemplate.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190227124255_added_entity_ScheduleInstance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190227124256_added_entity_Weekday.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190302092238_added_entity_Bay.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20190227124247_added_entity_constraints_RouteLocation.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190227124248_added_entity_constraints_Location.xml" relativeToChangelogFile="false"/>

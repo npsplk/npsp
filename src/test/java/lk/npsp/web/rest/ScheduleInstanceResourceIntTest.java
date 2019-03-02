@@ -36,6 +36,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import lk.npsp.domain.enumeration.ScheduleState;
 /**
  * Test class for the ScheduleInstanceResource REST controller.
  *
@@ -59,6 +60,9 @@ public class ScheduleInstanceResourceIntTest {
 
     private static final String DEFAULT_SPECIAL_NOTES = "AAAAAAAAAA";
     private static final String UPDATED_SPECIAL_NOTES = "BBBBBBBBBB";
+
+    private static final ScheduleState DEFAULT_SCHEDULE_STATE = ScheduleState.ARRIVED;
+    private static final ScheduleState UPDATED_SCHEDULE_STATE = ScheduleState.PENDING;
 
     @Autowired
     private ScheduleInstanceRepository scheduleInstanceRepository;
@@ -106,7 +110,8 @@ public class ScheduleInstanceResourceIntTest {
             .scheduledTime(DEFAULT_SCHEDULED_TIME)
             .actualScheduledTime(DEFAULT_ACTUAL_SCHEDULED_TIME)
             .actualDepartureTime(DEFAULT_ACTUAL_DEPARTURE_TIME)
-            .specialNotes(DEFAULT_SPECIAL_NOTES);
+            .specialNotes(DEFAULT_SPECIAL_NOTES)
+            .scheduleState(DEFAULT_SCHEDULE_STATE);
         return scheduleInstance;
     }
 
@@ -135,6 +140,7 @@ public class ScheduleInstanceResourceIntTest {
         assertThat(testScheduleInstance.getActualScheduledTime()).isEqualTo(DEFAULT_ACTUAL_SCHEDULED_TIME);
         assertThat(testScheduleInstance.getActualDepartureTime()).isEqualTo(DEFAULT_ACTUAL_DEPARTURE_TIME);
         assertThat(testScheduleInstance.getSpecialNotes()).isEqualTo(DEFAULT_SPECIAL_NOTES);
+        assertThat(testScheduleInstance.getScheduleState()).isEqualTo(DEFAULT_SCHEDULE_STATE);
     }
 
     @Test
@@ -171,7 +177,8 @@ public class ScheduleInstanceResourceIntTest {
             .andExpect(jsonPath("$.[*].scheduledTime").value(hasItem(DEFAULT_SCHEDULED_TIME.toString())))
             .andExpect(jsonPath("$.[*].actualScheduledTime").value(hasItem(DEFAULT_ACTUAL_SCHEDULED_TIME.toString())))
             .andExpect(jsonPath("$.[*].actualDepartureTime").value(hasItem(DEFAULT_ACTUAL_DEPARTURE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())));
+            .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())))
+            .andExpect(jsonPath("$.[*].scheduleState").value(hasItem(DEFAULT_SCHEDULE_STATE.toString())));
     }
     
     @Test
@@ -189,7 +196,8 @@ public class ScheduleInstanceResourceIntTest {
             .andExpect(jsonPath("$.scheduledTime").value(DEFAULT_SCHEDULED_TIME.toString()))
             .andExpect(jsonPath("$.actualScheduledTime").value(DEFAULT_ACTUAL_SCHEDULED_TIME.toString()))
             .andExpect(jsonPath("$.actualDepartureTime").value(DEFAULT_ACTUAL_DEPARTURE_TIME.toString()))
-            .andExpect(jsonPath("$.specialNotes").value(DEFAULT_SPECIAL_NOTES.toString()));
+            .andExpect(jsonPath("$.specialNotes").value(DEFAULT_SPECIAL_NOTES.toString()))
+            .andExpect(jsonPath("$.scheduleState").value(DEFAULT_SCHEDULE_STATE.toString()));
     }
 
     @Test
@@ -217,7 +225,8 @@ public class ScheduleInstanceResourceIntTest {
             .scheduledTime(UPDATED_SCHEDULED_TIME)
             .actualScheduledTime(UPDATED_ACTUAL_SCHEDULED_TIME)
             .actualDepartureTime(UPDATED_ACTUAL_DEPARTURE_TIME)
-            .specialNotes(UPDATED_SPECIAL_NOTES);
+            .specialNotes(UPDATED_SPECIAL_NOTES)
+            .scheduleState(UPDATED_SCHEDULE_STATE);
 
         restScheduleInstanceMockMvc.perform(put("/api/schedule-instances")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -233,6 +242,7 @@ public class ScheduleInstanceResourceIntTest {
         assertThat(testScheduleInstance.getActualScheduledTime()).isEqualTo(UPDATED_ACTUAL_SCHEDULED_TIME);
         assertThat(testScheduleInstance.getActualDepartureTime()).isEqualTo(UPDATED_ACTUAL_DEPARTURE_TIME);
         assertThat(testScheduleInstance.getSpecialNotes()).isEqualTo(UPDATED_SPECIAL_NOTES);
+        assertThat(testScheduleInstance.getScheduleState()).isEqualTo(UPDATED_SCHEDULE_STATE);
     }
 
     @Test

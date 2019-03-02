@@ -19,8 +19,29 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
+            "relationshipName": "vehicle",
+            "otherEntityName": "vehicle",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleTemplate"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "driver",
+            "otherEntityName": "driver",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleTemplate"
+        },
+        {
+            "relationshipType": "many-to-one",
             "relationshipName": "route",
             "otherEntityName": "route",
+            "otherEntityField": "id",
+            "otherEntityRelationshipName": "scheduleTemplate"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "bay",
+            "otherEntityName": "bay",
             "otherEntityField": "id",
             "otherEntityRelationshipName": "scheduleTemplate"
         },

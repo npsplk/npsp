@@ -30,11 +30,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="transport_type_id" type="bigint">
+            <column name="driver_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
-            <column name="driver_id" type="bigint">
+            <column name="transport_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

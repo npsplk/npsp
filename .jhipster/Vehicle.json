@@ -19,15 +19,15 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "transportType",
-            "otherEntityName": "transportType",
+            "relationshipName": "driver",
+            "otherEntityName": "driver",
             "otherEntityField": "id",
             "otherEntityRelationshipName": "vehicle"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "driver",
-            "otherEntityName": "driver",
+            "relationshipName": "transportType",
+            "otherEntityName": "transportType",
             "otherEntityField": "id",
             "otherEntityRelationshipName": "vehicle"
         },
