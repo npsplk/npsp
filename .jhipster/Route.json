@@ -13,9 +13,9 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "routeLocation",
             "otherEntityName": "routeLocation",
-            "otherEntityRelationshipName": "route"
+            "otherEntityRelationshipName": "route",
+            "relationshipName": "routeLocation"
         }
     ],
     "changelogDate": "20190227124246",

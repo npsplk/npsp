@@ -9,17 +9,17 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "location",
             "otherEntityName": "location",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "routeLocation"
+            "otherEntityRelationshipName": "routeLocation",
+            "relationshipName": "location",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "route",
             "otherEntityName": "route",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "routeLocation"
+            "otherEntityRelationshipName": "routeLocation",
+            "relationshipName": "route",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190227124247",

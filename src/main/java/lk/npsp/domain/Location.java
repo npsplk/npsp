@@ -24,6 +24,12 @@ public class Location implements Serializable {
     @Column(name = "location_name")
     private String locationName;
 
+    @Column(name = "location_name_sinhala")
+    private String locationNameSinhala;
+
+    @Column(name = "location_name_tamil")
+    private String locationNameTamil;
+
     @Column(name = "longitude")
     private Double longitude;
 
@@ -54,6 +60,32 @@ public class Location implements Serializable {
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public String getLocationNameSinhala() {
+        return locationNameSinhala;
+    }
+
+    public Location locationNameSinhala(String locationNameSinhala) {
+        this.locationNameSinhala = locationNameSinhala;
+        return this;
+    }
+
+    public void setLocationNameSinhala(String locationNameSinhala) {
+        this.locationNameSinhala = locationNameSinhala;
+    }
+
+    public String getLocationNameTamil() {
+        return locationNameTamil;
+    }
+
+    public Location locationNameTamil(String locationNameTamil) {
+        this.locationNameTamil = locationNameTamil;
+        return this;
+    }
+
+    public void setLocationNameTamil(String locationNameTamil) {
+        this.locationNameTamil = locationNameTamil;
     }
 
     public Double getLongitude() {
@@ -121,6 +153,8 @@ public class Location implements Serializable {
         return "Location{" +
             "id=" + getId() +
             ", locationName='" + getLocationName() + "'" +
+            ", locationNameSinhala='" + getLocationNameSinhala() + "'" +
+            ", locationNameTamil='" + getLocationNameTamil() + "'" +
             ", longitude=" + getLongitude() +
             ", latitude=" + getLatitude() +
             "}";

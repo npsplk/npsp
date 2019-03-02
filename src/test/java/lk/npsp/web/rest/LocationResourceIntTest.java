@@ -43,6 +43,12 @@ public class LocationResourceIntTest {
     private static final String DEFAULT_LOCATION_NAME = "AAAAAAAAAA";
     private static final String UPDATED_LOCATION_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_LOCATION_NAME_SINHALA = "AAAAAAAAAA";
+    private static final String UPDATED_LOCATION_NAME_SINHALA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LOCATION_NAME_TAMIL = "AAAAAAAAAA";
+    private static final String UPDATED_LOCATION_NAME_TAMIL = "BBBBBBBBBB";
+
     private static final Double DEFAULT_LONGITUDE = 1D;
     private static final Double UPDATED_LONGITUDE = 2D;
 
@@ -92,6 +98,8 @@ public class LocationResourceIntTest {
     public static Location createEntity(EntityManager em) {
         Location location = new Location()
             .locationName(DEFAULT_LOCATION_NAME)
+            .locationNameSinhala(DEFAULT_LOCATION_NAME_SINHALA)
+            .locationNameTamil(DEFAULT_LOCATION_NAME_TAMIL)
             .longitude(DEFAULT_LONGITUDE)
             .latitude(DEFAULT_LATITUDE);
         return location;
@@ -118,6 +126,8 @@ public class LocationResourceIntTest {
         assertThat(locationList).hasSize(databaseSizeBeforeCreate + 1);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getLocationName()).isEqualTo(DEFAULT_LOCATION_NAME);
+        assertThat(testLocation.getLocationNameSinhala()).isEqualTo(DEFAULT_LOCATION_NAME_SINHALA);
+        assertThat(testLocation.getLocationNameTamil()).isEqualTo(DEFAULT_LOCATION_NAME_TAMIL);
         assertThat(testLocation.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
         assertThat(testLocation.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
     }
@@ -153,6 +163,8 @@ public class LocationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
             .andExpect(jsonPath("$.[*].locationName").value(hasItem(DEFAULT_LOCATION_NAME.toString())))
+            .andExpect(jsonPath("$.[*].locationNameSinhala").value(hasItem(DEFAULT_LOCATION_NAME_SINHALA.toString())))
+            .andExpect(jsonPath("$.[*].locationNameTamil").value(hasItem(DEFAULT_LOCATION_NAME_TAMIL.toString())))
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())));
     }
@@ -169,6 +181,8 @@ public class LocationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(location.getId().intValue()))
             .andExpect(jsonPath("$.locationName").value(DEFAULT_LOCATION_NAME.toString()))
+            .andExpect(jsonPath("$.locationNameSinhala").value(DEFAULT_LOCATION_NAME_SINHALA.toString()))
+            .andExpect(jsonPath("$.locationNameTamil").value(DEFAULT_LOCATION_NAME_TAMIL.toString()))
             .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
             .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()));
     }
@@ -195,6 +209,8 @@ public class LocationResourceIntTest {
         em.detach(updatedLocation);
         updatedLocation
             .locationName(UPDATED_LOCATION_NAME)
+            .locationNameSinhala(UPDATED_LOCATION_NAME_SINHALA)
+            .locationNameTamil(UPDATED_LOCATION_NAME_TAMIL)
             .longitude(UPDATED_LONGITUDE)
             .latitude(UPDATED_LATITUDE);
 
@@ -208,6 +224,8 @@ public class LocationResourceIntTest {
         assertThat(locationList).hasSize(databaseSizeBeforeUpdate);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getLocationName()).isEqualTo(UPDATED_LOCATION_NAME);
+        assertThat(testLocation.getLocationNameSinhala()).isEqualTo(UPDATED_LOCATION_NAME_SINHALA);
+        assertThat(testLocation.getLocationNameTamil()).isEqualTo(UPDATED_LOCATION_NAME_TAMIL);
         assertThat(testLocation.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
         assertThat(testLocation.getLatitude()).isEqualTo(UPDATED_LATITUDE);
     }

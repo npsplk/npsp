@@ -6,6 +6,14 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "locationNameSinhala",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "locationNameTamil",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "longitude",
             "fieldType": "Double"
         },
@@ -17,10 +25,10 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "locationType",
             "otherEntityName": "locationType",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "location"
+            "otherEntityRelationshipName": "location",
+            "relationshipName": "locationType",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190227124248",

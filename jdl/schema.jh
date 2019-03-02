@@ -9,6 +9,8 @@ entity RouteLocation{
 
 entity Location {
 	locationName String
+    locationNameSinhala String
+    locationNameTamil String
 	longitude Double
     latitude Double
 }
@@ -47,6 +49,7 @@ entity Driver{
 entity ScheduleTemplate{
 	startTime Instant required
     endTime Instant required
+    isActive Boolean
 }
 
 entity ScheduleInstance{
@@ -78,7 +81,8 @@ Saturday
 }
 
 enum ScheduleState {
-    ARRIVED,
+	DEPARTED,
+    BOARDING,
     PENDING,
     DELAYED,
     CANCELLED

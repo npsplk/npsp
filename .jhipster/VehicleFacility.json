@@ -23,17 +23,19 @@
     "relationships": [
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "scheduleTemplate",
             "otherEntityName": "scheduleTemplate",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "vehicleFacility"
+            "otherEntityRelationshipName": "vehicleFacility",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityField": "id",
+            "ownerSide": false
         },
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "vehicle",
             "otherEntityName": "vehicle",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "vehicleFacility"
+            "otherEntityRelationshipName": "vehicleFacility",
+            "relationshipName": "vehicle",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20190227124251",

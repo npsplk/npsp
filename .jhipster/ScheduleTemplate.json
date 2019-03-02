@@ -14,50 +14,54 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "isActive",
+            "fieldType": "Boolean"
         }
     ],
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "vehicle",
             "otherEntityName": "vehicle",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleTemplate"
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "vehicle",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "driver",
             "otherEntityName": "driver",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleTemplate"
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "driver",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "route",
             "otherEntityName": "route",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleTemplate"
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "route",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "bay",
             "otherEntityName": "bay",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleTemplate"
+            "otherEntityRelationshipName": "scheduleTemplate",
+            "relationshipName": "bay",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",
+            "otherEntityName": "weekday",
             "otherEntityRelationshipName": "scheduleTemplate",
             "relationshipName": "weekday",
-            "otherEntityName": "weekday",
             "otherEntityField": "id",
             "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
+            "otherEntityName": "vehicleFacility",
             "otherEntityRelationshipName": "scheduleTemplate",
             "relationshipName": "vehicleFacility",
-            "otherEntityName": "vehicleFacility",
             "otherEntityField": "id",
             "ownerSide": true
         }

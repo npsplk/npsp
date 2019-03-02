@@ -33,6 +33,9 @@ public class ScheduleTemplate implements Serializable {
     @Column(name = "end_time", nullable = false)
     private Instant endTime;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @ManyToOne
     @JsonIgnoreProperties("scheduleTemplates")
     private Vehicle vehicle;
@@ -94,6 +97,19 @@ public class ScheduleTemplate implements Serializable {
 
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean isIsActive() {
+        return isActive;
+    }
+
+    public ScheduleTemplate isActive(Boolean isActive) {
+        this.isActive = isActive;
+        return this;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
     public Vehicle getVehicle() {
@@ -225,6 +241,7 @@ public class ScheduleTemplate implements Serializable {
             "id=" + getId() +
             ", startTime='" + getStartTime() + "'" +
             ", endTime='" + getEndTime() + "'" +
+            ", isActive='" + isIsActive() + "'" +
             "}";
     }
 }

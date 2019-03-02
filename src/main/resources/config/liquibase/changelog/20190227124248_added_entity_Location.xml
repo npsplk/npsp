@@ -26,6 +26,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="location_name_sinhala" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="location_name_tamil" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="longitude" type="double">
                 <constraints nullable="true" />
             </column>

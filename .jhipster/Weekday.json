@@ -13,10 +13,11 @@
     "relationships": [
         {
             "relationshipType": "many-to-many",
-            "relationshipName": "scheduleTemplate",
             "otherEntityName": "scheduleTemplate",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "weekday"
+            "otherEntityRelationshipName": "weekday",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20190227124256",

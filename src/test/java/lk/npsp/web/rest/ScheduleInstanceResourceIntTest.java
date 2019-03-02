@@ -61,8 +61,8 @@ public class ScheduleInstanceResourceIntTest {
     private static final String DEFAULT_SPECIAL_NOTES = "AAAAAAAAAA";
     private static final String UPDATED_SPECIAL_NOTES = "BBBBBBBBBB";
 
-    private static final ScheduleState DEFAULT_SCHEDULE_STATE = ScheduleState.ARRIVED;
-    private static final ScheduleState UPDATED_SCHEDULE_STATE = ScheduleState.PENDING;
+    private static final ScheduleState DEFAULT_SCHEDULE_STATE = ScheduleState.DEPARTED;
+    private static final ScheduleState UPDATED_SCHEDULE_STATE = ScheduleState.BOARDING;
 
     @Autowired
     private ScheduleInstanceRepository scheduleInstanceRepository;

@@ -53,6 +53,9 @@ public class ScheduleTemplateResourceIntTest {
     private static final Instant DEFAULT_END_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_END_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Boolean DEFAULT_IS_ACTIVE = false;
+    private static final Boolean UPDATED_IS_ACTIVE = true;
+
     @Autowired
     private ScheduleTemplateRepository scheduleTemplateRepository;
 
@@ -99,7 +102,8 @@ public class ScheduleTemplateResourceIntTest {
     public static ScheduleTemplate createEntity(EntityManager em) {
         ScheduleTemplate scheduleTemplate = new ScheduleTemplate()
             .startTime(DEFAULT_START_TIME)
-            .endTime(DEFAULT_END_TIME);
+            .endTime(DEFAULT_END_TIME)
+            .isActive(DEFAULT_IS_ACTIVE);
         return scheduleTemplate;
     }
 
@@ -125,6 +129,7 @@ public class ScheduleTemplateResourceIntTest {
         ScheduleTemplate testScheduleTemplate = scheduleTemplateList.get(scheduleTemplateList.size() - 1);
         assertThat(testScheduleTemplate.getStartTime()).isEqualTo(DEFAULT_START_TIME);
         assertThat(testScheduleTemplate.getEndTime()).isEqualTo(DEFAULT_END_TIME);
+        assertThat(testScheduleTemplate.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
     }
 
     @Test
@@ -194,7 +199,8 @@ public class ScheduleTemplateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(scheduleTemplate.getId().intValue())))
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
-            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())));
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())))
+            .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -242,7 +248,8 @@ public class ScheduleTemplateResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(scheduleTemplate.getId().intValue()))
             .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.toString()))
-            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()));
+            .andExpect(jsonPath("$.endTime").value(DEFAULT_END_TIME.toString()))
+            .andExpect(jsonPath("$.isActive").value(DEFAULT_IS_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -267,7 +274,8 @@ public class ScheduleTemplateResourceIntTest {
         em.detach(updatedScheduleTemplate);
         updatedScheduleTemplate
             .startTime(UPDATED_START_TIME)
-            .endTime(UPDATED_END_TIME);
+            .endTime(UPDATED_END_TIME)
+            .isActive(UPDATED_IS_ACTIVE);
 
         restScheduleTemplateMockMvc.perform(put("/api/schedule-templates")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -280,6 +288,7 @@ public class ScheduleTemplateResourceIntTest {
         ScheduleTemplate testScheduleTemplate = scheduleTemplateList.get(scheduleTemplateList.size() - 1);
         assertThat(testScheduleTemplate.getStartTime()).isEqualTo(UPDATED_START_TIME);
         assertThat(testScheduleTemplate.getEndTime()).isEqualTo(UPDATED_END_TIME);
+        assertThat(testScheduleTemplate.isIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
     }
 
     @Test

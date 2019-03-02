@@ -19,23 +19,23 @@
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "driver",
             "otherEntityName": "driver",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "vehicle"
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "driver",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "transportType",
             "otherEntityName": "transportType",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "vehicle"
+            "otherEntityRelationshipName": "vehicle",
+            "relationshipName": "transportType",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",
+            "otherEntityName": "vehicleFacility",
             "otherEntityRelationshipName": "vehicle",
             "relationshipName": "vehicleFacility",
-            "otherEntityName": "vehicleFacility",
             "otherEntityField": "id",
             "ownerSide": true
         }

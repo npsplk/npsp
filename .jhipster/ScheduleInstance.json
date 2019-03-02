@@ -25,44 +25,44 @@
         {
             "fieldName": "scheduleState",
             "fieldType": "ScheduleState",
-            "fieldValues": "ARRIVED,PENDING,DELAYED,CANCELLED"
+            "fieldValues": "DEPARTED,BOARDING,PENDING,DELAYED,CANCELLED"
         }
     ],
     "relationships": [
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "vehicle",
             "otherEntityName": "vehicle",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleInstance"
+            "otherEntityRelationshipName": "scheduleInstance",
+            "relationshipName": "vehicle",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "scheduleTemplate",
             "otherEntityName": "scheduleTemplate",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleInstance"
+            "otherEntityRelationshipName": "scheduleInstance",
+            "relationshipName": "scheduleTemplate",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "driver",
             "otherEntityName": "driver",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleInstance"
+            "otherEntityRelationshipName": "scheduleInstance",
+            "relationshipName": "driver",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "route",
             "otherEntityName": "route",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleInstance"
+            "otherEntityRelationshipName": "scheduleInstance",
+            "relationshipName": "route",
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "bay",
             "otherEntityName": "bay",
-            "otherEntityField": "id",
-            "otherEntityRelationshipName": "scheduleInstance"
+            "otherEntityRelationshipName": "scheduleInstance",
+            "relationshipName": "bay",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20190227124255",
