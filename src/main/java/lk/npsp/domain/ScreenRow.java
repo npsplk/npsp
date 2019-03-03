@@ -1,6 +1,8 @@
 package lk.npsp.domain;
 
 import lk.npsp.domain.enumeration.ScheduleState;
+import lk.npsp.domain.enumeration.ScreenLanguage;
+import lk.npsp.service.SimpleTranslator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class ScreenRow{
     private String route;
     private String remarks;
     private List<String> status;
+    private SimpleTranslator simpleTranslator= new SimpleTranslator(); //TODO: autowire
 
     public ScreenRow(ScheduleInstance scheduleInstance){
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
@@ -21,10 +24,12 @@ public class ScreenRow{
         this.time=dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
         this.destination=scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
         this.route=scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
+
+        String scheduleStatus=scheduleInstance.getScheduleState().toString();
         this.status = new ArrayList<>(Arrays.asList(
-            scheduleInstance.getScheduleState().toString(),
-            "පර්යන්ත 01 - පිටත්වීම්",
-            "டெர்மினல்கள் 01 - புறப்பாடு"
+            scheduleStatus,
+            simpleTranslator.translate(scheduleStatus, ScreenLanguage.SINHALA),
+            simpleTranslator.translate(scheduleStatus, ScreenLanguage.TAMIL)
         ));
         this.remarks="";
     }
