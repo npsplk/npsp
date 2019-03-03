@@ -2,9 +2,12 @@ package lk.npsp.domain;
 
 import lk.npsp.domain.enumeration.ScreenLanguage;
 import lk.npsp.service.SimpleTranslator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,16 +21,15 @@ public class ScreenResponse {
     private List<String> screenTitle;
     private List<ScreenRow> screenRows = new ArrayList<>();
     private List<List<String>> tableHeaders = new ArrayList<>();
+    private SimpleTranslator simpleTranslator= new SimpleTranslator(); //TODO: autowire
 
-    public ScreenResponse(List<ScheduleInstance> scheduleInstanceList) {
+    public ScreenResponse(List<ScheduleInstance> scheduleInstanceList,String bayName) throws IOException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd h:mm a");
         Date today = new Date();
         this.currentDate = dateFormat.format(today);
 
-        SimpleTranslator simpleTranslator = new SimpleTranslator(); //TODO: autowire
-
-        String screenTitle = "Bay 01 - Departures";
+        String screenTitle = (bayName.equals(""))? "Departures": bayName + " - Departures";
         this.screenTitle = new ArrayList<>(Arrays.asList(
             screenTitle,
             simpleTranslator.translate(screenTitle, ScreenLanguage.SINHALA),
@@ -63,18 +65,22 @@ public class ScreenResponse {
         return this.tableHeaders;
     }
 
-    private void generateTableHeaders() {
-        ArrayList<String> tableHeadersEnglish = new ArrayList<>(Arrays.asList(
-            "TIME", "DESTINATION", "ROUTE", "STATUS", "REMARKS"
-        ));
-        ArrayList<String> tableHeadersSinhala = new ArrayList<>(Arrays.asList(
-            "වේලාව", "ගමනාන්තය", "මාර්ග අංකය", "තත්ත්වය", "විශේෂ"
-        ));
-        ArrayList<String> tableHeadersTamil = new ArrayList<>(Arrays.asList(
-            "நேரம்", "இலக்கு", "தடத்தை", "நிலை", "சிறப்பு"
-        ));
-        this.tableHeaders.add(tableHeadersEnglish);
-        this.tableHeaders.add(tableHeadersSinhala);
-        this.tableHeaders.add(tableHeadersTamil);
+    private void generateTableHeaders() throws IOException {
+
+        List<String> tableHeaders= new ArrayList<>();
+
+        //read headers from config file
+        File translatorFile = new ClassPathResource("schedule-screen/table-headers.csv").getFile();
+        FileReader translatorFileReader = new FileReader(translatorFile);
+        BufferedReader br = new BufferedReader(translatorFileReader);
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            tableHeaders= new ArrayList<>(Arrays.asList(values));
+        }
+
+        this.tableHeaders.add(tableHeaders);
+        this.tableHeaders.add(simpleTranslator.translate(tableHeaders,ScreenLanguage.SINHALA));
+        this.tableHeaders.add(simpleTranslator.translate(tableHeaders,ScreenLanguage.TAMIL));
     }
 }
