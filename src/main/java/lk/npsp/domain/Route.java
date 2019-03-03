@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A Route.
@@ -29,7 +27,7 @@ public class Route implements Serializable {
     @Column(name = "route_number")
     private String routeNumber;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
     private Set<RouteLocation> routeLocations = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -66,8 +64,11 @@ public class Route implements Serializable {
         this.routeNumber = routeNumber;
     }
 
-    public Set<RouteLocation> getRouteLocations() {
-        return routeLocations;
+    public SortedSet<RouteLocation> getRouteLocations() {
+        SortedSet<RouteLocation> sortedRouteLocations= new TreeSet<>(
+            Comparator.comparing(RouteLocation::getSequenceNumber));
+        sortedRouteLocations.addAll(this.routeLocations);
+        return sortedRouteLocations;
     }
 
     public Route routeLocations(Set<RouteLocation> routeLocations) {

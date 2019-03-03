@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ScreenRow{
     private String time;
-    private String destination;
+    private List<String> destination;
     private String route;
     private String remarks;
     private List<String> status;
@@ -22,7 +22,14 @@ public class ScreenRow{
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
 
         this.time=dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
-        this.destination=scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
+
+        Location destination=scheduleInstance.getScheduleTemplate().getRoute()
+            .getRouteLocations().last().getLocation();
+        this.destination = new ArrayList<>(Arrays.asList(
+            destination.getLocationName(),
+            destination.getLocationNameSinhala(),
+            destination.getLocationNameTamil()
+        ));
         this.route=scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
 
         String scheduleStatus=scheduleInstance.getScheduleState().toString();
@@ -35,7 +42,7 @@ public class ScreenRow{
     }
 
     public String getTime(){return this.time;}
-    public String getDestination(){return this.destination;}
+    public List<String> getDestination(){return this.destination;}
     public String getRoute(){return this.route;}
     public List<String> getStatus(){return this.status;}
     public String getRemarks(){return this.remarks;}
