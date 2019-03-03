@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -65,12 +66,15 @@ public class ScreenScheduleResource {
         log.debug("REST request to get a Schedule for Screen");
         String ipAddress = request.getRemoteAddr();
 
-        Optional<Bay> bay= bayRepository.findOneBayByIP(ipAddress);
-        String bayName= bay.map(Bay::getBayName).orElse("");
-        Long bayId= bay.map(Bay::getId).orElse(Integer.toUnsignedLong(0));
+        Bay bay= bayRepository.findOneBayByIP(ipAddress);
 
-        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen();
-        ScreenResponse screenResponse = new ScreenResponse(list, bayName, simpleTranslator, resourceLocator);
+        if(bay==null){
+            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found");
+        }
+
+        Instant now= Instant.now(); //get schedules after current time
+        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen(bay,now);
+        ScreenResponse screenResponse = new ScreenResponse(list, bay.getBayName(), simpleTranslator, resourceLocator);
 
         return ResponseEntity.ok().body(screenResponse);
     }

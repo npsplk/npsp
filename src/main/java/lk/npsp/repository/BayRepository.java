@@ -17,5 +17,5 @@ import java.util.Optional;
 @Repository
 public interface BayRepository extends JpaRepository<Bay, Long> {
     @Query(value = "select bay from Bay bay where bay.bindingAddress=:ipAddress")
-    Optional<Bay> findOneBayByIP(@Param("ipAddress")String ipAddress);
+    Bay findOneBayByIP(@Param("ipAddress")String ipAddress);
 }
