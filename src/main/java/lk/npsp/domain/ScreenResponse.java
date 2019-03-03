@@ -26,19 +26,7 @@ public class ScreenResponse {
             "டெர்மினல்கள் 01 - புறப்பாடு"
         ));
 
-        ArrayList<String> tableHeadersEnglish = new ArrayList<>(Arrays.asList(
-            "TIME", "DESTINATION", "ROUTE", "STATUS", "REMARKS"
-        ));
-        ArrayList<String> tableHeadersSinhala = new ArrayList<>(Arrays.asList(
-            "වේලාව", "ගමනාන්තය", "මාර්ග අංකය", "තත්ත්වය", "විශේෂ"
-        ));
-        ArrayList<String> tableHeadersTamil = new ArrayList<>(Arrays.asList(
-            "நேரம்", "இலக்கு", "தடத்தை", "நிலை", "சிறப்பு"
-        ));
-        this.tableHeaders.add(tableHeadersEnglish);
-        this.tableHeaders.add(tableHeadersSinhala);
-        this.tableHeaders.add(tableHeadersTamil);
-
+        generateTableHeaders();
 
         int list_limit = scheduleInstanceList.size() < MAX_ROW_LIMIT ? scheduleInstanceList.size() : MAX_ROW_LIMIT;
 
@@ -65,5 +53,20 @@ public class ScreenResponse {
 
     public List<List<String>> getTableHeaders() {
         return this.tableHeaders;
+    }
+
+    private void generateTableHeaders(){
+        ArrayList<String> tableHeadersEnglish = new ArrayList<>(Arrays.asList(
+            "TIME", "DESTINATION", "ROUTE", "STATUS", "REMARKS"
+        ));
+        ArrayList<String> tableHeadersSinhala = new ArrayList<>(Arrays.asList(
+            "වේලාව", "ගමනාන්තය", "මාර්ග අංකය", "තත්ත්වය", "විශේෂ"
+        ));
+        ArrayList<String> tableHeadersTamil = new ArrayList<>(Arrays.asList(
+            "நேரம்", "இலக்கு", "தடத்தை", "நிலை", "சிறப்பு"
+        ));
+        this.tableHeaders.add(tableHeadersEnglish);
+        this.tableHeaders.add(tableHeadersSinhala);
+        this.tableHeaders.add(tableHeadersTamil);
     }
 }
