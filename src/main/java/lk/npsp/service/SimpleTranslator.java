@@ -1,6 +1,7 @@
 package lk.npsp.service;
 
 import lk.npsp.domain.enumeration.ScreenLanguage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -10,27 +11,15 @@ import java.util.*;
 @Service
 public class SimpleTranslator {
 
-    private static Map<String, List<String>> dictionary = new HashMap<>();
+    private Map<String, List<String>> dictionary = new HashMap<>();
 
-    static {
-        try {
-            loadResource();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+    public SimpleTranslator(ResourceLocator resourceLocator) throws IOException{
+        List<List<String>> dictionaryArray= resourceLocator.locateResource(
+            "schedule-screen/dictionary.csv",",");
+
+        for(List<String> dictionaryItem : dictionaryArray){
+            dictionary.put(dictionaryItem.get(0),dictionaryItem);
         }
-    }
-
-    private static void loadResource() throws IOException {        //load translator resources from file
-
-        File translatorFile = new ClassPathResource("schedule-screen/dictionary.csv").getFile();
-        FileReader translatorFileReader = new FileReader(translatorFile);
-        BufferedReader br = new BufferedReader(translatorFileReader);
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] values = line.split(",");
-            dictionary.put(values[0], Arrays.asList(values));
-        }
-
     }
 
     private String translateWord(String inputString, ScreenLanguage language) {

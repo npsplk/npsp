@@ -7,11 +7,14 @@ import lk.npsp.domain.ScheduleInstance;
 import lk.npsp.domain.ScreenResponse;
 import lk.npsp.repository.BayRepository;
 import lk.npsp.repository.ScreenScheduleRepository;
+import lk.npsp.service.ResourceLocator;
+import lk.npsp.service.SimpleTranslator;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
 import lk.npsp.web.rest.util.HeaderUtil;
 import lk.npsp.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -40,9 +43,15 @@ public class ScreenScheduleResource {
     private final ScreenScheduleRepository screenScheduleRepository;
     private final BayRepository bayRepository;
 
-    public ScreenScheduleResource(ScreenScheduleRepository screenScheduleRepository, BayRepository bayRepository) {
+    private final SimpleTranslator simpleTranslator;
+    private final ResourceLocator resourceLocator;
+
+    public ScreenScheduleResource(ScreenScheduleRepository screenScheduleRepository, BayRepository bayRepository,
+                                  SimpleTranslator simpleTranslator, ResourceLocator resourceLocator) {
         this.screenScheduleRepository = screenScheduleRepository;
         this.bayRepository = bayRepository;
+        this.simpleTranslator= simpleTranslator;
+        this.resourceLocator = resourceLocator;
     }
 
     /**
@@ -61,7 +70,7 @@ public class ScreenScheduleResource {
         Long bayId= bay.map(Bay::getId).orElse(Integer.toUnsignedLong(0));
 
         List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen();
-        ScreenResponse screenResponse = new ScreenResponse(list, bayName);
+        ScreenResponse screenResponse = new ScreenResponse(list, bayName, simpleTranslator, resourceLocator);
 
         return ResponseEntity.ok().body(screenResponse);
     }

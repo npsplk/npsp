@@ -16,11 +16,9 @@ public class ScreenRow{
     private String route;
     private String remarks;
     private List<String> status;
-    private SimpleTranslator simpleTranslator= new SimpleTranslator(); //TODO: autowire
 
-    public ScreenRow(ScheduleInstance scheduleInstance){
+    public ScreenRow(ScheduleInstance scheduleInstance, SimpleTranslator simpleTranslator){
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
-
         this.time=dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
 
         Location destination=scheduleInstance.getScheduleTemplate().getRoute()
