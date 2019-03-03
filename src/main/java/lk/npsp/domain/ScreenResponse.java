@@ -1,5 +1,10 @@
 package lk.npsp.domain;
 
+import lk.npsp.domain.enumeration.ScreenLanguage;
+import lk.npsp.service.SimpleTranslator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +25,13 @@ public class ScreenResponse {
         Date today = new Date();
         this.currentDate = dateFormat.format(today);
 
+        SimpleTranslator simpleTranslator = new SimpleTranslator(); //TODO: autowire
+
+        String screenTitle = "Bay 01 - Departures";
         this.screenTitle = new ArrayList<>(Arrays.asList(
-            "Bay 01 - Departures",
-            "පර්යන්ත 01 - පිටත්වීම්",
-            "டெர்மினல்கள் 01 - புறப்பாடு"
+            screenTitle,
+            simpleTranslator.translate(screenTitle, ScreenLanguage.SINHALA),
+            simpleTranslator.translate(screenTitle, ScreenLanguage.TAMIL)
         ));
 
         generateTableHeaders();
@@ -55,7 +63,7 @@ public class ScreenResponse {
         return this.tableHeaders;
     }
 
-    private void generateTableHeaders(){
+    private void generateTableHeaders() {
         ArrayList<String> tableHeadersEnglish = new ArrayList<>(Arrays.asList(
             "TIME", "DESTINATION", "ROUTE", "STATUS", "REMARKS"
         ));
