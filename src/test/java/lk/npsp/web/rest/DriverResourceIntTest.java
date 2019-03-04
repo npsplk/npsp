@@ -23,9 +23,7 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -59,8 +57,8 @@ public class DriverResourceIntTest {
     private static final String DEFAULT_LICENSE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_LICENSE_NUMBER = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LICENSE_EXPIRY_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LICENSE_EXPIRY_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LICENSE_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LICENSE_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private DriverRepository driverRepository;

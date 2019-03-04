@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -41,7 +40,7 @@ public class Driver implements Serializable {
     private String licenseNumber;
 
     @Column(name = "license_expiry_date")
-    private Instant licenseExpiryDate;
+    private LocalDate licenseExpiryDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -117,16 +116,16 @@ public class Driver implements Serializable {
         this.licenseNumber = licenseNumber;
     }
 
-    public Instant getLicenseExpiryDate() {
+    public LocalDate getLicenseExpiryDate() {
         return licenseExpiryDate;
     }
 
-    public Driver licenseExpiryDate(Instant licenseExpiryDate) {
+    public Driver licenseExpiryDate(LocalDate licenseExpiryDate) {
         this.licenseExpiryDate = licenseExpiryDate;
         return this;
     }
 
-    public void setLicenseExpiryDate(Instant licenseExpiryDate) {
+    public void setLicenseExpiryDate(LocalDate licenseExpiryDate) {
         this.licenseExpiryDate = licenseExpiryDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

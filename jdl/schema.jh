@@ -43,7 +43,7 @@ entity Driver{
     dateOfBirth LocalDate
     address String
     licenseNumber String
-    licenseExpiryDate Instant
+    licenseExpiryDate LocalDate
 }
 
 entity ScheduleTemplate{

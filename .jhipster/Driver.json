@@ -29,7 +29,7 @@
         },
         {
             "fieldName": "licenseExpiryDate",
-            "fieldType": "Instant"
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [],

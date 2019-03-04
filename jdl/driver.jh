@@ -1,0 +1,10 @@
+entity Driver{
+	driverName String required
+    contactNumber String required
+    dateOfBirth LocalDate
+    address String
+    licenseNumber String
+    licenseExpiryDate LocalDate
+}
+
+paginate all with pagination
