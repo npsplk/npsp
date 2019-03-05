@@ -3,10 +3,8 @@ package lk.npsp.service;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +16,8 @@ public class ResourceLocator {
     public  List<List<String>> locateResource(String classPath, String delimiter) throws IOException {
         List<List<String>> resources= new ArrayList<>();
 
-        File tableHeadersFile = new ClassPathResource(classPath).getFile();
-        FileReader tableHeadersFileReader = new FileReader(tableHeadersFile);
-        BufferedReader br = new BufferedReader(tableHeadersFileReader);
+        InputStream tableHeadersFile = new ClassPathResource(classPath).getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(tableHeadersFile, StandardCharsets.UTF_8));
         String line;
         while ((line = br.readLine()) != null) {
             String[] values = line.split(delimiter);
