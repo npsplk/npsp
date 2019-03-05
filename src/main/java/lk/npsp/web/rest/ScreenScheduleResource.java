@@ -61,6 +61,7 @@ public class ScreenScheduleResource {
      * @return the ResponseEntity with status 200 (OK) and the list of scheduleInstances in body
      * @throws IOException if the tableheaders configuration is not loaded properly
      */
+    @CrossOrigin
     @GetMapping("/schedule")
     public ResponseEntity<ScreenResponse> getSchedulesForScreen(HttpServletRequest request) throws IOException {
         log.debug("REST request to get a Schedule for Screen");
@@ -69,7 +70,8 @@ public class ScreenScheduleResource {
         Bay bay= bayRepository.findOneBayByIP(ipAddress);
 
         if(bay==null){
-            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found");
+            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found "
+                + ipAddress);
         }
 
         Instant now= Instant.now(); //get schedules after current time
