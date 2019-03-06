@@ -19,8 +19,8 @@ import java.util.List;
 public interface ScreenScheduleRepository extends JpaRepository<ScheduleInstance, Long> {
 
     @Query(value = "select schedule_instance from ScheduleInstance schedule_instance " +
-        "where schedule_instance.bay=:bay and schedule_instance.actualScheduledTime >:now " +
+        "where schedule_instance.bay.id=:bayId and schedule_instance.actualScheduledTime >:now " +
         "order by schedule_instance.actualScheduledTime ASC")
-    List<ScheduleInstance> findScheduleInstancesByScreen(@Param("bay") Bay bay, @Param("now") Instant now);
+    List<ScheduleInstance> findScheduleInstancesByScreen(@Param("bayId") Long bayId, @Param("now") Instant now);
 
 }
