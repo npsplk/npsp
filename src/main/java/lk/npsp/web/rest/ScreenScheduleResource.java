@@ -69,13 +69,14 @@ public class ScreenScheduleResource {
 
         Optional<Bay> bayOptional= bayRepository.findOneBayByIP(ipAddress);
 
-        if(!bayOptional.isPresent()){
-            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found "
-                + ipAddress);
-        }
+        //TODO: uncomment for production
+//        if(!bayOptional.isPresent()){
+//            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found "
+//                + ipAddress);
+//        }
 
-        Long bayId= bayOptional.map(Bay::getId).orElse(Integer.toUnsignedLong(0));
-        String bayName= bayOptional.map(Bay::getBayName).orElse("");
+        Long bayId= bayOptional.map(Bay::getId).orElse(Integer.toUnsignedLong(1));
+        String bayName= bayOptional.map(Bay::getBayName).orElse("Bay 01");
 
         Instant now= Instant.now(); //get schedules after current time
         List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen(bayId,now);
