@@ -78,17 +78,15 @@ public class RouteLocationResource {
     }
 
     /**
-     * GET  /route-locations : get all the routeLocations.
+     * GET  /route-locations : get all the routeLocations by Route.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of routeLocations in body
      */
     @GetMapping("/route-locations")
-    public ResponseEntity<List<RouteLocation>> getAllRouteLocations(Pageable pageable) {
+    public ResponseEntity<List<RouteLocation>> getAllRouteLocations(@RequestParam("route") Long routeId) {
         log.debug("REST request to get a page of RouteLocations");
-        Page<RouteLocation> page = routeLocationRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/route-locations");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<RouteLocation> result = routeLocationRepository.findRouteLocationsByRoute(routeId);
+        return ResponseEntity.ok().body(result);
     }
 
     /**
