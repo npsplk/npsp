@@ -55,7 +55,14 @@ public class RouteResource {
         if (route.getId() != null) {
             throw new BadRequestAlertException("A new route cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         Route result = routeRepository.save(route);
+
+        for (RouteLocation routeLocation : route.getRouteLocations()) {
+            routeLocation.setRoute(result);
+            routeLocationRepository.save(routeLocation);
+        }
+
         return ResponseEntity.created(new URI("/api/routes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -77,9 +84,17 @@ public class RouteResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
 
-//        for (RouteLocation routeLocation : route.getRouteLocations()) {
-//            routeLocationRepository.save(routeLocation);
-//        }
+        // remove all route locations of route in database
+        List<RouteLocation> routeLocations = routeLocationRepository.
+            findRouteLocationsByRoute(route.getId());
+        for (RouteLocation routeLocation : routeLocations) {
+            routeLocationRepository.delete(routeLocation);
+        }
+
+        // save all route locations in request
+        for (RouteLocation routeLocation : route.getRouteLocations()) {
+            routeLocationRepository.save(routeLocation);
+        }
 
         Route result = routeRepository.save(route);
 

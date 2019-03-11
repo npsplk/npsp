@@ -17,4 +17,6 @@ public interface RouteLocationRepository extends JpaRepository<RouteLocation, Lo
     @Query(value = "select route_location from RouteLocation route_location " +
         "where route_location.route.id=:routeId order by route_location.sequenceNumber ASC")
     List<RouteLocation> findRouteLocationsByRoute(@Param("routeId") Long routeId);
+
+
 }
