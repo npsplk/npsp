@@ -4,6 +4,7 @@ package lk.npsp.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "route_location")
-public class RouteLocation implements Serializable {
+public class RouteLocation implements Serializable, Comparable<RouteLocation> {
 
     private static final long serialVersionUID = 1L;
     
@@ -108,4 +109,11 @@ public class RouteLocation implements Serializable {
             ", sequenceNumber=" + getSequenceNumber() +
             "}";
     }
+
+    @Override
+    @NotNull
+    public int compareTo(RouteLocation routeLocation){
+        return routeLocation.getSequenceNumber().intValue();
+    }
+
 }

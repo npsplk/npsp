@@ -27,7 +27,7 @@ public class Route implements Serializable {
     @Column(name = "route_number")
     private String routeNumber;
 
-    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "route", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<RouteLocation> routeLocations = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

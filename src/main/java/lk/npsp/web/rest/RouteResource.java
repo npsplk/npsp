@@ -1,5 +1,8 @@
 package lk.npsp.web.rest;
+
 import lk.npsp.domain.Route;
+import lk.npsp.domain.RouteLocation;
+import lk.npsp.repository.RouteLocationRepository;
 import lk.npsp.repository.RouteRepository;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
 import lk.npsp.web.rest.util.HeaderUtil;
@@ -17,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing Route.
@@ -32,9 +34,12 @@ public class RouteResource {
     private static final String ENTITY_NAME = "route";
 
     private final RouteRepository routeRepository;
+    private final RouteLocationRepository routeLocationRepository;
 
-    public RouteResource(RouteRepository routeRepository) {
+    public RouteResource(RouteRepository routeRepository, RouteLocationRepository routeLocationRepository) {
+
         this.routeRepository = routeRepository;
+        this.routeLocationRepository = routeLocationRepository;
     }
 
     /**
@@ -71,7 +76,13 @@ public class RouteResource {
         if (route.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+
+//        for (RouteLocation routeLocation : route.getRouteLocations()) {
+//            routeLocationRepository.save(routeLocation);
+//        }
+
         Route result = routeRepository.save(route);
+
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, route.getId().toString()))
             .body(result);
