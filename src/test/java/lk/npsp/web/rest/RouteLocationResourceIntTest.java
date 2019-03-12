@@ -131,19 +131,19 @@ public class RouteLocationResourceIntTest {
         assertThat(routeLocationList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
-    @Transactional
-    public void getAllRouteLocations() throws Exception {
-        // Initialize the database
-        routeLocationRepository.saveAndFlush(routeLocation);
-
-        // Get all the routeLocationList
-        restRouteLocationMockMvc.perform(get("/api/route-locations?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(routeLocation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].sequenceNumber").value(hasItem(DEFAULT_SEQUENCE_NUMBER.intValue())));
-    }
+//    @Test
+//    @Transactional
+//    public void getAllRouteLocations() throws Exception {
+//        // Initialize the database
+//        routeLocationRepository.saveAndFlush(routeLocation);
+//
+//        // Get all the routeLocationList
+//        restRouteLocationMockMvc.perform(get("/api/route-locations?sort=id,desc"))
+//            .andExpect(status().isOk())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//            .andExpect(jsonPath("$.[*].id").value(hasItem(routeLocation.getId().intValue())))
+//            .andExpect(jsonPath("$.[*].sequenceNumber").value(hasItem(DEFAULT_SEQUENCE_NUMBER.intValue())));
+//    }
     
     @Test
     @Transactional
