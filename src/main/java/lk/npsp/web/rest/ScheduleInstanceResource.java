@@ -1,6 +1,8 @@
 package lk.npsp.web.rest;
 import lk.npsp.domain.ScheduleInstance;
+import lk.npsp.domain.ScheduleTemplate;
 import lk.npsp.repository.ScheduleInstanceRepository;
+import lk.npsp.repository.ScheduleTemplateRepository;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
 import lk.npsp.web.rest.util.HeaderUtil;
 import lk.npsp.web.rest.util.PaginationUtil;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -34,9 +37,12 @@ public class ScheduleInstanceResource {
     private static final String ENTITY_NAME = "scheduleInstance";
 
     private final ScheduleInstanceRepository scheduleInstanceRepository;
+    private final ScheduleTemplateRepository scheduleTemplateRepository;
 
-    public ScheduleInstanceResource(ScheduleInstanceRepository scheduleInstanceRepository) {
+    public ScheduleInstanceResource(ScheduleInstanceRepository scheduleInstanceRepository,
+                                    ScheduleTemplateRepository scheduleTemplateRepository) {
         this.scheduleInstanceRepository = scheduleInstanceRepository;
+        this.scheduleTemplateRepository = scheduleTemplateRepository;
     }
 
     /**
@@ -52,10 +58,29 @@ public class ScheduleInstanceResource {
         if (scheduleInstance.getId() != null) {
             throw new BadRequestAlertException("A new scheduleInstance cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        if (scheduleInstance.getScheduleTemplate() !=null){
+            Optional<ScheduleTemplate> scheduleTemplate= scheduleTemplateRepository.
+                findById(scheduleInstance.getScheduleTemplate().getId());
+            Instant startTime= scheduleTemplate.map(ScheduleTemplate::getStartTime).orElse(null);
+            scheduleInstance.setScheduledTime(startTime);
+            scheduleInstance.setActualDepartureTime(startTime);
+            scheduleInstance.setActualScheduledTime(startTime);
+
+            scheduleInstance.setDriver(scheduleTemplate.map(ScheduleTemplate::getDriver)
+                .orElse(null));
+            scheduleInstance.setBay(scheduleTemplate.map(ScheduleTemplate::getBay)
+                .orElse(null));
+            scheduleInstance.setRoute(scheduleTemplate.map(ScheduleTemplate::getRoute)
+                .orElse(null));
+            scheduleInstance.setVehicle(scheduleTemplate.map(ScheduleTemplate::getVehicle)
+                .orElse(null));
+        }
+
         ScheduleInstance result = scheduleInstanceRepository.save(scheduleInstance);
         return ResponseEntity.created(new URI("/api/schedule-instances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+            .body(scheduleInstance);
     }
 
     /**
