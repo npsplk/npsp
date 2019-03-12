@@ -3,6 +3,7 @@ package lk.npsp.web.rest;
 import lk.npsp.NpspApp;
 
 import lk.npsp.domain.Route;
+import lk.npsp.repository.RouteLocationRepository;
 import lk.npsp.repository.RouteRepository;
 import lk.npsp.web.rest.errors.ExceptionTranslator;
 
@@ -50,6 +51,9 @@ public class RouteResourceIntTest {
     private RouteRepository routeRepository;
 
     @Autowired
+    private RouteLocationRepository routeLocationRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -71,7 +75,7 @@ public class RouteResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final RouteResource routeResource = new RouteResource(routeRepository);
+        final RouteResource routeResource = new RouteResource(routeRepository, routeLocationRepository);
         this.restRouteMockMvc = MockMvcBuilders.standaloneSetup(routeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
