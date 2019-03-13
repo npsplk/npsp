@@ -4,6 +4,8 @@ import lk.npsp.NpspApp;
 
 import lk.npsp.domain.ScheduleInstance;
 import lk.npsp.repository.ScheduleInstanceRepository;
+import lk.npsp.repository.ScheduleTemplateRepository;
+import lk.npsp.service.ScheduleInstanceManager;
 import lk.npsp.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -37,6 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import lk.npsp.domain.enumeration.ScheduleState;
+
 /**
  * Test class for the ScheduleInstanceResource REST controller.
  *
@@ -68,6 +71,12 @@ public class ScheduleInstanceResourceIntTest {
     private ScheduleInstanceRepository scheduleInstanceRepository;
 
     @Autowired
+    private ScheduleTemplateRepository scheduleTemplateRepository;
+
+    @Autowired
+    private ScheduleInstanceManager scheduleInstanceManager;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -89,7 +98,8 @@ public class ScheduleInstanceResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ScheduleInstanceResource scheduleInstanceResource = new ScheduleInstanceResource(scheduleInstanceRepository);
+        final ScheduleInstanceResource scheduleInstanceResource = new ScheduleInstanceResource(
+            scheduleInstanceRepository, scheduleTemplateRepository, scheduleInstanceManager);
         this.restScheduleInstanceMockMvc = MockMvcBuilders.standaloneSetup(scheduleInstanceResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -100,7 +110,7 @@ public class ScheduleInstanceResourceIntTest {
 
     /**
      * Create an entity for this test.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
@@ -180,7 +190,7 @@ public class ScheduleInstanceResourceIntTest {
             .andExpect(jsonPath("$.[*].specialNotes").value(hasItem(DEFAULT_SPECIAL_NOTES.toString())))
             .andExpect(jsonPath("$.[*].scheduleState").value(hasItem(DEFAULT_SCHEDULE_STATE.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getScheduleInstance() throws Exception {

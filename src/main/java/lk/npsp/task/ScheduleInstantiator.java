@@ -45,7 +45,7 @@ public class ScheduleInstantiator {
     /**
      * create instances of schedule templates for the day
      */
-    @Scheduled(cron = "0 5 0 1/1 * ? *")
+    @Scheduled(cron = "0 5 0 * * *")
     public void instantiateSchedules() {
         log.info("Starting Schedule Instantiator");
 
