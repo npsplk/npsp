@@ -2,6 +2,7 @@ package lk.npsp.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lk.npsp.domain.enumeration.Weekdays;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class ScheduleTemplate implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,14 +55,14 @@ public class ScheduleTemplate implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "schedule_template_weekday",
-               joinColumns = @JoinColumn(name = "schedule_template_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "weekday_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "schedule_template_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "weekday_id", referencedColumnName = "id"))
     private Set<Weekday> weekdays = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "schedule_template_vehicle_facility",
-               joinColumns = @JoinColumn(name = "schedule_template_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "vehicle_facility_id", referencedColumnName = "id"))
+        joinColumns = @JoinColumn(name = "schedule_template_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "vehicle_facility_id", referencedColumnName = "id"))
     private Set<VehicleFacility> vehicleFacilities = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

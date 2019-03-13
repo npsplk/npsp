@@ -20,6 +20,7 @@ public class ScheduleInstanceManager {
         scheduleInstance.setBay(scheduleTemplate.getBay());
         scheduleInstance.setRoute(scheduleTemplate.getRoute());
         scheduleInstance.setVehicle(scheduleTemplate.getVehicle());
+        scheduleInstance.setScheduleTemplate(scheduleTemplate);
 
         return scheduleInstance;
     }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 /**
@@ -19,4 +20,8 @@ public interface ScheduleInstanceRepository extends JpaRepository<ScheduleInstan
     @Query(value = "select distinct schedule_instance from ScheduleInstance schedule_instance where schedule_instance.date= :date",
         countQuery = "select count(distinct schedule_instance) from ScheduleInstance schedule_instance where schedule_instance.date= :date")
     Page<ScheduleInstance> findScheduleInstancesByDate(Pageable pageable, @Param("date") LocalDate date);
+
+    @Query(value = "select distinct schedule_instance from ScheduleInstance schedule_instance where schedule_instance.date= :date",
+        countQuery = "select count(distinct schedule_instance) from ScheduleInstance schedule_instance where schedule_instance.date= :date")
+    List<ScheduleInstance> findScheduleInstancesListByDate(@Param("date") LocalDate date);
 }

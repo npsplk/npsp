@@ -27,4 +27,7 @@ public interface ScheduleTemplateRepository extends JpaRepository<ScheduleTempla
     @Query("select schedule_template from ScheduleTemplate schedule_template left join fetch schedule_template.weekdays left join fetch schedule_template.vehicleFacilities where schedule_template.id =:id")
     Optional<ScheduleTemplate> findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query(value = "select distinct schedule_template from ScheduleTemplate schedule_template left join fetch schedule_template.weekdays where schedule_template.isActive=1")
+    List<ScheduleTemplate> findAllActiveTemplates();
+
 }
