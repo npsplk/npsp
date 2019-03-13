@@ -1,8 +1,10 @@
 package lk.npsp.web.rest;
+
 import lk.npsp.domain.ScheduleInstance;
 import lk.npsp.domain.ScheduleTemplate;
 import lk.npsp.repository.ScheduleInstanceRepository;
 import lk.npsp.repository.ScheduleTemplateRepository;
+import lk.npsp.service.ScheduleInstanceManager;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
 import lk.npsp.web.rest.util.HeaderUtil;
 import lk.npsp.web.rest.util.PaginationUtil;
@@ -38,11 +40,14 @@ public class ScheduleInstanceResource {
 
     private final ScheduleInstanceRepository scheduleInstanceRepository;
     private final ScheduleTemplateRepository scheduleTemplateRepository;
+    private final ScheduleInstanceManager scheduleInstanceManager;
 
     public ScheduleInstanceResource(ScheduleInstanceRepository scheduleInstanceRepository,
-                                    ScheduleTemplateRepository scheduleTemplateRepository) {
+                                    ScheduleTemplateRepository scheduleTemplateRepository,
+                                    ScheduleInstanceManager scheduleInstanceManager) {
         this.scheduleInstanceRepository = scheduleInstanceRepository;
         this.scheduleTemplateRepository = scheduleTemplateRepository;
+        this.scheduleInstanceManager = scheduleInstanceManager;
     }
 
     /**
@@ -59,22 +64,22 @@ public class ScheduleInstanceResource {
             throw new BadRequestAlertException("A new scheduleInstance cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        if (scheduleInstance.getScheduleTemplate() !=null){
-            Optional<ScheduleTemplate> scheduleTemplate= scheduleTemplateRepository.
+        if (scheduleInstance.getScheduleTemplate() != null) {
+            Optional<ScheduleTemplate> scheduleTemplateOptional = scheduleTemplateRepository.
                 findById(scheduleInstance.getScheduleTemplate().getId());
-            Instant startTime= scheduleTemplate.map(ScheduleTemplate::getStartTime).orElse(null);
-            scheduleInstance.setScheduledTime(startTime);
-            scheduleInstance.setActualDepartureTime(startTime);
-            scheduleInstance.setActualScheduledTime(startTime);
+            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+            scheduleTemplate.setStartTime(scheduleTemplateOptional.map(
+                ScheduleTemplate::getStartTime).orElse(null));
+            scheduleTemplate.setDriver(scheduleTemplateOptional.map(
+                ScheduleTemplate::getDriver).orElse(null));
+            scheduleTemplate.setBay(scheduleTemplateOptional.map(
+                ScheduleTemplate::getBay).orElse(null));
+            scheduleTemplate.setRoute(scheduleTemplateOptional.map(
+                ScheduleTemplate::getRoute).orElse(null));
+            scheduleTemplate.setVehicle(scheduleTemplateOptional.map(
+                ScheduleTemplate::getVehicle).orElse(null));
 
-            scheduleInstance.setDriver(scheduleTemplate.map(ScheduleTemplate::getDriver)
-                .orElse(null));
-            scheduleInstance.setBay(scheduleTemplate.map(ScheduleTemplate::getBay)
-                .orElse(null));
-            scheduleInstance.setRoute(scheduleTemplate.map(ScheduleTemplate::getRoute)
-                .orElse(null));
-            scheduleInstance.setVehicle(scheduleTemplate.map(ScheduleTemplate::getVehicle)
-                .orElse(null));
+            scheduleInstance = scheduleInstanceManager.createFromTemplate(scheduleInstance, scheduleTemplate);
         }
 
         ScheduleInstance result = scheduleInstanceRepository.save(scheduleInstance);
@@ -127,7 +132,7 @@ public class ScheduleInstanceResource {
     @GetMapping("/schedule-operations")
     public ResponseEntity<List<ScheduleInstance>> getScheduleOperations(Pageable pageable) {
         log.debug("REST request to get a page of Schedule Operations");
-        LocalDate currentDate= new java.sql.Date(new Date().getTime()).toLocalDate();
+        LocalDate currentDate = new java.sql.Date(new Date().getTime()).toLocalDate();
         Page<ScheduleInstance> page = scheduleInstanceRepository.findScheduleInstancesByDate(pageable, currentDate);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/schedule-instances");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
