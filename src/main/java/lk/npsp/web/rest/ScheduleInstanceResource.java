@@ -67,19 +67,11 @@ public class ScheduleInstanceResource {
         if (scheduleInstance.getScheduleTemplate() != null) {
             Optional<ScheduleTemplate> scheduleTemplateOptional = scheduleTemplateRepository.
                 findById(scheduleInstance.getScheduleTemplate().getId());
-            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-            scheduleTemplate.setStartTime(scheduleTemplateOptional.map(
-                ScheduleTemplate::getStartTime).orElse(null));
-            scheduleTemplate.setDriver(scheduleTemplateOptional.map(
-                ScheduleTemplate::getDriver).orElse(null));
-            scheduleTemplate.setBay(scheduleTemplateOptional.map(
-                ScheduleTemplate::getBay).orElse(null));
-            scheduleTemplate.setRoute(scheduleTemplateOptional.map(
-                ScheduleTemplate::getRoute).orElse(null));
-            scheduleTemplate.setVehicle(scheduleTemplateOptional.map(
-                ScheduleTemplate::getVehicle).orElse(null));
-
-            scheduleInstance = scheduleInstanceManager.createFromTemplate(scheduleInstance, scheduleTemplate);
+            if (scheduleTemplateOptional.isPresent()) {
+                scheduleInstance.setScheduleTemplate(scheduleTemplateOptional.get());
+                scheduleInstance = scheduleInstanceManager.createFromTemplate
+                    (scheduleInstance, scheduleTemplateOptional.get());
+            }
         }
 
         ScheduleInstance result = scheduleInstanceRepository.save(scheduleInstance);
