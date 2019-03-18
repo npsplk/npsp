@@ -39,7 +39,7 @@ public class ScreenScheduleResource {
 
     private final Logger log = LoggerFactory.getLogger(ScreenScheduleResource.class);
 
-    private static final String ENTITY_NAME = "scheduleInstance";
+    private static final Long SCHEDULE_DELAY_PADDING_IN_SECONDS = Integer.toUnsignedLong(1800);
 
     private final ScreenScheduleRepository screenScheduleRepository;
     private final BayRepository bayRepository;
@@ -79,8 +79,28 @@ public class ScreenScheduleResource {
         String bayName= bayOptional.map(Bay::getBayName).orElse("Bay 01");
 
         Instant now= Instant.now(); //get schedules after current time
-        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen(bayId,now);
+        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen
+            (bayId,now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
         ScreenResponse screenResponse = new ScreenResponse(list, bayName, simpleTranslator, resourceLocator);
+
+        return ResponseEntity.ok().body(screenResponse);
+    }
+
+    /**
+     * GET  /schedule-summary : get all the schedules for summary screen.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of scheduleInstances in body
+     * @throws IOException if the tableheaders configuration is not loaded properly
+     */
+    @CrossOrigin
+    @GetMapping("/schedule-summary")
+    public ResponseEntity<ScreenResponse> getSchedulesForSummary(HttpServletRequest request) throws IOException {
+        log.debug("REST request to get a Schedule for Summary");
+
+        Instant now= Instant.now(); //get schedules after current time
+        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByDay
+            (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
+        ScreenResponse screenResponse = new ScreenResponse(list, "", simpleTranslator, resourceLocator);
 
         return ResponseEntity.ok().body(screenResponse);
     }

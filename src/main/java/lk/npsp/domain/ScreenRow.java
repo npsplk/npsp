@@ -10,38 +10,63 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class ScreenRow{
+public class ScreenRow {
     private String time;
+    private List<String> bay;
     private List<String> destination;
     private String route;
     private String remarks;
     private List<String> status;
 
-    public ScreenRow(ScheduleInstance scheduleInstance, SimpleTranslator simpleTranslator){
+    public ScreenRow(ScheduleInstance scheduleInstance, SimpleTranslator simpleTranslator) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
-        this.time=dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
+        this.time = dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
 
-        Location destination=scheduleInstance.getScheduleTemplate().getRoute()
+        Location destination = scheduleInstance.getScheduleTemplate().getRoute()
             .getRouteLocations().last().getLocation();
+        String bayName = scheduleInstance.getBay().getBayName().replace("Bay ", "");
+        this.bay = new ArrayList<>(Arrays.asList(
+            bayName,
+            simpleTranslator.translate(bayName, ScreenLanguage.SINHALA),
+            simpleTranslator.translate(bayName, ScreenLanguage.TAMIL)
+        ));
         this.destination = new ArrayList<>(Arrays.asList(
             destination.getLocationName(),
             destination.getLocationNameSinhala(),
             destination.getLocationNameTamil()
         ));
-        this.route=scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
+        this.route = scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
 
-        String scheduleStatus=scheduleInstance.getScheduleState().toString();
+        String scheduleStatus = scheduleInstance.getScheduleState().toString();
         this.status = new ArrayList<>(Arrays.asList(
             scheduleStatus,
             simpleTranslator.translate(scheduleStatus, ScreenLanguage.SINHALA),
             simpleTranslator.translate(scheduleStatus, ScreenLanguage.TAMIL)
         ));
-        this.remarks="";
+        this.remarks = "";
     }
 
-    public String getTime(){return this.time;}
-    public List<String> getDestination(){return this.destination;}
-    public String getRoute(){return this.route;}
-    public List<String> getStatus(){return this.status;}
-    public String getRemarks(){return this.remarks;}
+    public String getTime() {
+        return this.time;
+    }
+
+    public List<String> getBay() {
+        return this.bay;
+    }
+
+    public List<String> getDestination() {
+        return this.destination;
+    }
+
+    public String getRoute() {
+        return this.route;
+    }
+
+    public List<String> getStatus() {
+        return this.status;
+    }
+
+    public String getRemarks() {
+        return this.remarks;
+    }
 }

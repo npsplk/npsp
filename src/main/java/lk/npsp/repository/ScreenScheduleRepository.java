@@ -23,4 +23,9 @@ public interface ScreenScheduleRepository extends JpaRepository<ScheduleInstance
         "order by schedule_instance.actualScheduledTime ASC")
     List<ScheduleInstance> findScheduleInstancesByScreen(@Param("bayId") Long bayId, @Param("now") Instant now);
 
+    @Query(value = "select schedule_instance from ScheduleInstance schedule_instance " +
+        "where schedule_instance.actualScheduledTime >:now " +
+        "order by schedule_instance.actualScheduledTime ASC")
+    List<ScheduleInstance> findScheduleInstancesByDay(@Param("now") Instant now);
+
 }
