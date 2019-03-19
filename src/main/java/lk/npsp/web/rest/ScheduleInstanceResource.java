@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -122,10 +123,11 @@ public class ScheduleInstanceResource {
      * @return the ResponseEntity with status 200 (OK) and the list of scheduleInstances in body
      */
     @GetMapping("/schedule-operations")
-    public ResponseEntity<List<ScheduleInstance>> getScheduleOperations(Pageable pageable) {
-        log.debug("REST request to get a page of Schedule Operations");
+    public ResponseEntity<List<ScheduleInstance>> getScheduleOperations(Pageable pageable, @RequestParam("search") String search) {
+        log.debug("REST request to get a page of Schedule Operations " + search);
         LocalDate currentDate = new java.sql.Date(new Date().getTime()).toLocalDate();
-        Page<ScheduleInstance> page = scheduleInstanceRepository.findScheduleInstancesByDate(pageable, currentDate);
+        Page<ScheduleInstance> page = scheduleInstanceRepository.findScheduleInstancesByDate
+            (pageable, currentDate, search);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/schedule-instances");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
