@@ -15,6 +15,18 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 To optimize the npsp application for production, run:
 
     ./mvnw -Pprod clean package
+    
+To deploy new instance on a server
+    git clone
+    change 
+    1. database url
+    2. database username
+    3. database password
+    4. email username, password
+    5. server mail base-url  
+    ..on application-prod.yml
+    
+    build and run
 
 To ensure everything worked, run:
 
