@@ -1,4 +1,5 @@
 package lk.npsp.web.rest;
+
 import lk.npsp.domain.Vehicle;
 import lk.npsp.repository.VehicleRepository;
 import lk.npsp.web.rest.errors.BadRequestAlertException;
@@ -81,7 +82,7 @@ public class VehicleResource {
     /**
      * GET  /vehicles : get all the vehicles.
      *
-     * @param pageable the pagination information
+     * @param pageable  the pagination information
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of vehicles in body
      */
@@ -96,6 +97,18 @@ public class VehicleResource {
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/vehicles?eagerload=%b", eagerload));
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * GET  /all-vehicles : get all the vehicles.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of vehicles in body
+     */
+    @GetMapping("/all-vehicles")
+    public ResponseEntity<List<Vehicle>> getAllVehicles() {
+        log.debug("REST request to get a list of Vehicles");
+        List<Vehicle> list = vehicleRepository.findAll();
+        return ResponseEntity.ok().body(list);
     }
 
     /**

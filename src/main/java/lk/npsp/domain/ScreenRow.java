@@ -35,7 +35,7 @@ public class ScreenRow {
             destination.getLocationNameSinhala(),
             destination.getLocationNameTamil()
         ));
-        this.route = scheduleInstance.getScheduleTemplate().getRoute().getRouteName();
+        this.route = scheduleInstance.getScheduleTemplate().getRoute().getRouteNumber();
 
         String scheduleStatus = scheduleInstance.getScheduleState().toString();
         this.status = new ArrayList<>(Arrays.asList(
