@@ -6,6 +6,8 @@ import lk.npsp.service.SimpleTranslator;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,9 +29,9 @@ public class ScreenResponse {
         this.simpleTranslator = simpleTranslator;
         this.resourceLocator = resourceLocator;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd h:mm a");
-        Date today = new Date();
-        this.currentDate = dateFormat.format(today);
+        LocalDateTime today = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
+        this.currentDate = today.format(formatter);
 
         String screenTitle = (bayName.equals("")) ? "Departures" : bayName + " - Departures";
 
