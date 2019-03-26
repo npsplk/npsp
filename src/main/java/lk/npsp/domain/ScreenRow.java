@@ -5,10 +5,7 @@ import lk.npsp.domain.enumeration.ScreenLanguage;
 import lk.npsp.service.SimpleTranslator;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ScreenRow {
     private String time;
@@ -20,6 +17,7 @@ public class ScreenRow {
 
     public ScreenRow(ScheduleInstance scheduleInstance, SimpleTranslator simpleTranslator) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Colombo"));
         this.time = dateFormat.format(Date.from(scheduleInstance.getActualScheduledTime()));
 
         Location destination = scheduleInstance.getScheduleTemplate().getRoute()

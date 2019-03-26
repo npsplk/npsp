@@ -7,11 +7,7 @@ import lk.npsp.service.SimpleTranslator;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ScreenResponse {
     private static final int MAX_ROW_LIMIT_FOR_BAY = 5;
@@ -29,9 +25,10 @@ public class ScreenResponse {
         this.simpleTranslator = simpleTranslator;
         this.resourceLocator = resourceLocator;
 
-        LocalDateTime today = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd h:mm a");
-        this.currentDate = today.format(formatter);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd h:mm a");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Colombo"));
+        Date today = new Date();
+        this.currentDate = dateFormat.format(today);
 
         String screenTitle = (bayName.equals("")) ? "Departures" : bayName + " - Departures";
 
