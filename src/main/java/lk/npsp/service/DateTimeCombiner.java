@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Component
 public class DateTimeCombiner {
@@ -17,7 +18,7 @@ public class DateTimeCombiner {
     public Instant combineDateAndTime(LocalDate date, Instant time) {
 
         ZoneId systemZone = ZoneId.systemDefault();
-        Date dateFromLocalDate = Date.from(date.atStartOfDay(systemZone).toInstant());
+        Date dateFromLocalDate = Date.from(date.atStartOfDay(TimeZone.getTimeZone("Asia/Colombo").toZoneId()).toInstant());
         Date timeFromInstant = Date.from(time);
         String startingDate = new SimpleDateFormat("yyyy-MM-dd").format(dateFromLocalDate);
         String startingTime = new SimpleDateFormat("HH:mm:ss").format(timeFromInstant);
