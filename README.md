@@ -17,6 +17,7 @@ To optimize the npsp application for production, run:
     ./mvnw -Pprod clean package
     
 To deploy new instance on a server
+    set /etc/timezone to Asia/Colombo
     git clone
     change 
     1. database url
