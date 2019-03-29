@@ -18,14 +18,14 @@ public class DateTimeCombiner {
     public Instant combineDateAndTime(LocalDate date, Instant time) {
 
         ZoneId systemZone = ZoneId.systemDefault();
-        Date dateFromLocalDate = Date.from(date.atStartOfDay(TimeZone.getTimeZone("Asia/Colombo").toZoneId()).toInstant());
+        Instant dateFromLocalDate = date.atStartOfDay(TimeZone.getTimeZone("Asia/Colombo").toZoneId()).toInstant();
         Date timeFromInstant = Date.from(time);
         String startingDate = new SimpleDateFormat("yyyy-MM-dd").format(dateFromLocalDate);
         String startingTime = new SimpleDateFormat("HH:mm:ss").format(timeFromInstant);
         LocalDate datePart = LocalDate.parse(startingDate);
         LocalTime timePart = LocalTime.parse(startingTime);
         LocalDateTime startingDateTime = LocalDateTime.of(datePart, timePart);
-        ZoneOffset currentOffsetForLocalZone = systemZone.getRules().getOffset(dateFromLocalDate.toInstant());
+        ZoneOffset currentOffsetForLocalZone = systemZone.getRules().getOffset(dateFromLocalDate);
         return startingDateTime.toInstant(currentOffsetForLocalZone);
     }
 }
