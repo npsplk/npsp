@@ -63,10 +63,9 @@ public class ScreenScheduleResource {
      */
     @CrossOrigin
     @GetMapping("/schedule")
-    public ResponseEntity<ScreenResponse> getSchedulesForScreen(HttpServletRequest request) throws IOException {
+    public ResponseEntity<ScreenResponse> getSchedulesForScreen
+    (HttpServletRequest request, @RequestParam("ip") String ipAddress) throws IOException {
         log.debug("REST request to get a Schedule for Screen");
-        String ipAddress = request.getRemoteAddr();
-
         Optional<Bay> bayOptional= bayRepository.findOneBayByIP(ipAddress);
 
         //TODO: uncomment for production
