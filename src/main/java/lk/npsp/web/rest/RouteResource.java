@@ -118,6 +118,18 @@ public class RouteResource {
     }
 
     /**
+     * GET  /all-routes : get all the routes.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of routes in body
+     */
+    @GetMapping("/all-routes")
+    public ResponseEntity<List<Route>> getAllRoutes() {
+        log.debug("REST request to get a list of Routes");
+        List<Route> list = routeRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /routes/:id : get the "id" route.
      *
      * @param id the id of the route to retrieve

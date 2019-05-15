@@ -93,6 +93,18 @@ public class VehicleFacilityResource {
     }
 
     /**
+     * GET  /all-vehicle-facilities : get all the vehicle-facilities.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of vehicle-facilities in body
+     */
+    @GetMapping("/all-vehicle-facilities")
+    public ResponseEntity<List<VehicleFacility>> getAllBays() {
+        log.debug("REST request to get a list of Bays");
+        List<VehicleFacility> list = vehicleFacilityRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /vehicle-facilities/:id : get the "id" vehicleFacility.
      *
      * @param id the id of the vehicleFacility to retrieve

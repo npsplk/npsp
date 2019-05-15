@@ -93,6 +93,18 @@ public class TransportTypeResource {
     }
 
     /**
+     * GET  /all-transport-types : get all the transport-types.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of transport-types in body
+     */
+    @GetMapping("/all-transport-types")
+    public ResponseEntity<List<TransportType>> getAllTransportTypes() {
+        log.debug("REST request to get a list of TransportTypes");
+        List<TransportType> list = transportTypeRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /transport-types/:id : get the "id" transportType.
      *
      * @param id the id of the transportType to retrieve

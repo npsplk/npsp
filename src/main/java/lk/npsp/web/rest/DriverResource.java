@@ -93,6 +93,18 @@ public class DriverResource {
     }
 
     /**
+     * GET  /all-drivers : get all the drivers.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of drivers in body
+     */
+    @GetMapping("/all-drivers")
+    public ResponseEntity<List<Driver>> getAllDrivers() {
+        log.debug("REST request to get a list of Drivers");
+        List<Driver> list = driverRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /drivers/:id : get the "id" driver.
      *
      * @param id the id of the driver to retrieve

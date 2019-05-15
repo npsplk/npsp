@@ -93,6 +93,18 @@ public class LocationTypeResource {
     }
 
     /**
+     * GET  /all-location-types : get all the locationTypes.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of locationTypes in body
+     */
+    @GetMapping("/all-location-types")
+    public ResponseEntity<List<LocationType>> getAllLocationTypes() {
+        log.debug("REST request to get a list of Location Types");
+        List<LocationType> list = locationTypeRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /location-types/:id : get the "id" locationType.
      *
      * @param id the id of the locationType to retrieve

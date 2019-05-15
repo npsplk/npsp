@@ -90,6 +90,18 @@ public class RouteLocationResource {
     }
 
     /**
+     * GET  /all-route-locations : get all the route-locations.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of route-locations in body
+     */
+    @GetMapping("/all-route-locations")
+    public ResponseEntity<List<RouteLocation>> getAllRouteLocations() {
+        log.debug("REST request to get a list of Route Locations");
+        List<RouteLocation> list = routeLocationRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /route-locations/:id : get the "id" routeLocation.
      *
      * @param id the id of the routeLocation to retrieve

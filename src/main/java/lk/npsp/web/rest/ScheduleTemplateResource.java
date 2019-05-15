@@ -99,6 +99,18 @@ public class ScheduleTemplateResource {
     }
 
     /**
+     * GET  /all-schedule-templates : get all the schedule-templates.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of schedule-templates in body
+     */
+    @GetMapping("/all-schedule-templates")
+    public ResponseEntity<List<ScheduleTemplate>> getAllBays() {
+        log.debug("REST request to get a list of ScheduleTemplates");
+        List<ScheduleTemplate> list = scheduleTemplateRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /schedule-templates/:id : get the "id" scheduleTemplate.
      *
      * @param id the id of the scheduleTemplate to retrieve

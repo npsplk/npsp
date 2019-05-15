@@ -92,6 +92,18 @@ public class LocationResource {
     }
 
     /**
+     * GET  /all-locations : get all the locations.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of locations in body
+     */
+    @GetMapping("/all-locations")
+    public ResponseEntity<List<Location>> getAllLocations() {
+        log.debug("REST request to get a list of Locations");
+        List<Location> list = locationRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /locations/:id : get the "id" location.
      *
      * @param id the id of the location to retrieve

@@ -117,6 +117,18 @@ public class ScheduleInstanceResource {
     }
 
     /**
+     * GET  /all-schedule-instances : get all the schedule-instances.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of schedule-instances in body
+     */
+    @GetMapping("/all-schedule-instances")
+    public ResponseEntity<List<ScheduleInstance>> getAllScheduleInstances() {
+        log.debug("REST request to get a list of ScheduleInstances");
+        List<ScheduleInstance> list = scheduleInstanceRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /schedule-operations : get all the scheduleInstances of the day.
      *
      * @param pageable the pagination information

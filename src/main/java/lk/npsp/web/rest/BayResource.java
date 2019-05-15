@@ -92,6 +92,18 @@ public class BayResource {
     }
 
     /**
+     * GET  /all-bays : get all the bays.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of bays in body
+     */
+    @GetMapping("/all-bays")
+    public ResponseEntity<List<Bay>> getAllBays() {
+        log.debug("REST request to get a list of Bays");
+        List<Bay> list = bayRepository.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
      * GET  /bays/:id : get the "id" bay.
      *
      * @param id the id of the bay to retrieve
