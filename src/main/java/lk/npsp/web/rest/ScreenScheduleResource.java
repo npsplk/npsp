@@ -64,15 +64,9 @@ public class ScreenScheduleResource {
     @CrossOrigin
     @GetMapping("/schedule")
     public ResponseEntity<ScreenResponse> getSchedulesForScreen
-    (HttpServletRequest request, @RequestParam("ip") String ipAddress) throws IOException {
+    (HttpServletRequest request, @RequestParam("bay") Long id) throws IOException {
         log.debug("REST request to get a Schedule for Screen");
-        Optional<Bay> bayOptional = bayRepository.findOneBayByIP(ipAddress);
-
-        //TODO: uncomment for production
-//        if(!bayOptional.isPresent()){
-//            throw new BadRequestAlertException("IP address was not recognized", ENTITY_NAME, "bay ip not found "
-//                + ipAddress);
-//        }
+        Optional<Bay> bayOptional = bayRepository.findById(id);
 
         Long bayId = bayOptional.map(Bay::getId).orElse(Integer.toUnsignedLong(1));
         String bayName = bayOptional.map(Bay::getBayName).orElse("Bay 01");
