@@ -98,12 +98,12 @@ public class ScreenScheduleResource {
 
         Instant now = Instant.now(); //get schedules after current time
         List<ScheduleInstance> list;
-        if (!transportType.equals("")) {
-            list = screenScheduleRepository.findScheduleInstancesByTypeByDay
-                (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS), transportType);
-        } else {
+        if (transportType.equals("")) {
             list = screenScheduleRepository.findScheduleInstancesByDay
                 (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
+        } else {
+            list = screenScheduleRepository.findScheduleInstancesByTypeByDay
+                (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS), transportType);
         }
         ScreenResponse screenResponse = new ScreenResponse(list, "", simpleTranslator, resourceLocator);
 
