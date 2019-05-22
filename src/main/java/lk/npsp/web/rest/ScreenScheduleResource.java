@@ -51,7 +51,7 @@ public class ScreenScheduleResource {
                                   SimpleTranslator simpleTranslator, ResourceLocator resourceLocator) {
         this.screenScheduleRepository = screenScheduleRepository;
         this.bayRepository = bayRepository;
-        this.simpleTranslator= simpleTranslator;
+        this.simpleTranslator = simpleTranslator;
         this.resourceLocator = resourceLocator;
     }
 
@@ -66,7 +66,7 @@ public class ScreenScheduleResource {
     public ResponseEntity<ScreenResponse> getSchedulesForScreen
     (HttpServletRequest request, @RequestParam("ip") String ipAddress) throws IOException {
         log.debug("REST request to get a Schedule for Screen");
-        Optional<Bay> bayOptional= bayRepository.findOneBayByIP(ipAddress);
+        Optional<Bay> bayOptional = bayRepository.findOneBayByIP(ipAddress);
 
         //TODO: uncomment for production
 //        if(!bayOptional.isPresent()){
@@ -74,12 +74,12 @@ public class ScreenScheduleResource {
 //                + ipAddress);
 //        }
 
-        Long bayId= bayOptional.map(Bay::getId).orElse(Integer.toUnsignedLong(1));
-        String bayName= bayOptional.map(Bay::getBayName).orElse("Bay 01");
+        Long bayId = bayOptional.map(Bay::getId).orElse(Integer.toUnsignedLong(1));
+        String bayName = bayOptional.map(Bay::getBayName).orElse("Bay 01");
 
-        Instant now= Instant.now(); //get schedules after current time
+        Instant now = Instant.now(); //get schedules after current time
         List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByScreen
-            (bayId,now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
+            (bayId, now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
         ScreenResponse screenResponse = new ScreenResponse(list, bayName, simpleTranslator, resourceLocator);
 
         return ResponseEntity.ok().body(screenResponse);
@@ -93,12 +93,18 @@ public class ScreenScheduleResource {
      */
     @CrossOrigin
     @GetMapping("/schedule-summary")
-    public ResponseEntity<ScreenResponse> getSchedulesForSummary(HttpServletRequest request) throws IOException {
+    public ResponseEntity<ScreenResponse> getSchedulesForSummary(HttpServletRequest request, @RequestParam("type") String transportType) throws IOException {
         log.debug("REST request to get a Schedule for Summary");
 
-        Instant now= Instant.now(); //get schedules after current time
-        List<ScheduleInstance> list = screenScheduleRepository.findScheduleInstancesByDay
-            (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
+        Instant now = Instant.now(); //get schedules after current time
+        List<ScheduleInstance> list;
+        if (!transportType.equals("")) {
+            list = screenScheduleRepository.findScheduleInstancesByTypeByDay
+                (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS), transportType);
+        } else {
+            list = screenScheduleRepository.findScheduleInstancesByDay
+                (now.minusSeconds(SCHEDULE_DELAY_PADDING_IN_SECONDS));
+        }
         ScreenResponse screenResponse = new ScreenResponse(list, "", simpleTranslator, resourceLocator);
 
         return ResponseEntity.ok().body(screenResponse);

@@ -28,4 +28,10 @@ public interface ScreenScheduleRepository extends JpaRepository<ScheduleInstance
         "order by schedule_instance.actualScheduledTime ASC")
     List<ScheduleInstance> findScheduleInstancesByDay(@Param("now") Instant now);
 
+    @Query(value = "select schedule_instance from ScheduleInstance schedule_instance " +
+        "where schedule_instance.actualScheduledTime >:now " +
+        "and schedule_instance.vehicle.transportType.metaCode=:type " +
+        "order by schedule_instance.actualScheduledTime ASC")
+    List<ScheduleInstance> findScheduleInstancesByTypeByDay(@Param("now") Instant now, @Param("type") String type);
+
 }

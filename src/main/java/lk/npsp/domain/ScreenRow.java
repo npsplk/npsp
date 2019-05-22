@@ -14,6 +14,7 @@ public class ScreenRow {
     private String route;
     private String remarks;
     private List<String> status;
+    private String transportType;
 
     public ScreenRow(ScheduleInstance scheduleInstance, SimpleTranslator simpleTranslator) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
@@ -42,10 +43,16 @@ public class ScreenRow {
             simpleTranslator.translate(scheduleStatus, ScreenLanguage.TAMIL)
         ));
         this.remarks = "";
+
+        this.transportType=scheduleInstance.getVehicle().getTransportType().getMetaCode();
     }
 
     public String getTime() {
         return this.time;
+    }
+
+    public String getTransportType() {
+        return this.transportType;
     }
 
     public List<String> getBay() {
