@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.time.ZoneId;
 
 @Component
 public class ScheduleInstantiator {
@@ -40,35 +41,43 @@ public class ScheduleInstantiator {
     }
 
 
-
-
     /**
      * create instances of schedule templates for the day
+     * delay set to 1 hour
      */
-    @Scheduled(cron = "0 5 0 * * *")
+    @Scheduled(fixedDelay = 3600000)
     public void instantiateSchedules() {
         log.info("Starting Schedule Instantiator");
 
-        Date now = new Date();
+        createScheduleInstances(LocalDate.now());
+        createScheduleInstances(LocalDate.now().plusDays(1));
 
+    }
+
+    /**
+     * create schedule instances from schedule templates for a given date
+     */
+    private void createScheduleInstances(LocalDate date){
+
+        Date datetime = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE"); // the day of the week spelled out completely
-        String DayOfWeekString = simpleDateformat.format(now);
+        String DayOfWeekString = simpleDateformat.format(datetime);
         Weekdays DayOfWeekEnum = Weekdays.valueOf(DayOfWeekString);
 
         log.info(DayOfWeekEnum.toString());
         List<ScheduleTemplate> scheduleTemplateList = scheduleTemplateRepository.findAllActiveTemplates();
         List<ScheduleInstance> scheduleInstanceList = scheduleInstanceRepository.
-            findScheduleInstancesListByDate(LocalDate.now());
+            findScheduleInstancesListByDate(date);
         log.info("Active templates found {}", scheduleTemplateList.size());
         log.info("Instances found {}", scheduleInstanceList.size());
         for (ScheduleTemplate scheduleTemplate : scheduleTemplateList
         ) {
-            if (getWeekdayEnums(scheduleTemplate.getWeekdays()).contains(DayOfWeekEnum) &&
-                !ScheduleInstanceAlreadyExistsForTemplate(scheduleInstanceList, scheduleTemplate)) {
+            boolean alreadyExistsForTemplate = ScheduleInstanceAlreadyExistsForTemplate(scheduleInstanceList, scheduleTemplate);
+            if (getWeekdayEnums(scheduleTemplate.getWeekdays()).contains(DayOfWeekEnum) && !alreadyExistsForTemplate) {
 
                 log.info("Creating instance for template {}", scheduleTemplate.getId());
                 ScheduleInstance scheduleInstance = new ScheduleInstance();
-                scheduleInstance.setDate(LocalDate.now());
+                scheduleInstance.setDate(date);
                 scheduleInstance.setScheduleState(ScheduleState.PENDING);
                 scheduleInstance = scheduleInstanceManager.createFromTemplate(scheduleInstance, scheduleTemplate);
                 scheduleInstanceRepository.save(scheduleInstance);
@@ -90,11 +99,11 @@ public class ScheduleInstantiator {
         if (scheduleInstancesList.size() == 0) {
             return false;
         }
-        boolean scheduleInstanceExists = true;
+        boolean scheduleInstanceExists = false;
         for (ScheduleInstance scheduleInstance : scheduleInstancesList
         ) {
-            if (scheduleInstance.getScheduleTemplate() == scheduleTemplate) {
-                scheduleInstanceExists = false;
+            if (scheduleInstance.getScheduleTemplate().getId().equals(scheduleTemplate.getId())) {
+                scheduleInstanceExists = true;
                 break;
             }
         }
@@ -103,7 +112,6 @@ public class ScheduleInstantiator {
     }
 
     /**
-     *
      * @param weekdays
      * @return
      */
