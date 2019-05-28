@@ -53,7 +53,7 @@ public class ScheduleTemplate implements Serializable {
     @JsonIgnoreProperties("scheduleTemplates")
     private Bay bay;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "schedule_template_weekday",
         joinColumns = @JoinColumn(name = "schedule_template_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "weekday_id", referencedColumnName = "id"))

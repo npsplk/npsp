@@ -21,7 +21,7 @@ import lk.npsp.domain.enumeration.Weekdays;
 public class Weekday implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class Weekday implements Serializable {
     @Column(name = "weekday", nullable = false)
     private Weekdays weekday;
 
-    @ManyToMany(mappedBy = "weekdays")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "weekdays")
     @JsonIgnore
     private Set<ScheduleTemplate> scheduleTemplates = new HashSet<>();
 

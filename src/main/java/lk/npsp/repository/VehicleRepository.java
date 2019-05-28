@@ -27,4 +27,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query("select vehicle from Vehicle vehicle left join fetch vehicle.vehicleFacilities where vehicle.id =:id")
     Optional<Vehicle> findOneWithEagerRelationships(@Param("id") Long id);
 
+    @Query("select vehicle from Vehicle vehicle where vehicle.registrationNumber =:number")
+    Optional<Vehicle> findOneByRegistrationNumber(@Param("number") String number);
+
 }
