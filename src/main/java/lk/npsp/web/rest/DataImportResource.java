@@ -85,6 +85,7 @@ public class DataImportResource {
             Route route = new Route();
             route.setId(Long.parseLong(dictionaryItem.get(0)));
             route.setRouteName(dictionaryItem.get(1));
+            route.setRouteNumber(dictionaryItem.get(1));
             Route result = routeRepository.save(route);
 
 
